@@ -1,0 +1,42 @@
+## Story Theme
+{{themeJson}}
+
+## Theme Summary
+- themeTitle: {{themeTitle}}
+- conflictCore: {{conflictCore}}
+- targetEmotion: {{targetEmotion}}
+- emotionalArc: {{emotionalArc}}
+
+## Clothing Styling
+- stylingRole: {{clothingStylingRole}}
+- before: {{clothingStylingBefore}}
+- after: {{clothingStylingAfter}}
+
+## Plot Events
+{{#each plotEvents}}
+- {{this.event}}：因{{this.cause}}，导致{{this.effect}}（角色状态：{{this.character_state}}）
+{{/each}}
+
+## Character
+{{characterDescription}}
+
+## Outfit
+{{outfitDescription}}
+
+## Scene Suggestions
+{{#each sceneSuggestions}}
+- {{this}}
+{{/each}}
+
+## Constraints
+- duration: {{duration}}
+- shotCount: {{shotCount}}
+{{#if mustNotUseScenes}}
+- mustNotUseScenes: {{mustNotUseScenes}}
+{{/if}}
+{{#if mustNotUseEmotions}}
+- mustNotUseEmotions: {{mustNotUseEmotions}}
+{{/if}}
+{{#if mustNotUsePhrases}}
+- mustNotUsePhrases: {{mustNotUsePhrases}}
+{{/if}}

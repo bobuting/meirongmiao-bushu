@@ -1,0 +1,58 @@
+[
+  {
+    "name": "示例 1：全身镜头改写",
+    "description": "有模特全身镜头改写场景",
+    "input": {
+      "scriptJson": "{\"shot_breakdown\":[{\"shot_id\":1,\"shot_type\":\"全身\",\"subjects\":[{\"type\":\"人物\",\"description\":\"约25岁女性，气质温柔\",\"clothing\":{\"ref\":\"搭配1\",\"overall_style\":\"简约通勤风\"},\"action\":\"站在窗边，自然转身展示裙摆\",\"expression\":\"平静微笑\"}],\"shot_description\":\"模特穿着白色连衣裙，全身展示整体效果\"}]}",
+      "shotClassifications": [
+        {
+          "shotId": 1,
+          "classification": "full_model",
+          "reason": "subjects 有人物，景别为全身"
+        }
+      ],
+      "characterGender": "female",
+      "characterDescription": "22岁女性，性格活泼开朗，气质阳光",
+      "outfitDescription": "黑色针织衫搭配牛仔裤，休闲风格",
+      "clothingStyles": ["休闲风", "简约风"]
+    },
+    "expectedOutput": "改写后的脚本中，角色描述替换为新角色，服饰替换为黑色针织衫+牛仔裤，动作调整为展示休闲搭配的动作"
+  },
+  {
+    "name": "示例 2：面料特写改写",
+    "description": "无模特面料特写镜头改写场景",
+    "input": {
+      "scriptJson": "{\"shot_breakdown\":[{\"shot_id\":2,\"shot_type\":\"面料特写\",\"subjects\":[{\"type\":\"物体\",\"description\":\"白色棉质面料\"}],\"shot_description\":\"面料纹理细节，柔软质感的棉质材料\"}]}",
+      "shotClassifications": [
+        {
+          "shotId": 2,
+          "classification": "no_model",
+          "reason": "subjects 只有物体，无人物"
+        }
+      ],
+      "characterGender": "female",
+      "outfitDescription": "黑色针织衫搭配牛仔裤",
+      "clothingStyles": ["休闲风"]
+    },
+    "expectedOutput": "改写后的脚本中，面料描述替换为黑色针织衫的面料质感描述，物体描述替换为针织面料"
+  },
+  {
+    "name": "示例 3：手部特写改写",
+    "description": "局部出镜手部特写镜头改写场景",
+    "input": {
+      "scriptJson": "{\"shot_breakdown\":[{\"shot_id\":3,\"shot_type\":\"细节特写\",\"subjects\":[{\"type\":\"人物\",\"description\":\"手指纤细，肤色白皙\",\"action\":\"手指抚过袖口面料\"}],\"shot_description\":\"手部展示袖口细节，手指轻轻抚过面料展示质感\"}]}",
+      "shotClassifications": [
+        {
+          "shotId": 3,
+          "classification": "partial_model",
+          "reason": "景别为细节特写，人物描述只涉及手部"
+        }
+      ],
+      "characterGender": "female",
+      "characterDescription": "22岁女性，肤色健康小麦色",
+      "outfitDescription": "黑色针织衫搭配牛仔裤",
+      "clothingStyles": ["休闲风"]
+    },
+    "expectedOutput": "改写后的脚本中，手部描述适配为新模特的肤色（小麦色），动作调整为展示针织衫袖口的动作"
+  }
+]

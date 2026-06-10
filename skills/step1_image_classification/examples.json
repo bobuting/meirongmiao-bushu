@@ -1,0 +1,13 @@
+[
+  {
+    "name": "示例 1：服饰图片分类",
+    "description": "对上传的服饰图片进行分类识别",
+    "input": {
+      "target": "上装分类识别",
+      "fileName": "shirt_front.png",
+      "hasMainImage": true,
+      "existingOtherViewCount": 2
+    },
+    "expectedOutput": "图片分类结果 JSON"
+  }
+]

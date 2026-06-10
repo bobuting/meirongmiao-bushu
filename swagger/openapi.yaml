@@ -1,0 +1,2462 @@
+openapi: 3.0.3
+info:
+  title: 内容喵 API
+  version: 1.0.0
+  description: AI 电商短视频生成平台 API 文档
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: JWT Bearer Token 认证
+  schemas:
+    Error:
+      type: object
+      required:
+        - error
+        - message
+        - statusCode
+      properties:
+        error:
+          type: string
+          description: 错误类型标识
+          example: UnauthorizedError
+        message:
+          type: string
+          description: 错误详细信息
+          example: 无效的认证令牌
+        statusCode:
+          type: integer
+          description: HTTP 状态码
+          example: 401
+    UserInfo:
+      type: object
+      properties:
+        id:
+          type: string
+          description: 用户唯一标识
+        email:
+          type: string
+          format: email
+          description: 用户邮箱
+        role:
+          type: string
+          enum:
+            - user
+            - admin
+          description: 用户角色
+    def-0:
+      type: object
+      required:
+        - error
+        - message
+        - statusCode
+      properties:
+        error:
+          type: string
+          description: 错误类型标识
+          example: UnauthorizedError
+        message:
+          type: string
+          description: 错误详细信息
+          example: 无效的认证令牌
+        statusCode:
+          type: integer
+          description: HTTP 状态码
+          example: 401
+      title: Error
+    def-1:
+      type: object
+      properties:
+        id:
+          type: string
+          description: 用户唯一标识
+        email:
+          type: string
+          format: email
+          description: 用户邮箱
+        role:
+          type: string
+          enum:
+            - user
+            - admin
+          description: 用户角色
+      title: UserInfo
+paths:
+  /neirongmiao/api/videos/create:
+    post:
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/videos/query:
+    post:
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/videos/{taskId}:
+    get:
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: taskId
+          required: true
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/reverse-copy/overview:
+    post:
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/video-reverse/analyze:
+    post:
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/hot-billboard/douyin/videos:
+    post:
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/admin/capability-lab/video-reverse-upload:
+    post:
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/library/characters/{characterId}/five-views:
+    get:
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: characterId
+          required: true
+      responses:
+        "200":
+          description: Default Response
+    post:
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: characterId
+          required: true
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/library/characters/{characterId}/five-views/generate:
+    post:
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: characterId
+          required: true
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/library/characters/{characterId}/five-views/{viewId}/activate:
+    put:
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: characterId
+          required: true
+        - schema:
+            type: string
+          in: path
+          name: viewId
+          required: true
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/library/characters/{characterId}/five-views/{viewId}:
+    delete:
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: characterId
+          required: true
+        - schema:
+            type: string
+          in: path
+          name: viewId
+          required: true
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/library/characters:
+    get:
+      responses:
+        "200":
+          description: Default Response
+    post:
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/library/characters/check-portrait:
+    post:
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/library/characters/{characterId}:
+    patch:
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: characterId
+          required: true
+      responses:
+        "200":
+          description: Default Response
+    delete:
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: characterId
+          required: true
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/library/scripts:
+    get:
+      responses:
+        "200":
+          description: Default Response
+    post:
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/my-library/scripts:
+    get:
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/my-library/storyboards:
+    get:
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/library/scripts/{scriptId}:
+    patch:
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: scriptId
+          required: true
+      responses:
+        "200":
+          description: Default Response
+    delete:
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: scriptId
+          required: true
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/library/scripts/batch-delete:
+    post:
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/library/scripts/{scriptId}/versions:
+    get:
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: scriptId
+          required: true
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/library/scripts/{scriptId}/rollback:
+    post:
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: scriptId
+          required: true
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/reverse-storyboard-library:
+    get:
+      responses:
+        "200":
+          description: Default Response
+    post:
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/reverse-storyboard-library/{itemId}:
+    get:
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: itemId
+          required: true
+      responses:
+        "200":
+          description: Default Response
+    patch:
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: itemId
+          required: true
+      responses:
+        "200":
+          description: Default Response
+    delete:
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: itemId
+          required: true
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/reverse-storyboard-library/batch-delete:
+    post:
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/reverse-storyboard-library/{itemId}/versions:
+    get:
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: itemId
+          required: true
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/reverse-storyboard-library/{itemId}/rollback:
+    post:
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: itemId
+          required: true
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/characters/presets:
+    get:
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/auth/register:
+    post:
+      summary: 用户注册
+      tags:
+        - 认证
+      description: 创建新用户账号，默认角色为 user，仅管理员可创建 admin 角色
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+                - password
+              properties:
+                email:
+                  type: string
+                  format: email
+                  description: 用户邮箱地址
+                  example: user@example.com
+                password:
+                  type: string
+                  minLength: 6
+                  description: 用户密码，最少6位
+                  example: password123
+                role:
+                  type: string
+                  enum:
+                    - user
+                    - admin
+                  description: 用户角色（可选，默认为 user，admin 需特殊权限）
+      security: []
+      responses:
+        "200":
+          description: Default Response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user:
+                    $ref: "#/components/schemas/def-1"
+        "400":
+          description: Default Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/def-0"
+        "409":
+          description: 邮箱已存在
+          content:
+            application/json:
+              schema:
+                type: object
+                description: 邮箱已存在
+                properties:
+                  error:
+                    type: string
+                    example: ConflictError
+                  message:
+                    type: string
+                    example: 该邮箱已被注册
+                  statusCode:
+                    type: integer
+                    example: 409
+  /neirongmiao/api/auth/login:
+    post:
+      summary: 用户登录
+      tags:
+        - 认证
+      description: 使用邮箱和密码登录，返回 JWT token 和用户信息
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+                - password
+              properties:
+                email:
+                  type: string
+                  format: email
+                  description: 用户邮箱地址
+                  example: user@example.com
+                password:
+                  type: string
+                  minLength: 6
+                  description: 用户密码
+                  example: password123
+      security: []
+      responses:
+        "200":
+          description: Default Response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                    description: JWT 认证令牌
+                    example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+                  user:
+                    $ref: "#/components/schemas/def-1"
+        "401":
+          description: 认证失败
+          content:
+            application/json:
+              schema:
+                type: object
+                description: 认证失败
+                properties:
+                  error:
+                    type: string
+                    example: UnauthorizedError
+                  message:
+                    type: string
+                    example: 邮箱或密码错误
+                  statusCode:
+                    type: integer
+                    example: 401
+  /neirongmiao/api/auth/forgot-password:
+    get:
+      summary: 忘记密码
+      tags:
+        - 认证
+      description: 忘记密码功能占位接口（暂未实现）
+      security: []
+      responses:
+        "200":
+          description: Default Response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: 提示信息
+                    example: 请联系管理员重置密码
+  /neirongmiao/api/auth/douyin/status:
+    get:
+      summary: 抖音登录状态
+      tags:
+        - 认证
+      description: 检查抖音 OAuth 登录配置是否完整
+      security: []
+      responses:
+        "200":
+          description: Default Response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ready:
+                    type: boolean
+                    description: 抖音登录是否已配置完成
+                    example: true
+                  missing:
+                    type: array
+                    items:
+                      type: string
+                    description: 缺失的配置项
+                    example: []
+                  configured:
+                    type: object
+                    properties:
+                      appId:
+                        type: boolean
+                      appSecret:
+                        type: boolean
+                      redirectUri:
+                        type: boolean
+                    description: 各配置项是否已设置
+  /neirongmiao/api/me/password:
+    post:
+      summary: 修改密码
+      tags:
+        - 认证
+      description: 用户修改自己的密码，需要提供当前密码和新密码
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - currentPassword
+                - nextPassword
+              properties:
+                currentPassword:
+                  type: string
+                  minLength: 6
+                  description: 当前密码
+                nextPassword:
+                  type: string
+                  minLength: 6
+                  description: 新密码
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Default Response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: 成功信息
+                    example: 密码已更新
+        "400":
+          description: 密码验证失败
+          content:
+            application/json:
+              schema:
+                type: object
+                description: 密码验证失败
+                properties:
+                  error:
+                    type: string
+                    example: ValidationError
+                  message:
+                    type: string
+                    example: 当前密码不正确
+                  statusCode:
+                    type: integer
+                    example: 400
+        "401":
+          description: Default Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/def-0"
+  /neirongmiao/api/projects/{projectId}/outfits/recommend:
+    post:
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: projectId
+          required: true
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/projects/{projectId}/outfits/recommend/status:
+    get:
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: projectId
+          required: true
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/projects/{projectId}/outfits/select:
+    post:
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: projectId
+          required: true
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/projects/{projectId}/outfits/unselect:
+    post:
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: projectId
+          required: true
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/projects/{projectId}/outfits/analysis/optimize:
+    post:
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: projectId
+          required: true
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/projects/{projectId}/step1/classify-image:
+    post:
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: projectId
+          required: true
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/step1/classify-image:
+    post:
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/projects/{projectId}/step1/remove-bg:
+    post:
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: projectId
+          required: true
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/projects/{projectId}/step1/role-direction:
+    post:
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: projectId
+          required: true
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/projects/{projectId}/step1/role-direction/status:
+    get:
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: projectId
+          required: true
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/projects/{projectId}/step2/fixed-template-parameter-variants:
+    post:
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: projectId
+          required: true
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/projects/{projectId}/characters/previews:
+    post:
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: projectId
+          required: true
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/projects/{projectId}/characters/confirm:
+    post:
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: projectId
+          required: true
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/projects/{projectId}/characters/previews/{previewId}/regenerate:
+    post:
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: projectId
+          required: true
+        - schema:
+            type: string
+          in: path
+          name: previewId
+          required: true
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/projects/{projectId}/scripts/latest:
+    get:
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: projectId
+          required: true
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/projects/{projectId}/scripts/draft:
+    post:
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: projectId
+          required: true
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/projects/{projectId}/scripts/generate:
+    post:
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: projectId
+          required: true
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/projects/{projectId}/scripts/{scriptId}/edit:
+    patch:
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: projectId
+          required: true
+        - schema:
+            type: string
+          in: path
+          name: scriptId
+          required: true
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/projects/{projectId}/scripts/optimize:
+    post:
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: projectId
+          required: true
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/projects/{projectId}/storyboards/prompts/generate:
+    post:
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: projectId
+          required: true
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/projects/{projectId}/storyboards/scene-references/generate:
+    post:
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: projectId
+          required: true
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/projects/{projectId}/storyboards/prompts/optimize:
+    post:
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: projectId
+          required: true
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/projects/{projectId}/storyboards/prompts/video-generate:
+    post:
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: projectId
+          required: true
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/projects/{projectId}/storyboards/prompts/translate:
+    post:
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: projectId
+          required: true
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/projects/{projectId}/storyboards/generate:
+    post:
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: projectId
+          required: true
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/projects/{projectId}/storyboards/{frameId}/regenerate:
+    post:
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: projectId
+          required: true
+        - schema:
+            type: string
+          in: path
+          name: frameId
+          required: true
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/projects/{projectId}/storyboards/{frameId}/select-variant:
+    post:
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: projectId
+          required: true
+        - schema:
+            type: string
+          in: path
+          name: frameId
+          required: true
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/projects/{projectId}/storyboards/frame-preview-jobs:
+    post:
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: projectId
+          required: true
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/projects/{projectId}/storyboards/frame-preview-jobs/{jobId}:
+    get:
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: projectId
+          required: true
+        - schema:
+            type: string
+          in: path
+          name: jobId
+          required: true
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/projects/{projectId}/storyboards/assets/persist:
+    post:
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: projectId
+          required: true
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/projects/{projectId}/storyboards/layout:
+    post:
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: projectId
+          required: true
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/projects/{projectId}/video-jobs:
+    post:
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: projectId
+          required: true
+      responses:
+        "200":
+          description: Default Response
+    get:
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: projectId
+          required: true
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/projects/{projectId}/video-jobs/{jobId}:
+    get:
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: projectId
+          required: true
+        - schema:
+            type: string
+          in: path
+          name: jobId
+          required: true
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/projects/{projectId}/video-jobs/{jobId}/complete:
+    post:
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: projectId
+          required: true
+        - schema:
+            type: string
+          in: path
+          name: jobId
+          required: true
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/projects/{projectId}/export:
+    post:
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: projectId
+          required: true
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/projects/{projectId}/step3/candidates/snapshot:
+    post:
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: projectId
+          required: true
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/projects/{projectId}/step3/candidates/snapshot/stream:
+    post:
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: projectId
+          required: true
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/projects/{projectId}/step3/candidates/select:
+    post:
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: projectId
+          required: true
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/projects/{projectId}/step3/candidates/rewrite-and-apply:
+    post:
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: projectId
+          required: true
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/projects/{projectId}/step3/candidates/confirm:
+    post:
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: projectId
+          required: true
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/projects/{projectId}/step3/candidates/admin-unlock:
+    post:
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: projectId
+          required: true
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/reverse/credentials:
+    post:
+      responses:
+        "200":
+          description: Default Response
+    get:
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/reverse/credentials/{credentialId}:
+    delete:
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: credentialId
+          required: true
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/reviews/request:
+    post:
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/reviews/{reviewId}/action:
+    post:
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: reviewId
+          required: true
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/reviews/{reviewId}/confirm:
+    post:
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: reviewId
+          required: true
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/square/trends/resolve-video-url:
+    post:
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/system/reverse-ui-settings:
+    get:
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/scripts/hot-trend-candidates:
+    get:
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/me/credits/mock:
+    get:
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/me/credits/pricing:
+    get:
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/me/credits/spend:
+    post:
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/me/credits/history:
+    get:
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/me/private/scripts:
+    get:
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/me/projects:
+    get:
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/admin/reverse/attempts:
+    get:
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/admin/reverse/traces:
+    get:
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/admin/trends/entries:
+    get:
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/admin/trends/sync-jobs:
+    get:
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/admin/trends/douhot/health:
+    get:
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/admin/trends/douhot/auth-status:
+    get:
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/admin/trends/douhot/refresh-session:
+    post:
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/admin/config:
+    get:
+      responses:
+        "200":
+          description: Default Response
+    patch:
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/admin/reviews:
+    get:
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/admin/users:
+    get:
+      responses:
+        "200":
+          description: Default Response
+    post:
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/admin/users/{userId}:
+    patch:
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: userId
+          required: true
+      responses:
+        "200":
+          description: Default Response
+    delete:
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: userId
+          required: true
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/admin/users/import:
+    post:
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/admin/users/export:
+    get:
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/admin/users/{userId}/lock:
+    post:
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: userId
+          required: true
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/admin/users/{userId}/unlock:
+    post:
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: userId
+          required: true
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/admin/users/{userId}/credits/adjust:
+    post:
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: userId
+          required: true
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/admin/scripts/hot-trends:
+    get:
+      responses:
+        "200":
+          description: Default Response
+    post:
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/admin/scripts/hot-trends/sync:
+    post:
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/admin/scripts/hot-trends/{scriptId}:
+    patch:
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: scriptId
+          required: true
+      responses:
+        "200":
+          description: Default Response
+    delete:
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: scriptId
+          required: true
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/admin/scripts/hot-trends/batch-delete:
+    post:
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/admin/scripts/hot-trends/{scriptId}/reverse-to-smart-storyboard:
+    post:
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: scriptId
+          required: true
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/admin/scripts/hot-trends/video-prune-unlinked:
+    post:
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/admin/scripts/hot-trends/relabel:
+    post:
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/admin/scripts:
+    get:
+      responses:
+        "200":
+          description: Default Response
+    post:
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/admin/scripts/{scriptId}:
+    patch:
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: scriptId
+          required: true
+      responses:
+        "200":
+          description: Default Response
+    delete:
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: scriptId
+          required: true
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/admin/scripts/import:
+    post:
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/admin/scripts/export:
+    get:
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/admin/credit-audits:
+    get:
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/admin/providers/{providerId}/connectivity-test:
+    post:
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: providerId
+          required: true
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/admin/provider-policies:
+    get:
+      responses:
+        "200":
+          description: Default Response
+    post:
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/admin/provider-policies/{policyId}:
+    patch:
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: policyId
+          required: true
+      responses:
+        "200":
+          description: Default Response
+    delete:
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: policyId
+          required: true
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/admin/provider-audits:
+    get:
+      responses:
+        "200":
+          description: Default Response
+    delete:
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/admin/ops/governance:
+    get:
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/admin/capability-lab/text:
+    post:
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/admin/capability-lab/image-insight:
+    post:
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/admin/capability-lab/image-generate:
+    post:
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/admin/capability-lab/video-generate:
+    post:
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/admin/smart-storyboards:
+    get:
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/admin/smart-storyboards/{itemId}:
+    patch:
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: itemId
+          required: true
+      responses:
+        "200":
+          description: Default Response
+    delete:
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: itemId
+          required: true
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/admin/smart-storyboards/batch-delete:
+    post:
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/admin/capability-lab/reverse-storyboard-library:
+    get:
+      responses:
+        "200":
+          description: Default Response
+    post:
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/admin/capability-lab/reverse-storyboard-library/{itemId}:
+    patch:
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: itemId
+          required: true
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/admin/capability-lab/reverse-fetch:
+    post:
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/admin/model-presets:
+    get:
+      responses:
+        "200":
+          description: Default Response
+    post:
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/admin/model-presets/{id}:
+    get:
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: id
+          required: true
+      responses:
+        "200":
+          description: Default Response
+    patch:
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: id
+          required: true
+      responses:
+        "200":
+          description: Default Response
+    delete:
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: id
+          required: true
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/admin/functional-routes:
+    get:
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/admin/functional-routes/{functionalKey}:
+    get:
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: functionalKey
+          required: true
+      responses:
+        "200":
+          description: Default Response
+    put:
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: functionalKey
+          required: true
+      responses:
+        "200":
+          description: Default Response
+    delete:
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: functionalKey
+          required: true
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/admin/functional-routes/batch:
+    post:
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/projects:
+    post:
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/projects/{projectId}:
+    patch:
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: projectId
+          required: true
+      responses:
+        "200":
+          description: Default Response
+    delete:
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: projectId
+          required: true
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/projects/{projectId}/last-step:
+    post:
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: projectId
+          required: true
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/projects/{projectId}/workflow-state:
+    post:
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: projectId
+          required: true
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/projects/{projectId}/resume-snapshot:
+    get:
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: projectId
+          required: true
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/projects/{projectId}/uploads:
+    post:
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: projectId
+          required: true
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/projects/{projectId}/uploads/{assetId}:
+    patch:
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: projectId
+          required: true
+        - schema:
+            type: string
+          in: path
+          name: assetId
+          required: true
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/douyin-publish/status:
+    get:
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/douyin/auth/status:
+    get:
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/douyin/auth/remote-login/status:
+    get:
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/douyin/auth/qr-code:
+    post:
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/douyin/auth/status/{sessionId}:
+    get:
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: sessionId
+          required: true
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/douyin/auth/cookie:
+    delete:
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/douyin/auth/remote-session:
+    post:
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/douyin/auth/remote-session/{sessionId}:
+    get:
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: sessionId
+          required: true
+      responses:
+        "200":
+          description: Default Response
+    delete:
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: sessionId
+          required: true
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/projects/{projectId}/publish-to-douyin:
+    post:
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: projectId
+          required: true
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/projects/{projectId}/publish-jobs/{jobId}:
+    get:
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: projectId
+          required: true
+        - schema:
+            type: string
+          in: path
+          name: jobId
+          required: true
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/projects/{projectId}/publish-jobs:
+    get:
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: projectId
+          required: true
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/publish-staging/{filename}:
+    get:
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: filename
+          required: true
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/reverse/parse-v2/jobs:
+    post:
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/reverse/parse-v2/jobs/{jobId}:
+    get:
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: jobId
+          required: true
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/reverse/parse-v2:
+    post:
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/reverse/parse:
+    post:
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/square/resources:
+    get:
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/reverse/hot-trend-asset/{scriptId}/to-library:
+    post:
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: scriptId
+          required: true
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/reverse/llm-reverse:
+    post:
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/library/assets:
+    get:
+      responses:
+        "200":
+          description: Default Response
+    post:
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/library/assets/{assetId}:
+    patch:
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: assetId
+          required: true
+      responses:
+        "200":
+          description: Default Response
+    delete:
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: assetId
+          required: true
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/admin/providers:
+    get:
+      responses:
+        "200":
+          description: Default Response
+    post:
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/admin/providers/{providerId}:
+    patch:
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: providerId
+          required: true
+      responses:
+        "200":
+          description: Default Response
+    delete:
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: providerId
+          required: true
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/admin/providers/{providerId}/secret:
+    put:
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: providerId
+          required: true
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/themes:
+    get:
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/themes/current:
+    get:
+      responses:
+        "200":
+          description: Default Response
+    put:
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/themes/current/logo:
+    post:
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/themes/my-theme:
+    get:
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/admin/themes:
+    get:
+      responses:
+        "200":
+          description: Default Response
+    post:
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/admin/themes/paginated:
+    get:
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/admin/themes/{themeId}:
+    put:
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: themeId
+          required: true
+      responses:
+        "200":
+          description: Default Response
+    delete:
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: themeId
+          required: true
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/admin/themes/{themeId}/toggle:
+    put:
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: themeId
+          required: true
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/fission/storyboards:
+    get:
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/fission/videos:
+    get:
+      responses:
+        "200":
+          description: Default Response
+    post:
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/fission/videos/upload:
+    post:
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/fission/videos/com-upload:
+    post:
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/fission/videos/{id}:
+    delete:
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: id
+          required: true
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/fission/videos/mirror/upload:
+    post:
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/fission/videos/mirror/{projectId}:
+    get:
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: projectId
+          required: true
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/fission/image-to-video:
+    post:
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/fission/storyboard/process:
+    post:
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/fission/status:
+    get:
+      responses:
+        "200":
+          description: Default Response
+    post:
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/fission/status/{id}:
+    get:
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: id
+          required: true
+      responses:
+        "200":
+          description: Default Response
+    put:
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: id
+          required: true
+      responses:
+        "200":
+          description: Default Response
+    delete:
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: id
+          required: true
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/fission/status/{id}/progress:
+    patch:
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: id
+          required: true
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/fission/status/{projectId}/atmosphere:
+    get:
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: projectId
+          required: true
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/fission/new-story:
+    post:
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/fission/new-story/{projectId}:
+    get:
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: projectId
+          required: true
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/fission/storyboard/combinations:
+    get:
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/fission/storyboard/new-story:
+    post:
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/fission/storyboard/{projectId}:
+    get:
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: projectId
+          required: true
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/square-templates:
+    get:
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/admin/square-templates:
+    get:
+      responses:
+        "200":
+          description: Default Response
+    post:
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/admin/square-templates/{id}:
+    get:
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: id
+          required: true
+      responses:
+        "200":
+          description: Default Response
+    put:
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: id
+          required: true
+      responses:
+        "200":
+          description: Default Response
+    delete:
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: id
+          required: true
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/admin/square-templates/upload-cover:
+    post:
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/admin/square-templates/upload-video:
+    post:
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/square-templates/{id}/script:
+    get:
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: id
+          required: true
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/square-templates/{id}/link-script:
+    post:
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: id
+          required: true
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/video-music:
+    get:
+      responses:
+        "200":
+          description: Default Response
+    post:
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/video-music/{musicId}:
+    get:
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: musicId
+          required: true
+      responses:
+        "200":
+          description: Default Response
+    patch:
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: musicId
+          required: true
+      responses:
+        "200":
+          description: Default Response
+    delete:
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: musicId
+          required: true
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/video-music/match-by-script:
+    post:
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/video-music/sync:
+    post:
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/video-music/upload:
+    post:
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/video-music/analyze-atmosphere:
+    post:
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/library/assets/sts-credential:
+    post:
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/projects/{projectId}/step3/scripts:
+    post:
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: projectId
+          required: true
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/admin/prompts/templates:
+    get:
+      responses:
+        "200":
+          description: Default Response
+    post:
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/admin/prompts/templates/{id}:
+    get:
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: id
+          required: true
+      responses:
+        "200":
+          description: Default Response
+    put:
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: id
+          required: true
+      responses:
+        "200":
+          description: Default Response
+    delete:
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: id
+          required: true
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/admin/prompts/templates/{id}/publish:
+    post:
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: id
+          required: true
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/admin/prompts/templates/{id}/archive:
+    post:
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: id
+          required: true
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/admin/prompts/templates/{id}/versions:
+    get:
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: id
+          required: true
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/admin/prompts/templates/{id}/versions/{version}:
+    get:
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: id
+          required: true
+        - schema:
+            type: string
+          in: path
+          name: version
+          required: true
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/admin/prompts/templates/{id}/compare:
+    get:
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: id
+          required: true
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/admin/prompts/logs:
+    get:
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/admin/prompts/logs/{id}:
+    get:
+      parameters:
+        - schema:
+            type: string
+          in: path
+          name: id
+          required: true
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/admin/prompts/stats/overview:
+    get:
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/admin/prompts/stats/by-template:
+    get:
+      responses:
+        "200":
+          description: Default Response
+  /neirongmiao/api/admin/prompts/render:
+    post:
+      responses:
+        "200":
+          description: Default Response
+servers:
+  - url: http://localhost:3000
+    description: 开发环境
+  - url: https://api.neirongmiao.com
+    description: 生产环境
+security:
+  - bearerAuth: []

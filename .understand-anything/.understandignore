@@ -1,0 +1,93 @@
+# .understandignore — patterns for files/dirs to exclude from analysis
+# Syntax: same as .gitignore (globs, # comments, ! negation, trailing / for dirs)
+
+# Built-in defaults (always excluded unless negated):
+#   node_modules/, .git/, dist/, build/, obj/, *.lock, *.min.js, etc.
+
+# --- From .gitignore (uncomment to exclude) ---
+
+backup/
+.waylog/
+.agent/
+.serena/
+.ssh-codex/
+.ssh-codex3/
+.tmp/
+.temp/
+data/
+logs/
+*.pyc
+tmp_patch.diff
+state/
+playwright-report/
+test-results/
+debug/
+tmp/
+temp/
+*.bak
+.claude/
+.gstack/
+.worktrees/
+.env
+.superpowers/
+.codegraph/
+
+# --- Exclude non-core project files ---
+
+# Test files
+test/
+e2e/
+*.test.*
+*.spec.*
+*.snap
+
+# Documentation
+docs/
+
+# Scripts
+scripts/
+
+# Memory/state
+memory/
+
+# Config
+config/
+
+# Swagger
+swagger/
+
+# Githooks
+.githooks/
+
+# Frontend public assets
+apps/web/public/
+
+# Non-essential frontend
+apps/web/pages/tools/
+
+# Skills template files (huge, mostly handlebars/markdown)
+skills/_shared/
+skills/*/examples.json
+skills/*/user.hbs
+skills/*/system.hbs
+skills/*/system.md
+skills/*/user.md
+skills/*/schema.ts
+
+# Design files
+DESIGN.md
+
+# Standalone test files at root
+test_*
+*.test.ts
+
+# Lock files and config
+package-lock.json
+pnpm-lock.yaml
+yarn.lock
+
+# Logs
+*.log
+
+# Graphify
+.graphify_python

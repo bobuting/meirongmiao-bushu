@@ -1,0 +1,58 @@
+[
+  {
+    "name": "多平台热点提取",
+    "input": {
+      "hotspotCount": 5,
+      "hotspotList": "1. 变个装，说是一秒不用剪 #西装 #办公室午休姿势\n2. 第一次穿汉服出门是什么体验\n3. 秋天的第一杯奶茶穿搭\n4. 雨天偶遇前任穿了他送的外套\n5. 闺蜜一起穿情侣装逛街被误认为姐妹"
+    },
+    "output": {
+      "archetypes": [
+        {
+          "source_topic": "变个装，说是一秒不用剪",
+          "source_platform": "抖音",
+          "category": "身份切换",
+          "emotion_core": "严肃 → 随性",
+          "moment": "办公室午休，脱下西装外套露出休闲内搭的瞬间",
+          "conflict": "职场形象与个人风格的拉扯",
+          "clothing_role": "西装=职场面具，休闲内搭=真实自我"
+        },
+        {
+          "source_topic": "第一次穿汉服出门是什么体验",
+          "source_platform": "小红书",
+          "category": "自我发现",
+          "emotion_core": "忐忑 → 自豪",
+          "moment": "穿上汉服走出家门，从怕被注视到享受目光",
+          "conflict": "对异样目光的恐惧与文化认同的渴望",
+          "clothing_role": "汉服=文化身份的表达媒介"
+        },
+        {
+          "source_topic": "秋天的第一杯奶茶穿搭",
+          "source_platform": "微博",
+          "category": "日常仪式",
+          "emotion_core": "期待 → 满足",
+          "moment": "入秋第一天精心搭配暖色系穿搭去买奶茶",
+          "conflict": "季节交替中对新鲜感的追求",
+          "clothing_role": "暖色系秋装=季节仪式感的载体"
+        },
+        {
+          "source_topic": "雨天偶遇前任穿了他送的外套",
+          "source_platform": "抖音",
+          "category": "意外时刻",
+          "emotion_core": "慌乱 → 释然",
+          "moment": "雨天偶遇前任，发现自己穿着对方送的衣服",
+          "conflict": "过去的记忆与当下的释怀",
+          "clothing_role": "外套=未放下的情感羁绊"
+        },
+        {
+          "source_topic": "闺蜜一起穿情侣装逛街被误认为姐妹",
+          "source_platform": "小红书",
+          "category": "人际连接",
+          "emotion_core": "开心 → 默契",
+          "moment": "和闺蜜穿同款出门被陌生人误解的欢乐时刻",
+          "conflict": "个性表达与友谊默契的平衡",
+          "clothing_role": "同款穿搭=友谊的视觉宣言"
+        }
+      ]
+    }
+  }
+]

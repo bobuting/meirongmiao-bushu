@@ -1,0 +1,62 @@
+{
+  "version": "2026-03-08",
+  "roots": [
+    "src",
+    "apps/web",
+    "test",
+    "e2e",
+    "scripts"
+  ],
+  "extensions": [
+    ".ts",
+    ".tsx",
+    ".js",
+    ".jsx",
+    ".mjs",
+    ".cjs"
+  ],
+  "excludeDirs": [
+    "node_modules",
+    "dist",
+    "backup",
+    "logs",
+    "test-results",
+    "tmp",
+    ".serena",
+    ".ssh-codex3",
+    ".tmp",
+    "data",
+    "state"
+  ],
+  "thresholds": {
+    "hard": 1000,
+    "warn": 700
+  },
+  "rules": {
+    "blockNewHardFiles": true,
+    "blockNewWarnFiles": false,
+    "hardGrowthBudget": 80,
+    "warnGrowthBudget": 120
+  },
+  "baseline": {
+    "hardFiles": {
+      "src/app.ts": 13518,
+      "apps/web/services/backendApi.ts": 6582,
+      "apps/web/pages/project-flow/CharacterSelection.tsx": 3254,
+      "apps/web/pages/review-admin/ReviewDashboard.tsx": 2333,
+      "src/modules/douyin-integration-service.ts": 2065,
+      "apps/web/pages/characters/CharacterManagement.tsx": 1969,
+      "apps/web/pages/reverse-script/ReverseScript.tsx": 1945,
+      "apps/web/pages/project-flow/Assets.tsx": 1881,
+      "apps/web/pages/project-flow/ScriptEditor.tsx": 1627,
+      "test/multiview_asset_governance.integration.test.ts": 1135
+    },
+    "warnFiles": {
+      "apps/web/pages/admin/CapabilityLab.tsx": 952,
+      "apps/web/pages/projects/MyProjects.tsx": 875,
+      "src/persistence/postgres-m5-adapter.ts": 830,
+      "apps/web/pages/project-flow/Storyboard.tsx": 731
+    }
+  },
+  "baselineUpdatedAt": "2026-03-08T15:18:37.723Z"
+}

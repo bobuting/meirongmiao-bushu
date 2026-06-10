@@ -1,0 +1,30 @@
+[
+  {
+    "name": "示例 1 - 亚洲女性",
+    "description": "亚洲女性角色示例",
+    "input": {
+      "ethnicity": "Asian",
+      "age": "25",
+      "gender": "female",
+      "style": "现代都市风格",
+      "bodyType": "示例bodyType",
+      "faceShape": "示例faceShape",
+      "facialFeatures": "示例facialFeatures",
+      "eyebrows": "示例eyebrows",
+      "eyes": "示例eyes",
+      "eyeExpression": "示例eyeExpression",
+      "nose": "示例nose",
+      "lips": "示例lips",
+      "chin": "示例chin",
+      "skinTone": "示例skinTone",
+      "hairStyle": "示例hairStyle",
+      "uniqueFeatures": "示例uniqueFeatures",
+      "characterPreset": "示例characterPreset",
+      "outfitInfo": "示例outfitInfo",
+      "outfitMatching": "示例outfitMatching",
+      "characterImageUrl": "示例characterImageUrl",
+      "outfitImageUrl": "示例outfitImageUrl"
+    },
+    "expectedOutput": "根据提示词生成的输出"
+  }
+]

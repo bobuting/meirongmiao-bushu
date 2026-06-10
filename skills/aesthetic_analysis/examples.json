@@ -1,0 +1,12 @@
+[
+  {
+    "name": "示例 1：角色面部审美特征分析",
+    "description": "分析角色面部审美特征",
+    "input": {},
+    "expectedOutput": {
+      "feature_category": "eye_shape_width",
+      "feature_name": "wide_almond_innocent",
+      "feature_description": "Wide almond-shaped eyes with innocent gaze"
+    }
+  }
+]

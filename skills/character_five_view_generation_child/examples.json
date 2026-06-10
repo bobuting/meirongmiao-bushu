@@ -1,0 +1,63 @@
+[
+  {
+    "name": "纯 Asian 儿童角色",
+    "description": "8岁 Asian 女童，不混血",
+    "input": {
+      "ethnicity": "Asian",
+      "age": "8",
+      "gender": "girl",
+      "characterPreset": "都市白领儿童风格\nGender: girl\nAge: 8\nStyle: 简约优雅",
+      "outfitInfo": "上装: 白色衬衫, 柔软棉质\n下装: 黑色西裤, 修身款\n鞋子: 黑色小皮鞋, 尺寸: 32码",
+      "outfitImageUrl": "https://oss.example.com/flatlay-1.jpg,https://oss.example.com/flatlay-2.jpg",
+      "mixedEthnicity": false,
+      "aestheticFeatures": {
+        "eyeShape": "Almond-shaped eyes with innocent gaze",
+        "eyeColor": "Dark brown",
+        "skinTone": "Warm white with natural flush",
+        "hairStyle": "Natural black, straight",
+        "noseShape": "Small button nose"
+      },
+      "trendPeriod": "2026-q1"
+    }
+  },
+  {
+    "name": "Asian + Caucasian 混血儿童",
+    "description": "10岁 Asian+Caucasian 混血女童，强混血",
+    "input": {
+      "ethnicity": "Mixed Asian + Caucasian",
+      "age": "10",
+      "gender": "girl",
+      "characterPreset": "混血潮童风格\nGender: girl\nAge: 10\nStyle: 时尚活泼",
+      "outfitInfo": "上装: 蕾丝连衣裙, 精致刺绣\n下装: 无（连衣裙一体）\n鞋子: 白色帆布鞋, 尺寸: 34码",
+      "outfitImageUrl": "https://oss.example.com/flatlay-mixed.jpg",
+      "mixedEthnicity": true,
+      "primaryEthnicity": "Asian",
+      "secondaryEthnicity": "Caucasian",
+      "mixedIntensity": "strong",
+      "aestheticFeatures": {
+        "eyeShape": "Wide almond-shaped eyes with slight upward tilt",
+        "eyeColor": "Hazel or amber",
+        "skinTone": "Warm beige with rosy cheeks",
+        "hairStyle": "Chestnut brown, soft waves",
+        "noseShape": "Defined bridge with rounded tip"
+      },
+      "trendPeriod": "2026-q1"
+    }
+  },
+  {
+    "name": "Hong Kong 区域推断混血",
+    "description": "Hong Kong 区域自动推断为 Asian+Caucasian 混血",
+    "input": {
+      "ethnicity": "Hong Kong",
+      "age": "12",
+      "gender": "girl",
+      "characterPreset": "港式潮童风格\nGender: girl\nAge: 12\nStyle: 现代时尚",
+      "outfitInfo": "上装: 格子衬衫, 棉麻材质\n下装: 牛仔短裤, 舒适版型\n鞋子: 运动鞋, 尺寸: 36码",
+      "outfitImageUrl": "https://oss.example.com/flatlay-hk.jpg",
+      "mixedEthnicity": true,
+      "primaryEthnicity": "Asian",
+      "secondaryEthnicity": "Caucasian",
+      "mixedIntensity": "strong"
+    }
+  }
+]

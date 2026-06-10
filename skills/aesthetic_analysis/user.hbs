@@ -1,0 +1,19 @@
+分析这张图片，提取细化审美特征。
+
+请从以下类别中选择最明显的一个特征返回：
+
+1. **眼型宽度** (eye_shape_width)：wide_almond_innocent, moderate_almond_natural
+2. **眼型形状** (eye_shape_almond 或 eye_shape_round)：soft_almond_curved, round_innocent_wide
+3. **眼色** (eye_color_hazel, eye_color_dark_brown, eye_color_light_brown)：hazel_amber_warm, dark_brown_deep, light_brown_soft
+4. **皮肤色调** (skin_tone_warm_beige, skin_tone_olive, skin_tone_rosy_cheeks)：warm_beige_rosy_cheeks, olive_natural_flush, rosy_cheeks_visible
+5. **发型风格** (hair_style_soft_waves, hair_style_natural_straight, hair_style_chestnut_brown)：soft_waves_chestnut, natural_straight_black, chestnut_brown_wavy
+6. **鼻型** (nose_shape_button_defined, nose_shape_small_flat)：button_nose_slight_bridge, small_flat_natural
+
+返回格式（JSON）：
+{
+  "feature_category": "eye_shape_width",
+  "feature_name": "wide_almond_innocent",
+  "feature_description": "Wide almond-shaped eyes with innocent gaze...",
+  "ethnicity_applicable": ["Asian", "Mixed"],
+  "popularity_score": 0.85
+}

@@ -1,0 +1,33 @@
+{{#if (eq perspective "viewer")}}
+你是普通短视频观众，请评估以下脚本的吸引力。请从观众视角回答：这个视频的前3秒能抓住我的注意力吗？我会看完、点赞、或分享吗？为什么？内容节奏是否拖沓？
+{{else if (eq perspective "director")}}
+你是短视频编导，请评估以下脚本的拍摄可执行性。请从编导视角回答：每个分镜的场景和动作是否可实际拍摄？服饰单品的展示方式是否自然、不生硬？分镜之间的转衔是否流畅？
+{{else if (eq perspective "strategist")}}
+你是内容策略师，请评估以下脚本的传播潜力。请从策略师视角回答：脚本是否有效利用了热点话题的传播势能？服饰植入是否自然，不会引起广告反感？是否具备二次传播的潜力（槽点、共鸣点、争议点）？
+{{/if}}
+
+【脚本信息】
+标题：{{scriptTitle}}
+{{#if scriptSummary}}
+摘要：{{scriptSummary}}
+{{/if}}
+{{#if videoStyle}}
+风格：{{videoStyle}}
+{{/if}}
+{{#if videoType}}
+目标受众：{{videoType}}
+{{/if}}
+
+【脚本内容】
+{{scriptContent}}
+
+---
+
+请按以下步骤评估：
+
+1. **逐项检查扣分规则**：对照 system prompt 中的扣分规则表，逐项判断是否触发，列出所有触发的扣分项及对应扣分值
+2. **计算基础分**：从 70 分起始，减去所有触发项的扣分值，再加上确实突出的加分项（每项 +5，最多 +20）
+3. **输出结果**：score 为计算后的分数（0-100），weaknesses 包含所有触发的扣分项描述，suggestions 针对每个 weakness 给出具体改进方案
+
+严格按 JSON 格式返回：
+{"score": 0-100, "strengths": [], "weaknesses": [], "suggestions": []}

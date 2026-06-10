@@ -1,0 +1,14 @@
+targetCount: {{expectedCount}}
+
+Garment assets (user provided):
+{{#each garmentAssets}}
+[{{@index}}] {{#if category}}{{category}}: {{/if}}{{name}}{{#if description}} — {{description}}{{/if}}
+{{/each}}
+
+User constraints:
+- Gender: {{userDirectionHint.gender}} ({{#if (eq userDirectionHint.gender "male")}}男性{{else}}女性{{/if}})
+{{#if userDirectionHint.ageRange}}
+- Age range: {{userDirectionHint.ageRange}}
+{{else if userDirectionHint.age}}
+- Age: {{userDirectionHint.age}} years old
+{{/if}}

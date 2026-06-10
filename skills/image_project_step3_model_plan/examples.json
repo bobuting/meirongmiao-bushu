@@ -1,0 +1,32 @@
+[
+  {
+    "description": "通勤风格搭配规划",
+    "input": {
+      "outfitTitle": "简约通勤套装",
+      "styleName": "通勤风格",
+      "analysis": "白色衬衫搭配黑色西裤，简约干练，适合职场通勤场景",
+      "optimizedPrompt": "professional business casual outfit, white button-down shirt, black tailored trousers",
+      "characterDescription": "职业女性，30岁左右，气质干练",
+      "targetPhotoCount": 10,
+      "garments": [
+        { "description": "白色衬衫" },
+        { "description": "黑色西裤" }
+      ]
+    }
+  },
+  {
+    "description": "休闲风格搭配规划",
+    "input": {
+      "outfitTitle": "周末休闲装",
+      "styleName": "休闲风格",
+      "analysis": "宽松卫衣搭配牛仔裤，舒适休闲，适合周末出游",
+      "optimizedPrompt": "casual weekend outfit, oversized hoodie, blue jeans",
+      "characterDescription": "年轻女性，25岁左右，活力阳光",
+      "targetPhotoCount": 10,
+      "garments": [
+        { "description": "灰色卫衣" },
+        { "description": "蓝色牛仔裤" }
+      ]
+    }
+  }
+]

@@ -1,0 +1,304 @@
+[
+  {
+    "name": "示例1：治愈系窗边阅读",
+    "description": "日系治愈风格的2镜头分镜，包含角色描述和完整脚本数据",
+    "input": {
+      "scriptData": {
+        "video_info": {
+          "title": "独居治愈日常",
+          "duration_seconds": 8,
+          "source": "原创脚本",
+          "time_of_day": "下午",
+          "weather": "晴天",
+          "main_scene": "家中窗边角落"
+        },
+        "video_analysis": {
+          "title": "独居治愈日常",
+          "theme": "独居生活的治愈瞬间",
+          "summary": "一个人在阳光洒落的窗边安静看书，享受独居生活的惬意时光。",
+          "emotion": {
+            "primary": "温暖",
+            "secondary": ["宁静", "满足"],
+            "emotion_arc": "平静→沉浸→满足"
+          },
+          "video_type": "情感治愈",
+          "video_style": "日系清新",
+          "target_audience": "20-30岁，喜欢独居生活内容",
+          "key_elements": ["阳光", "窗边", "书籍", "休闲穿搭"],
+          "on_screen_presence": {
+            "has_real_person": true,
+            "person_count": 1,
+            "person_details": [
+              {
+                "person_id": 1,
+                "description": "成年女性，面部轮廓清晰，肤色自然，黑色长发自然垂落，身材匀称，气质沉稳温柔",
+                "age": 25,
+                "gender": "female",
+                "screen_time_ratio": 1.0,
+                "appearance_notes": "全程出镜"
+              }
+            ],
+            "exposure_level": "高",
+            "exposure_description": "服饰全程露出"
+          },
+          "fashion_placement": {
+            "suitable": true,
+            "reason": "日系慵懒风服饰自然融入独居场景",
+            "recommended_styles": ["日系慵懒风", "居家休闲"],
+            "placement_notes": "米色卫衣配灰色休闲裤，舒适自然"
+          },
+          "atmosphere": "居家治愈"
+        },
+        "shot_breakdown": [
+          {
+            "shot_id": 1,
+            "timecode": { "start": "00:00:00", "end": "00:00:04", "duration_seconds": 4 },
+            "shot_type": "中景",
+            "camera_movement": "固定镜头",
+            "transition_in": { "type": "淡入", "duration_seconds": 0.5 },
+            "transition_out": { "type": "硬切", "duration_seconds": 0 },
+            "visual": {
+              "scene": { "location_type": "室内", "specific_location": "家中窗边角落", "environment": "洒满阳光的窗边软垫，白色纱帘" },
+              "lighting": { "type": "自然光", "direction": "左侧逆光", "mood": "金色暖光，柔和" },
+              "color": { "dominant_colors": ["米白色", "浅棕色"], "color_mood": "温暖治愈", "color_grade": "日系胶片感" }
+            },
+            "subjects": [
+              {
+                "subject_id": 1,
+                "type": "人物",
+                "person_id": 1,
+                "description": "女生蜷坐在窗边软垫上",
+                "position": "画面右侧三分线",
+                "body_angle": "3/4侧面向左",
+                "eye_line": "低头看书",
+                "action": "翻页看书",
+                "movement": "静止",
+                "movement_speed": "无",
+                "expression": "平静专注，嘴角微扬",
+                "clothing": { "top": "米色棉质oversized卫衣", "bottom": "灰色针织休闲裤", "accessories": "无", "overall_style": "日系慵懒风" },
+                "props": ["书本"]
+              }
+            ],
+            "audio": { "ambient_sound": "窗外鸟鸣、书页翻动声" },
+            "shot_description": "女生蜷坐在洒满阳光的窗边软垫上，专注地翻着书页，神情平静满足"
+          },
+          {
+            "shot_id": 2,
+            "timecode": { "start": "00:00:04", "end": "00:00:08", "duration_seconds": 4 },
+            "shot_type": "近景",
+            "camera_movement": "推镜头",
+            "transition_in": { "type": "硬切", "duration_seconds": 0 },
+            "transition_out": { "type": "淡出", "duration_seconds": 0.5 },
+            "visual": {
+              "scene": { "location_type": "室内", "specific_location": "家中窗边角落", "environment": "金色逆光涌入" },
+              "lighting": { "type": "自然光", "direction": "左侧逆光", "mood": "金色暖光" },
+              "color": { "dominant_colors": ["米白色", "金色"], "color_mood": "温暖治愈", "color_grade": "日系胶片感" }
+            },
+            "subjects": [
+              {
+                "subject_id": 1,
+                "type": "人物",
+                "person_id": 1,
+                "description": "女生抬头感受阳光",
+                "position": "画面居中",
+                "body_angle": "侧面向左",
+                "eye_line": "望向左侧光源",
+                "action": "抬头，闭眼感受阳光，然后缓缓睁眼",
+                "movement": "静止",
+                "movement_speed": "慢",
+                "expression": "从平静到满足陶醉",
+                "clothing": { "top": "米色棉质oversized卫衣", "bottom": "灰色针织休闲裤", "accessories": "无", "overall_style": "日系慵懒风" },
+                "props": ["书本"]
+              }
+            ],
+            "audio": { "ambient_sound": "窗外鸟鸣、风声" },
+            "shot_description": "女生缓缓抬头，闭眼感受左侧涌入的阳光，神情从平静转为满足陶醉"
+          }
+        ],
+        "editing_analysis": {
+          "total_shots": 2,
+          "average_shot_duration": 4.0,
+          "longest_shot_seconds": 4,
+          "shortest_shot_seconds": 4,
+          "editing_rhythm": "舒缓节奏，情绪连贯",
+          "pacing": "慢",
+          "cut_style": "淡入淡出"
+        }
+      },
+      "characterReferenceImages": [],
+      "characterDescription": "成年女性，面部轮廓清晰，肤色自然，黑色长发自然垂落，身材匀称，气质沉稳温柔",
+      "aspectRatio": "9:16"
+    },
+    "expectedOutput": "包含2个镜头的完整JSON输出，每个镜头含关键帧提示词和视频提示词，角色锚点跨镜头一致"
+  },
+  {
+    "name": "示例2：空镜场景",
+    "description": "无人物的空镜分镜，测试空镜处理逻辑",
+    "input": {
+      "scriptData": {
+        "video_info": {
+          "title": "城市晨曦",
+          "duration_seconds": 3,
+          "source": "原创",
+          "time_of_day": "早晨",
+          "weather": "晴天",
+          "main_scene": "城市天际线"
+        },
+        "video_analysis": {
+          "title": "城市晨曦",
+          "theme": "城市苏醒的宁静时刻",
+          "summary": "晨曦中的城市天际线剪影，金色阳光缓缓洒落，展现都市早晨的宁静之美。",
+          "emotion": {
+            "primary": "宁静",
+            "secondary": ["期待"],
+            "emotion_arc": "宁静→期待"
+          },
+          "video_type": "风景展示",
+          "video_style": "电影质感",
+          "target_audience": "城市生活爱好者",
+          "key_elements": ["晨曦", "城市天际线", "金色阳光"],
+          "on_screen_presence": {
+            "has_real_person": false,
+            "person_count": 0,
+            "person_details": [],
+            "exposure_level": "无",
+            "exposure_description": "空镜无人物"
+          },
+          "fashion_placement": {
+            "suitable": false,
+            "reason": "空镜场景无人物",
+            "recommended_styles": [],
+            "placement_notes": "不适用"
+          },
+          "atmosphere": "清晨清新"
+        },
+        "shot_breakdown": [
+          {
+            "shot_id": 1,
+            "timecode": { "start": "00:00:00", "end": "00:00:03", "duration_seconds": 3 },
+            "shot_type": "远景",
+            "camera_movement": "摇镜头",
+            "transition_in": { "type": "淡入", "duration_seconds": 0.5 },
+            "transition_out": { "type": "淡出", "duration_seconds": 0.5 },
+            "visual": {
+              "scene": { "location_type": "室外", "specific_location": "城市天际线", "environment": "晨曦中的城市剪影" },
+              "lighting": { "type": "自然光", "direction": "正面光", "mood": "金色晨光" },
+              "color": { "dominant_colors": ["金色", "深蓝"], "color_mood": "宁静悠远", "color_grade": "电影质感" }
+            },
+            "subjects": [],
+            "audio": { "ambient_sound": "远处车流声、鸟鸣" },
+            "shot_description": "晨曦中的城市天际线剪影，金色阳光缓缓洒落"
+          }
+        ],
+        "editing_analysis": {
+          "total_shots": 1,
+          "average_shot_duration": 3.0,
+          "longest_shot_seconds": 3,
+          "shortest_shot_seconds": 3,
+          "editing_rhythm": "单镜头展示",
+          "pacing": "慢",
+          "cut_style": "淡入淡出"
+        }
+      },
+      "aspectRatio": "16:9"
+    },
+    "expectedOutput": "空镜JSON输出，无角色锚点，专注于场景氛围和光线描写"
+  },
+  {
+    "name": "示例3：鞋部局部特写",
+    "description": "聚焦鞋部的低角度特写镜头，测试局部特写锚点适配——鞋子必须穿在角色脚上，不能出现脱离角色的孤立鞋子",
+    "input": {
+      "scriptData": {
+        "video_info": {
+          "title": "赛博朋克时尚走秀",
+          "duration_seconds": 3,
+          "source": "原创",
+          "time_of_day": "夜晚",
+          "weather": "阴天",
+          "main_scene": "赛博镜面跑道"
+        },
+        "video_analysis": {
+          "title": "赛博朋克时尚走秀",
+          "theme": "未来感时尚展示",
+          "summary": "角色在赛博朋克风格的镜面跑道上行走，冷调灯光营造科技感氛围。",
+          "emotion": {
+            "primary": "酷感",
+            "secondary": ["自信"],
+            "emotion_arc": "平静→自信"
+          },
+          "video_type": "时尚展示",
+          "video_style": "赛博朋克",
+          "target_audience": "时尚爱好者",
+          "key_elements": ["赛博跑道", "冷调灯光", "厚底鞋"],
+          "on_screen_presence": {
+            "has_real_person": true,
+            "person_count": 1,
+            "person_details": [
+              {
+                "person_id": 1,
+                "description": "年轻成年女性，面部轮廓柔和自然，深色中分长直发，气质波西米亚自由奔放",
+                "age": 25,
+                "gender": "female",
+                "screen_time_ratio": 1.0,
+                "appearance_notes": "本镜头仅脚部出镜"
+              }
+            ],
+            "exposure_level": "局部",
+            "exposure_description": "仅脚部/鞋部可见"
+          },
+          "fashion_placement": {
+            "suitable": true,
+            "reason": "厚底鞋是核心展示单品",
+            "recommended_styles": ["赛博朋克", "前卫时尚"],
+            "placement_notes": "搭配1厚底鞋，冷调赛博风格"
+          },
+          "atmosphere": "冷调科技感"
+        },
+        "shot_breakdown": [
+          {
+            "shot_id": 1,
+            "timecode": { "start": "00:00:00", "end": "00:00:03", "duration_seconds": 3 },
+            "shot_type": "特写",
+            "camera_movement": "固定镜头",
+            "transition_in": { "type": "硬切", "duration_seconds": 0 },
+            "transition_out": { "type": "硬切", "duration_seconds": 0 },
+            "visual": {
+              "scene": { "location_type": "室外", "specific_location": "赛博镜面跑道", "environment": "几何线条的镜面地面，潮湿反光" },
+              "lighting": { "type": "人工光", "direction": "侧逆光", "mood": "冷灰色激光光束，硬朗阴影" },
+              "color": { "dominant_colors": ["冷灰色", "雾紫色"], "color_mood": "冷调科技", "color_grade": "赛博朋克电影感" }
+            },
+            "subjects": [
+              {
+                "subject_id": 1,
+                "type": "人物",
+                "person_id": 1,
+                "description": "角色脚部特写，厚底鞋踩在潮湿地面上",
+                "position": "画面底部中央",
+                "body_angle": "低角度仰视",
+                "action": "鞋尖触碰地面",
+                "movement": "静止",
+                "expression": "不可见（脚部特写）",
+                "clothing": { "shoes": "搭配1厚底鞋", "overall_style": "赛博朋克" },
+                "props": []
+              }
+            ],
+            "audio": { "ambient_sound": "电子音乐低频嗡鸣" },
+            "shot_description": "低角度特写镜头，厚底鞋鞋尖触碰潮湿反光的赛博镜面跑道地面，冷灰色激光光束扫过水洼倒影"
+          }
+        ],
+        "editing_analysis": {
+          "total_shots": 1,
+          "average_shot_duration": 3.0,
+          "longest_shot_seconds": 3,
+          "shortest_shot_seconds": 3,
+          "editing_rhythm": "单镜头展示",
+          "pacing": "中",
+          "cut_style": "硬切"
+        }
+      },
+      "characterDescription": "年轻成年女性，面部轮廓柔和自然，深色中分长直发，皮肤白皙带自然红润，具有波西米亚风格的自由奔放与质朴气质",
+      "aspectRatio": "9:16"
+    },
+    "expectedOutput": "局部特写JSON输出。关键帧 prompt 必须以角色身份归属开头（如'年轻成年女性的脚部'），明确鞋子穿在角色脚上（如'脚穿搭配1厚底鞋'），补充可见身体延伸（如'小腿和裙摆边缘可见'）。禁止在关键帧 prompt 中描述面部五官、发型、表情等该景别下不可见的细节。角色锚点 character_anchors 正常生成，但 shots[0].keyframe_prompt.prompt 中使用局部特写结构而非完整外貌锚点结构。"
+  }
+]

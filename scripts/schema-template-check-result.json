@@ -1,0 +1,109 @@
+[
+  {
+    "skillCode": "outfit_analysis",
+    "schemaParams": [
+      "age",
+      "category",
+      "clothingItems",
+      "description",
+      "ethnicityOrRegion",
+      "gender",
+      "name",
+      "styleWords",
+      "targetCardCount",
+      "timeBaseline"
+    ],
+    "templateVars": [
+      "category",
+      "clothingItems",
+      "description",
+      "name",
+      "roleContext",
+      "targetCardCount",
+      "timeBaseline",
+      "userPrompt"
+    ],
+    "unusedInTemplate": [
+      "age",
+      "ethnicityOrRegion",
+      "gender",
+      "styleWords"
+    ],
+    "undefinedInSchema": [
+      "roleContext",
+      "userPrompt"
+    ],
+    "hasTemplate": true,
+    "templateFile": "user.hbs"
+  },
+  {
+    "skillCode": "step1_role_direction",
+    "schemaParams": [
+      "age",
+      "ageConstraint",
+      "ageRange",
+      "description",
+      "expectedCount",
+      "gender",
+      "genderConstraint",
+      "outfitItems",
+      "styleName",
+      "styleWords",
+      "title",
+      "type"
+    ],
+    "templateVars": [
+      "ageConstraint",
+      "description",
+      "expectedCount",
+      "genderConstraint",
+      "outfitItems",
+      "styleName",
+      "type",
+      "userSelectedDirection"
+    ],
+    "unusedInTemplate": [
+      "age",
+      "ageRange",
+      "gender",
+      "styleWords",
+      "title"
+    ],
+    "undefinedInSchema": [
+      "userSelectedDirection"
+    ],
+    "hasTemplate": true,
+    "templateFile": "user.hbs"
+  },
+  {
+    "skillCode": "step1_role_direction_from_garments",
+    "schemaParams": [
+      "age",
+      "ageRange",
+      "category",
+      "description",
+      "expectedCount",
+      "garmentAssets",
+      "gender",
+      "name"
+    ],
+    "templateVars": [
+      "category",
+      "description",
+      "expectedCount",
+      "garmentAssets",
+      "name",
+      "userDirectionHint"
+    ],
+    "unusedInTemplate": [
+      "age",
+      "ageRange",
+      "gender"
+    ],
+    "undefinedInSchema": [
+      "userDirectionHint"
+    ],
+    "hasTemplate": true,
+    "templateFile": "user.hbs"
+  }
+]

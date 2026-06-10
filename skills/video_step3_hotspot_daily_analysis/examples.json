@@ -1,0 +1,9 @@
+[
+  {
+    "input": {
+      "hotspotCount": 10,
+      "hotspotDetails": "【热点 1】春日穿搭灵感（douyin，热度9500）\n【热点 2】通勤穿搭技巧（xiaohongshu，热度7200）\n【热点 3】约会妆容分享（kuaishou，热度6500）"
+    },
+    "expectedOutput": "核心趋势：\n- 春季穿搭风格转向清爽简约\n- 通勤场景持续热门\n- 约会妆容需求上升..."
+  }
+]

@@ -1,0 +1,19 @@
+#!/usr/bin/env sh
+set -eu
+
+echo "[pre-push] running hotspot/size/strict gates"
+
+if command -v npm >/dev/null 2>&1; then
+  NPM_BIN="npm"
+elif command -v npm.cmd >/dev/null 2>&1; then
+  NPM_BIN="npm.cmd"
+else
+  echo "[pre-push] npm not found in PATH"
+  exit 1
+fi
+
+"$NPM_BIN" run audit:file-size:gate
+node scripts/enforce_hotspot_touch_gate.mjs --mode=check --base=HEAD~1 --head=HEAD
+"$NPM_BIN" run gate:local:strict
+
+echo "[pre-push] pass"

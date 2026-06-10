@@ -1,0 +1,130 @@
+## 展示类型与风格
+
+{{#if showcaseType}}
+【展示类型】{{#eq showcaseType "ootd"}}穿搭展示/OOTD{{/eq}}{{#eq showcaseType "lifestyle"}}生活随拍氛围感{{/eq}}{{#eq showcaseType "lookbook"}}Lookbook{{/eq}}{{#eq showcaseType "travel"}}旅游探店{{/eq}}{{#eq showcaseType "comparison"}}风格对比{{/eq}}{{#eq showcaseType "transform"}}换装变装{{/eq}}
+{{/if}}
+
+{{#if atmosphereTheme}}
+【氛围主题】{{#eq atmosphereTheme "solitary_diary"}}独居日记{{/eq}}{{#eq atmosphereTheme "weekend_time"}}周末时光{{/eq}}{{#eq atmosphereTheme "after_work"}}下班路上{{/eq}}{{#eq atmosphereTheme "morning_routine"}}早间routine{{/eq}}{{#eq atmosphereTheme "night_solitude"}}夜晚独处{{/eq}}{{#eq atmosphereTheme "rainy_snowy"}}雨天/雪天{{/eq}}{{#eq atmosphereTheme "seasonal"}}季节限定{{/eq}}
+{{/if}}
+
+{{#if rhythmType}}
+【节奏类型】{{#eq rhythmType "fast"}}快节奏卡点{{/eq}}{{#eq rhythmType "medium"}}中节奏展示{{/eq}}{{#eq rhythmType "slow"}}慢节奏氛围{{/eq}}
+{{/if}}
+
+{{#if sceneTypeHint}}
+【场景偏好】{{sceneTypeHint}}
+{{/if}}
+
+{{#if moodHint}}
+【情绪基调】{{moodHint}}
+{{/if}}
+
+## 故事命题（围绕热点创作）
+
+{{#if trendDescription}}
+{{trendDescription}}
+
+请从以上热点中提炼一个具体的、有画面感的故事起点，围绕它讲一个 15-30 秒的短视频故事。不要泛泛地"结合热点"，而是让热点成为故事的触发点或情感内核。
+{{/if}}
+
+## 创作素材
+
+{{#if characterGender}}
+【角色性别】{{#eq characterGender "male"}}男性{{/eq}}{{#eq characterGender "female"}}女性{{/eq}}{{#eq characterGender "uncertain"}}未指定{{/eq}}（必须严格遵守，脚本中的角色性别、代词、称呼必须与此一致）
+{{/if}}
+
+{{#if characterDescription}}
+【角色信息】
+{{characterDescription}}
+{{/if}}
+
+{{#if selectedRoleDirection}}
+【角色方向】
+{{#if selectedRoleDirection.styleWords}}关键词：{{selectedRoleDirection.styleWords}} {{/if}}
+{{/if}}
+
+{{#if assets}}
+【服饰信息】（作为角色造型的一部分，不是展示目的）
+{{#each assets}}
+- {{this.type}}：{{this.description}}
+{{/each}}
+{{/if}}
+
+{{#if outfitDescription}}
+【服饰描述】
+{{outfitDescription}}
+{{/if}}
+
+{{#if matchingReference}}
+【搭配描述】
+{{matchingReference}}
+{{/if}}
+
+{{#if clothingStyles}}
+【服饰风格】
+{{clothingStyles}}，场景选择应与服饰风格自然匹配
+{{/if}}
+
+{{#if reflectionNotes}}
+## 迭代优化建议
+{{#each reflectionNotes}}
+{{inc @index}}. {{this}}
+{{/each}}
+{{/if}}
+
+## 创作要求
+
+{{#if showcaseType}}
+{{#eq showcaseType "lifestyle"}}
+请创作一条**生活随拍氛围感短片**脚本：
+- 氛围感优先，服饰融入生活片段
+- 光影、声音、节奏营造沉浸式观感
+- 情绪细腻、内敛、有温度
+- 镜头缓慢、有呼吸感、留白
+- 结尾余韵悠长，不硬广
+{{/eq}}
+{{#eq showcaseType "ootd"}}
+请创作一条**穿搭展示/OOTD**脚本：
+- 服饰为视觉主角，展示搭配效果
+- 中快节奏，多角度切换
+- 至少 60% 镜头有清晰服饰露出
+- 开场亮相 → 细节展示 → 动态效果 → 收尾强化
+{{/eq}}
+{{#eq showcaseType "lookbook"}}
+请创作一条**Lookbook**脚本：
+- 多套穿搭快速切换（如有多个 assets）
+- 快节奏，风格统一
+- 每套 2-4 秒，全身 → 细节 → 全身
+- 强调视觉冲击和节奏感
+{{/eq}}
+{{#eq showcaseType "travel"}}
+请创作一条**旅游探店**脚本：
+- 场景与服饰融合展示
+- 慢中节奏，氛围感强
+- 场景入场 → 穿搭融入 → 细节互动 → 余韵离开
+- 突出服饰与场景的匹配度
+{{/eq}}
+{{#eq showcaseType "comparison"}}
+请创作一条**风格对比**脚本：
+- 展示服装多样性和搭配可能性
+- 快节奏，对比感强
+- 风格A展示 → 风格B展示 → 对比强化
+- 突出不同风格的特点
+{{/eq}}
+{{#eq showcaseType "transform"}}
+请创作一条**换装变装**脚本：
+- 快速换装，视觉冲击
+- 极快节奏，卡点切换
+- 换装前 → 换装瞬间（创意转场） → 换装后展示
+- 适合潮流、年轻受众
+{{/eq}}
+{{else}}
+请创作一条**效果导向展示类**短视频脚本：
+- 服饰为视觉主角，展示效果优先
+- 镜头节奏流畅，有张力
+- 场景与服饰风格高度匹配
+- 情绪到位，有感染力
+{{/if}}
+
+**输出格式**：严格按照 JSON 格式输出，包含 video_info、video_analysis、shot_breakdown、editing_analysis 四个字段。

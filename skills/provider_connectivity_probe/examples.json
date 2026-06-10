@@ -1,0 +1,8 @@
+[
+  {
+    "name": "LLM 连通性测试",
+    "description": "测试 LLM Provider 的连通性",
+    "input": {},
+    "expectedOutput": "连接正常"
+  }
+]

@@ -1,0 +1,32 @@
+[
+  {
+    "description": "休闲风格儿童搭配规划",
+    "input": {
+      "outfitTitle": "休闲童装套装",
+      "styleName": "休闲风格",
+      "analysis": "舒适休闲的儿童服装搭配，适合日常活动和户外游玩",
+      "optimizedPrompt": "casual kids outfit, comfortable clothing, relaxed fit",
+      "characterDescription": "活泼开朗的小朋友，亚洲外观，圆脸大眼，自然肤色，整齐发型",
+      "targetPhotoCount": 6,
+      "garments": [
+        { "description": "条纹T恤" },
+        { "description": "休闲短裤" }
+      ]
+    }
+  },
+  {
+    "description": "学院风格儿童搭配规划",
+    "input": {
+      "outfitTitle": "学院风童装",
+      "styleName": "学院风格",
+      "analysis": "简约学院风格的儿童服装，适合学校活动和日常穿着",
+      "optimizedPrompt": "school casual outfit, preppy style kids clothing",
+      "characterDescription": "文静乖巧的小朋友，亚洲外观，自然肤色，整洁发型",
+      "targetPhotoCount": 4,
+      "garments": [
+        { "description": "白色衬衫" },
+        { "description": "格子裙/裤子" }
+      ]
+    }
+  }
+]

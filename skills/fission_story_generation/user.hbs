@@ -1,0 +1,24 @@
+{{#if userPrompt}}
+{{userPrompt}}
+{{else}}
+请根据原视频脚本，在指定位置插入扩写分镜：
+
+【原视频脚本】
+```json
+{{{json originalScript}}}
+```
+
+{{#if insertPositions.length}}
+【扩写插入位置】
+以下 shot_id 位置需要插入新的扩写分镜：
+{{#each insertPositions}}shot {{this}}（扩写）{{#unless @last}}、{{/unless}}{{/each}}
+
+其余位置保留原分镜内容不变。
+
+【分镜数量】原 {{originalScript.shot_breakdown.length}} 个 + 扩写 {{insertPositions.length}} 个 = 共 {{add originalScript.shot_breakdown.length insertPositions.length}} 个分镜
+{{else}}
+【注意】未指定插入位置，原分镜保持不变。
+{{/if}}
+
+请输出完整的视频脚本JSON，shot_id 从 1 开始重新编号。
+{{/if}}

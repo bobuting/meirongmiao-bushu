@@ -1,0 +1,83 @@
+# HTTP -> HTTPS 重定向
+server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
+
+    server_name www.baobuting.com;
+
+    # 强制跳转 HTTPS
+    return 301 https://$host$request_uri;
+}
+
+# HTTPS 主配置
+server {
+    listen 443 ssl http2 default_server; # 开启 http2 提升性能
+    listen [::]:443 ssl http2 default_server;
+
+    server_name www.baobuting.com;
+
+    # SSL 证书配置 (请确保文件名和路径正确)
+    ssl_certificate     /etc/nginx/ssl/23632638_www.neirongmiao.com_nginx/www.neirongmiao.com.pem;
+    ssl_certificate_key /etc/nginx/ssl/23632638_www.neirongmiao.com_nginx/www.neirongmiao.com.key;
+    
+    # SSL 优化配置
+    ssl_protocols TLSv1.2 TLSv1.3;
+    ssl_ciphers ECDHE-RSA-AES128-GCM-SHA256:ECDHE:ECDH:AES:HIGH:!NULL:!aNULL:!MD5:!ADH:!RC4;
+    ssl_prefer_server_ciphers on;
+    ssl_session_cache shared:SSL:10m;
+    ssl_session_timeout 1d;
+    ssl_session_tickets off;
+
+    # 全局 Gzip 压缩 (提升加载速度)
+    gzip on;
+    gzip_vary on;
+    gzip_types text/plain text/css application/json application/javascript text/xml application/xml application/xml+rss text/javascript;
+
+    # 1. 静态资源目录 (对象存储)
+    location /storage/objects/ {
+        # 修正建议：统一使用 /srv 路径，请核对实际路径
+        alias /home/appuser/apps/prod/neirongmiao/data/object-storage/;
+        
+        autoindex off; # 禁止目录浏览
+        expires 30d;   # 浏览器缓存 30 天
+        add_header Cache-Control "public, immutable";
+        
+        # 防止跨域问题 (如果需要)
+        # add_header Access-Control-Allow-Origin *;
+    }
+
+    # 2. 前端静态文件 (SPA 应用)
+    location / {
+       
+    	root /home/appuser/apps/prod/neirongmiao/apps/web/dist/;
+    	index index.html;
+    	try_files $uri $uri/ /index.html;
+    }
+    
+    # 3. Node.js API 反向代理
+    location /neirongmiao/api {
+        proxy_pass http://127.0.0.1:3021/neirongmiao/api;
+        
+        # WebSocket 支持
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        
+        # 传递真实 IP
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        
+        # 超时设置
+        proxy_read_timeout 300s;
+        proxy_connect_timeout 10s;
+        proxy_send_timeout 300s; # 增加发送超时
+        
+        # 上传大小限制
+        client_max_body_size 50m;
+        
+        # 隐藏 Nginx 版本号
+        proxy_hide_header X-Powered-By;
+    }
+}

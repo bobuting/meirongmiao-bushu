@@ -1,0 +1,51 @@
+[
+  {
+    "name": "示例 1：单件上装搭配",
+    "description": "用户仅提供一件上装，系统智能补齐下装、鞋履和配饰",
+    "input": {
+      "targetCardCount": 3,
+      "timeBaseline": "2026-04-23",
+      "clothingItems": [
+        {
+          "category": "top",
+          "name": "米白拼接条纹外套",
+          "description": "简约风格的春季外套"
+        }
+      ],
+      "roleContext": {
+        "gender": "female",
+        "age": 25,
+        "ethnicityOrRegion": "Asian",
+        "styleWords": ["简约", "时尚"]
+      }
+    },
+    "expectedOutput": "包含 3 个差异化搭配方案的 JSON，每个方案包含完整的单品列表"
+  },
+  {
+    "name": "示例 2：上装+下装搭配",
+    "description": "用户提供上装和下装，系统补齐鞋履和配饰",
+    "input": {
+      "targetCardCount": 2,
+      "timeBaseline": "2026-04-23",
+      "clothingItems": [
+        {
+          "category": "top",
+          "name": "黑色针织衫"
+        },
+        {
+          "category": "bottom",
+          "name": "灰色直筒裤",
+          "description": "修身剪裁"
+        }
+      ],
+      "roleContext": {
+        "gender": "female",
+        "age": 25,
+        "ethnicityOrRegion": "Asian",
+        "styleWords": ["简约", "都市", "通勤"]
+      },
+      "userPrompt": "ctx-1:top:黑色针织衫:user_selected: https://example.com/top.png\nctx-2:bottom:灰色直筒裤:user_selected: https://example.com/bottom.png"
+    },
+    "expectedOutput": "包含 2 个差异化搭配方案，风格倾向都市通勤"
+  }
+]

@@ -1,0 +1,70 @@
+[
+  {
+    "name": "示例 1：日常记录 - 周末咖啡馆时光",
+    "description": "生活美学类型 - 日常记录，女性角色，文艺风穿搭，午后咖啡馆场景",
+    "input": {
+      "aestheticType": "daily_record",
+      "timeOfDay": "afternoon",
+      "sceneTypeHint": "咖啡馆",
+      "moodHint": "惬意舒适",
+      "characterGender": "female",
+      "characterDescription": "25岁女性，文艺气质，温柔从容，喜欢阅读和咖啡",
+      "outfitDescription": "米色针织衫配浅色阔腿裤，简约文艺风",
+      "clothingStyles": ["文艺风", "简约风"],
+      "emotionTrigger": "周末午后的一杯咖啡，一本书，一段属于自己的时光"
+    },
+    "expectedOutput": "生成一条15-25秒的生活美学脚本，情感基调为惬意舒适，服饰自然融入咖啡馆场景"
+  },
+  {
+    "name": "示例 2：唯美氛围 - 清晨阳光",
+    "description": "生活美学类型 - 唯美氛围，女性角色，居家慵懒风，清晨卧室场景",
+    "input": {
+      "aestheticType": "aesthetic_atmosphere",
+      "atmosphereTheme": "morning_routine",
+      "timeOfDay": "morning",
+      "rhythmType": "slow",
+      "sceneTypeHint": "卧室窗边",
+      "moodHint": "诗意治愈",
+      "characterGender": "female",
+      "characterDescription": "22岁女性，温柔气质，喜欢自然光和晨间时光",
+      "outfitDescription": "白色睡衣/晨间居家服，慵懒舒适风",
+      "clothingStyles": ["居家风", "慵懒风"],
+      "emotionTrigger": "清晨阳光洒在身上，时间就慢了"
+    },
+    "expectedOutput": "生成一条20-30秒的唯美氛围脚本，光影流动，节奏极慢，服饰自然融入晨间活动"
+  },
+  {
+    "name": "示例 3：时装美学 - 街拍出行",
+    "description": "生活美学类型 - 时装美学，女性角色，都市通勤风，城市街景场景",
+    "input": {
+      "aestheticType": "fashion_aesthetic",
+      "timeOfDay": "dusk",
+      "rhythmType": "medium",
+      "sceneTypeHint": "城市街景",
+      "moodHint": "自信从容",
+      "characterGender": "female",
+      "characterDescription": "28岁女性，都市白领气质，自信从容，有品位",
+      "outfitDescription": "黑色西装外套配白色衬衫，都市通勤风",
+      "clothingStyles": ["都市风", "通勤风"],
+      "emotionTrigger": "下班路上的从容时光，感受城市黄昏的美好"
+    },
+    "expectedOutput": "生成一条15-25秒的时装美学脚本，服饰融入城市街景，情感基调为自信从容"
+  },
+  {
+    "name": "示例 4：旅行记录 - 公园漫步",
+    "description": "生活美学类型 - 旅行记录，女性角色，休闲出行风，公园自然场景",
+    "input": {
+      "aestheticType": "travel_memory",
+      "timeOfDay": "afternoon",
+      "rhythmType": "slow",
+      "sceneTypeHint": "公园",
+      "moodHint": "自由放松",
+      "characterGender": "female",
+      "characterDescription": "24岁女性，活泼气质，喜欢自然和户外活动",
+      "outfitDescription": "浅色连衣裙配草帽，休闲度假风",
+      "clothingStyles": ["休闲风", "度假风"],
+      "emotionTrigger": "慢慢走，感受当下，发现自然的美好"
+    },
+    "expectedOutput": "生成一条20-30秒的旅行记录脚本，服饰融入自然场景，情感基调为自由放松"
+  }
+]

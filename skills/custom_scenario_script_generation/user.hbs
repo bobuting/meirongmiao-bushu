@@ -1,0 +1,113 @@
+{{#if concept}}
+## 背景（供参考，不要重复热点描述）
+{{else}}
+## 故事命题（围绕热点创作）
+{{/if}}
+
+{{#if hotTrendText}}
+{{hotTrendText}}
+
+{{#unless concept}}
+请从以上热点中提炼一个具体的、有画面感的故事起点，围绕它讲一个 15-30 秒的短视频故事。
+{{/unless}}
+{{/if}}
+
+{{#if concept}}
+## 故事概念（必须基于此概念展开）
+标题：{{concept.title}}
+主题：{{concept.theme}}
+情绪弧线：{{concept.emotionArc}}
+钩子：{{concept.hook}}
+结尾暗示：{{concept.endingHint}}
+人物互动：{{concept.characterInteraction}}
+{{#if concept.narrativeBeats}}
+叙事节拍：
+{{#each concept.narrativeBeats}}
+{{inc @index}}. {{this}}
+{{/each}}
+{{else}}
+叙事节拍：自由发挥
+{{/if}}
+{{/if}}
+
+## 创作素材
+
+{{#if characterGender}}
+【角色性别】{{#eq characterGender "male"}}男性{{/eq}}{{#eq characterGender "female"}}女性{{/eq}}{{#eq characterGender "uncertain"}}未指定{{/eq}}（必须严格遵守，脚本中的角色性别、代词、称呼必须与此一致）
+{{/if}}
+
+{{#if characterDescription}}
+【角色信息】
+{{characterDescription}}
+{{/if}}
+
+{{#if selectedRoleDirection}}
+【角色方向】
+{{#if selectedRoleDirection.styleWords}}关键词：{{selectedRoleDirection.styleWords}} {{/if}}
+{{/if}}
+
+{{#if outfitDescription}}
+【服饰描述】（作为角色造型的一部分，不是展示目的）
+{{outfitDescription}}
+{{/if}}
+
+{{#if matchingReference}}
+【搭配描述】
+{{matchingReference}}
+{{/if}}
+
+{{#if clothingStyles}}
+【服饰风格】
+{{clothingStyles}}，场景选择应与服饰风格自然匹配
+{{/if}}
+
+{{#if keywordHint}}
+{{keywordHint}}
+{{/if}}
+
+## 创作方向（本次生成必须遵循）
+
+| 维度 | 选择 |
+|------|------|
+| 场景类型 | {{scenario}} |
+| 叙事结构 | {{diversity.narrativeStructure}} |
+| 角色关系 | {{diversity.characterRelationship}} |
+| 核心情绪 | {{diversity.coreEmotion}} |
+| 视觉风格 | {{diversity.visualStyle}} |
+| 场景策略 | {{diversity.sceneStrategy}} |
+| 开场方式 | {{diversity.openingStyle}} |
+| 结尾方式 | {{diversity.endingStyle}} |
+
+{{#if diversity.characterRelationship}}
+如果角色关系是"亲子互动"/"闺蜜互动"/"情侣互动"等双人类型，脚本中必须包含两个角色的互动场景，配角由你自行创建。
+{{/if}}
+
+{{#if recommendedScenes}}
+## 推荐场景（场景库热度数据 + 基础场景）
+以下场景供参考，可以从中选取或借鉴灵感融入分镜：
+{{recommendedScenes}}
+{{/if}}
+
+{{#if directorPersona}}
+## 导演人格
+你是一位短视频导演，名叫{{directorPersona.name}}。
+- 擅长：{{directorPersona.specialty}}
+- 风格签名：{{directorPersona.styleSignature}}
+- 运镜偏好：{{directorPersona.cameraPreference}}
+- 剪辑节奏：{{directorPersona.editingRhythm}}
+
+请用你的个人风格来创作这条脚本。
+{{/if}}
+
+{{#if goldenExamplesText}}
+## 质量参考
+以下是同类型的高质量脚本参考，你的创作应该达到或超越这个质量水准：
+{{goldenExamplesText}}
+{{/if}}
+
+## 禁止的模板化套路
+- 禁止"开头走路 → 中间换装 → 结尾回眸"的流水线结构
+- 禁止"起床 → 出门 → 到达目的地"的时间线流水账
+- 禁止"发现问题 → 尝试解决 → 成功展示"的广告三段式
+- 禁止每个分镜都是"全景→中景→特写"的固定景别递进
+- 禁止旁白直接描述画面内容（画面已经展示了，旁白要说画面没说的）

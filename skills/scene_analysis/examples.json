@@ -1,0 +1,13 @@
+[
+  {
+    "name": "示例 1：咖啡厅场景分析",
+    "description": "分析咖啡厅内景图片",
+    "input": {},
+    "expectedOutput": {
+      "scene_category": "indoor",
+      "scene_category_cn": "室内场景",
+      "scene_name": "cafe_interior",
+      "scene_name_cn": "咖啡厅内景"
+    }
+  }
+]

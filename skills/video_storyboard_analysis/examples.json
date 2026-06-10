@@ -1,0 +1,20 @@
+[
+  {
+    "name": "反推分析：情感治愈风格短视频",
+    "description": "完整反推分析示例，包含所有字段（含 camera_details、composition、text_elements、speed_effects、emotion_archetype）",
+    "input": {
+      "videoUrl": "https://example.com/video.mp4",
+      "mimeType": "video/mp4"
+    },
+    "expectedOutput": "遵循 video-output-schema 共享规则的完整 JSON，包含 camera_details/composition/text_elements/speed_effects/emotion_archetype 等反推分析特有字段。详见 skills/_shared/rules/video-output-schema.md 完整示例。"
+  },
+  {
+    "name": "反推分析：无真人出镜",
+    "description": "无人物出镜时，fashion_placement 和 on_screen_presence 相关字段为 null 或默认值",
+    "input": {
+      "videoUrl": "https://example.com/scene-video.mp4",
+      "mimeType": "video/mp4"
+    },
+    "expectedOutput": "fashion_placement 为 null，on_screen_presence.has_real_person 为 false，emotion_archetype 视情感转变内容决定是否输出"
+  }
+]

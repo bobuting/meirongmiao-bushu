@@ -1,0 +1,158 @@
+{
+  "version": "2026-03-08",
+  "rules": [
+    {
+      "id": "app-shell-growth-requires-registrar-seam",
+      "hotspot": "src/app.ts",
+      "maxGrowthWithoutSeam": 0,
+      "requiredSeamPrefixes": [
+        "src/routes/",
+        "src/bootstrap/",
+        "src/app/",
+        "src/modules/",
+        "src/core/",
+        "src/contracts/",
+        "src/storage/",
+        "src/persistence/"
+      ],
+      "requiredSeamRegexes": [
+        "^src/app\\..+\\.ts$"
+      ]
+    },
+    {
+      "id": "backend-api-growth-requires-facade-seam",
+      "hotspot": "apps/web/services/backendApi.ts",
+      "maxGrowthWithoutSeam": 0,
+      "requiredSeamPrefixes": [
+        "apps/web/services/api/",
+        "apps/web/services/runtime/",
+        "apps/web/services/transport/",
+        "apps/web/services/backendApi."
+      ]
+    },
+    {
+      "id": "character-selection-growth-requires-controller-seam",
+      "hotspot": "apps/web/pages/project-flow/CharacterSelection.tsx",
+      "maxGrowthWithoutSeam": 40,
+      "requiredSeamPrefixes": [
+        "apps/web/pages/project-flow/step2",
+        "apps/web/pages/project-flow/step1",
+        "apps/web/pages/project-flow/outfit",
+        "apps/web/pages/project-flow/character",
+        "apps/web/pages/project-flow/preview",
+        "apps/web/pages/project-flow/candidate"
+      ]
+    },
+    {
+      "id": "assets-growth-requires-step-helper-seam",
+      "hotspot": "apps/web/pages/project-flow/Assets.tsx",
+      "maxGrowthWithoutSeam": 40,
+      "requiredSeamPrefixes": [
+        "apps/web/pages/project-flow/step1",
+        "apps/web/pages/project-flow/step2",
+        "apps/web/pages/project-flow/outfit",
+        "apps/web/pages/project-flow/prompt",
+        "apps/web/pages/project-flow/assets",
+        "apps/web/pages/project-flow/LlmDebugBubble"
+      ]
+    },
+    {
+      "id": "reverse-script-growth-requires-workspace-seam",
+      "hotspot": "apps/web/pages/reverse-script/ReverseScript.tsx",
+      "maxGrowthWithoutSeam": 40,
+      "requiredSeamPrefixes": [
+        "apps/web/pages/reverse-script/reverse",
+        "apps/web/pages/reverse-script/video",
+        "apps/web/pages/reverse-script/workspace",
+        "apps/web/pages/reverse-script/library"
+      ]
+    },
+    {
+      "id": "script-editor-growth-requires-workbench-seam",
+      "hotspot": "apps/web/pages/project-flow/ScriptEditor.tsx",
+      "maxGrowthWithoutSeam": 40,
+      "requiredSeamPrefixes": [
+        "apps/web/pages/project-flow/script",
+        "apps/web/pages/project-flow/editor",
+        "apps/web/pages/project-flow/storyboard",
+        "apps/web/pages/project-flow/video"
+      ]
+    },
+    {
+      "id": "storyboard-growth-requires-workbench-seam",
+      "hotspot": "apps/web/pages/project-flow/Storyboard.tsx",
+      "maxGrowthWithoutSeam": 30,
+      "requiredSeamPrefixes": [
+        "apps/web/pages/project-flow/storyboard",
+        "apps/web/pages/project-flow/script",
+        "apps/web/pages/project-flow/video"
+      ]
+    },
+    {
+      "id": "review-dashboard-growth-requires-tab-seam",
+      "hotspot": "apps/web/pages/review-admin/ReviewDashboard.tsx",
+      "maxGrowthWithoutSeam": 40,
+      "requiredSeamPrefixes": [
+        "apps/web/pages/review-admin/review",
+        "apps/web/pages/review-admin/provider",
+        "apps/web/pages/review-admin/dashboard",
+        "apps/web/pages/review-admin/users",
+        "apps/web/pages/review-admin/scripts"
+      ]
+    },
+    {
+      "id": "character-management-growth-requires-workbench-seam",
+      "hotspot": "apps/web/pages/characters/CharacterManagement.tsx",
+      "maxGrowthWithoutSeam": 40,
+      "requiredSeamPrefixes": [
+        "apps/web/pages/characters/character",
+        "apps/web/pages/characters/detail",
+        "apps/web/pages/characters/bulk",
+        "apps/web/pages/characters/reference"
+      ]
+    },
+    {
+      "id": "capability-lab-growth-requires-module-seam",
+      "hotspot": "apps/web/pages/admin/CapabilityLab.tsx",
+      "maxGrowthWithoutSeam": 30,
+      "requiredSeamPrefixes": [
+        "apps/web/pages/admin/capability",
+        "apps/web/pages/admin/provider",
+        "apps/web/pages/admin/lab"
+      ]
+    },
+    {
+      "id": "douyin-service-growth-requires-module-seam",
+      "hotspot": "src/modules/douyin-integration-service.ts",
+      "maxGrowthWithoutSeam": 0,
+      "requiredSeamPrefixes": [
+        "src/modules/douyin/"
+      ]
+    },
+    {
+      "id": "multiview-test-growth-requires-scenario-split",
+      "hotspot": "test/multiview_asset_governance.integration.test.ts",
+      "maxGrowthWithoutSeam": 0,
+      "requiredSeamPrefixes": [
+        "test/multiview_"
+      ]
+    },
+    {
+      "id": "postgres-adapter-growth-requires-module-seam",
+      "hotspot": "src/persistence/postgres-m5-adapter.ts",
+      "maxGrowthWithoutSeam": 30,
+      "requiredSeamPrefixes": [
+        "src/persistence/postgres/"
+      ]
+    },
+    {
+      "id": "my-projects-growth-requires-resume-seam",
+      "hotspot": "apps/web/pages/projects/MyProjects.tsx",
+      "maxGrowthWithoutSeam": 30,
+      "requiredSeamPrefixes": [
+        "apps/web/pages/projects/my-projects",
+        "apps/web/pages/projects/project-resume"
+      ]
+    }
+  ]
+}

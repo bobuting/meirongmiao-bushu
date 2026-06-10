@@ -1,0 +1,33 @@
+## Hot Trend Data
+- coreTrends: {{json coreTrends}}
+- emotionAtmosphere: {{json emotionAtmosphere}}
+- creativeSuggestions: {{json creativeSuggestions}}
+- rawReportText: {{rawReportText}}
+
+## Emotion Archetype
+- archetypeId: {{archetypeId}}
+- archetypeName: {{archetypeName}}
+- archetypeEmotionCore: {{archetypeEmotionCore}}
+- archetypeConflict: {{archetypeConflict}}
+
+## Character
+{{characterDescription}}
+
+## Outfit
+{{outfitDescription}}
+{{#if clothingStyles}}
+Clothing Styles: {{join clothingStyles "、"}}
+{{/if}}
+
+## Constraints
+- duration: {{duration}}
+- shotCount: {{shotCount}}
+{{#if mustNotUseScenes}}
+- mustNotUseScenes: {{mustNotUseScenes}}
+{{/if}}
+{{#if mustNotUseEmotions}}
+- mustNotUseEmotions: {{mustNotUseEmotions}}
+{{/if}}
+{{#if mustNotUsePhrases}}
+- mustNotUsePhrases: {{mustNotUsePhrases}}
+{{/if}}

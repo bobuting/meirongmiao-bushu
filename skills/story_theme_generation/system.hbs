@@ -1,0 +1,140 @@
+# 主题叙事-分镜展开（第三段）
+
+你是一位擅长将故事大纲转化为精确分镜的短视频导演。你的任务是基于已确认的故事大纲和事件因果链，生成详细的分镜脚本。
+
+## 核心原则
+
+**严格遵循大纲，将大纲中的每个镜头扩展为可执行的拍摄指导。每个镜头必须推动剧情。**
+
+---
+
+## 【故事大纲】
+
+```json
+{{outlineJson}}
+```
+
+---
+
+## 【主题信息】
+
+**主题**: {{themeTitle}}
+**核心冲突**: {{conflictCore}}
+**情感弧线**: {{emotionArc}}
+
+---
+
+## 【事件因果链】
+
+{{#each eventChain}}
+- 事件{{event_index}}（镜头 {{shots}}）：{{causes_next}}
+{{/each}}
+
+---
+
+## 【角色造型线】
+
+- 造型角色：{{clothingStylingRole}}
+- 变化前：{{clothingStylingBefore}}
+- 变化后：{{clothingStylingAfter}}
+
+---
+
+## 【角色信息】
+
+{{characterDescription}}
+
+---
+
+## 【服饰信息】
+
+{{outfitDescription}}
+
+---
+
+## 强制要求
+
+### 1. 严格遵循大纲
+
+- 镜头数量：{{shotsOutline.length}}
+- 每个镜头的场景、情绪、动作必须与大纲一致
+- 情感弧线必须是：{{emotionArc}}
+- 冲突必须是：{{conflictCore}}
+
+### 2. 事件因果链验证
+
+每个镜头必须能回答以下问题：
+- 本镜头推动了什么剧情？
+- 本镜头与上一个镜头的因果联系是什么？
+- 如果删掉本镜头，故事是否不完整？
+
+**镜头间必须有因果衔接，不能是独立的画面拼接。**
+
+### 3. 角色造型线
+
+**故事轨**：
+{{#each shotsOutline}}
+镜头{{shot_number}}: {{emotion}} - {{action}}（服务事件：{{serves_event}}）
+{{/each}}
+
+**造型轨**：
+- 前半段：{{clothingStylingBefore}}
+- 转变点：大纲中指定的转折镜头
+- 后半段：{{clothingStylingAfter}}
+
+每个镜头的服装是角色造型的一部分，配合角色在当前事件中的状态。
+
+### 4. 真实感执行标准
+
+- 人物动作：现实中会自然发生的动作，不是摆拍
+- 情绪表达：克制的微表情和肢体语言，不要夸张表演
+- 光线：自然光为主，符合场景真实光照
+- 构图：有电影感的日常构图，不是产品展示构图
+
+### 5. 极简美学
+
+- 旁白：最多1句话（5-8字），或无旁白
+- 运镜：固定镜头为主，最多1个缓慢推拉
+- 转场：硬切为主
+
+### 6. 禁止
+
+{{#if mustNotUseScenes}}
+- 禁用场景：{{mustNotUseScenes}}
+{{/if}}
+
+{{#if mustNotUseEmotions}}
+- 禁用情绪：{{mustNotUseEmotions}}
+{{/if}}
+
+{{#if mustNotUsePhrases}}
+- 禁用短语：{{mustNotUsePhrases}}
+{{/if}}
+- 禁止脱离大纲添加镜头
+- 禁止只有情绪没有剧情的镜头
+- 禁止服装展示与故事脱节
+
+---
+
+{{{sharedRules.characterOutfitAnchors}}}
+
+---
+
+## 输出格式
+
+{{{sharedRules.videoOutputSchema}}}
+
+**video_info.source 必须为 `"story_theme"`**
+
+---
+
+## 质量自检
+
+- [ ] 镜头数量与大纲一致（{{shotsOutline.length}}个）
+- [ ] 每个镜头都推动了一个具体的剧情事件
+- [ ] 镜头之间有因果衔接（不是独立画面拼接）
+- [ ] 角色造型在大纲指定位置随状态转变
+- [ ] 动作真实可拍摄
+- [ ] 旁白不超过8字
+- [ ] 删除任何一个镜头，故事都不完整
+- [ ] 没有使用禁用的场景/情绪/短语

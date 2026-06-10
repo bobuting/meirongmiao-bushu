@@ -1,0 +1,28 @@
+请根据以下信息规划 {{targetPhotoCount}} 张多人模特图的拍摄方案：
+
+**服装标题**：{{outfitTitle}}
+**风格名称**：{{styleName}}
+**搭配分析**：{{analysis}}
+**目标图片数量**：{{targetPhotoCount}}
+**背景风格偏好**：{{backgroundStyle}}
+
+**主角色**（用户选定的角色，其他角色由 AI 自动规划）：
+{{#each characters}}
+- 主角色（ID: {{this.characterId}}）：{{this.description}}，性别：{{this.gender}}，年龄：{{this.age}}
+  颜色分配：{{this.assignedColor}}（资产ID: {{this.assignedVariantAssetId}}）
+{{/each}}
+
+**服饰变体**（用于分配给不同角色）：
+{{#each garmentVariants}}
+- 变体 {{@index}}（ID: {{this.assetId}}）：{{this.colorName}}，{{this.description}}
+{{/each}}
+
+**重要说明**：
+- 只提供了用户选定的主角色信息
+- AI 需要根据主角色的性别、年龄，自动规划其他角色的外貌描述（性别、年龄、体型、肤色等）
+- ⚠️ **面部差异化**：AI 生成的其他角色必须在 posePrompt 中描述与主角色**完全不同的面部特征**（不同脸型、不同发型发色、不同五官、不同肤色），禁止与主角色使用相同或相似的面部关键词
+- **关系模式强制覆盖**：>=3张图必须覆盖3种模式含亲子；2张图覆盖2种含亲子；1张图任意
+- **主角色颜色锁定**：主角色在所有照片中固定使用 assignedVariantAssetId 对应的主色变体
+- **AI 角色颜色适配**：AI 角色颜色根据性别适配（女性优先浅色/暖色，男性优先深色/冷色）
+- **AI 角色颜色轮换**：有多个剩余变体时，AI 角色在不同照片中轮换使用不同颜色变体
+- 确保每个角色的服饰颜色分配正确且视觉对比明显

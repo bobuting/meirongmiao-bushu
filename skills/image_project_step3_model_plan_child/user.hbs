@@ -1,0 +1,13 @@
+请根据以下信息规划 {{targetPhotoCount}} 张模特图的拍摄方案：
+
+**服装标题**：{{outfitTitle}}
+**风格名称**：{{styleName}}
+**搭配分析**：{{analysis}}
+**优化提示词**：{{optimizedPrompt}}
+**角色描述**：{{characterDescription}}
+**服装单品**：
+{{#each garments}}
+- {{this.description}}
+{{/each}}
+
+请生成多样化的姿势和背景组合，确保展示服装的各个角度和细节。姿势和风格必须自然活泼不做作。

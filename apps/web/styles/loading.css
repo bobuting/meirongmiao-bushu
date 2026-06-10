@@ -1,0 +1,118 @@
+/* 关键 CSS - 防止 FOUC（Flash of Unstyled Content） */
+/* 内联关键样式：在 Tailwind 加载前立即生效 */
+
+/*
+ * 解决中文字体 FOUT 问题：定义后备字体
+ * 调整系统字体尺寸使其与 Noto Sans SC 匹配，减少字体切换时的视觉变化
+ *
+ * Microsoft YaHei UI 字符宽度比 Noto Sans SC 宽约 8-10%，高度也更高
+ * 通过 size-adjust 缩小后备字体，ascent-override 调整基线对齐
+ */
+@font-face {
+  font-family: "SC Fallback";
+  src: local("PingFang SC"), local("Microsoft YaHei UI"), local("Microsoft YaHei"), local("Hiragino Sans GB");
+  size-adjust: 92%;
+  ascent-override: 95%;
+  descent-override: 25%;
+  line-gap-override: 0%;
+}
+
+html {
+  background-color: #fdfbf7;
+  /* 优先使用 SC Fallback（已调整尺寸），Noto Sans SC 加载后自动切换 */
+  font-family: "Noto Sans SC", "SC Fallback", "Inter", "Segoe UI", system-ui, sans-serif;
+  font-size: 14px;
+  color: #1a1a1a;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background-color: #fdfbf7;
+  font-family: inherit;
+  line-height: 1.5;
+}
+
+/* 防止字体切换时的布局跳动 */
+#root {
+  min-height: 100vh;
+}
+
+/* 输入框继承字体样式，防止英文默认字体 */
+input, textarea, select, button {
+  font-family: inherit;
+}
+
+/* Material Icons Round 字体预加载 */
+/* 解决页面刷新时图标显示为文本（如 "explore", "dashboard"）的问题 */
+@font-face {
+  font-family: "Material Icons Round";
+  font-style: normal;
+  font-weight: 400;
+  font-display: block;
+  src: url("/node_modules/@fontsource/material-icons-round/files/material-icons-round-latin-400-normal.woff2") format("woff2"),
+       url("/node_modules/@fontsource/material-icons-round/files/material-icons-round-latin-400-normal.woff") format("woff");
+}
+
+/* Material Icons 基础样式 */
+.material-icons-round {
+  font-family: "Material Icons Round" !important;
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  font-feature-settings: "liga";
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* 加载遮罩样式 */
+#loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #fdfbf7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  transition: opacity 0.3s ease-out;
+}
+
+#loading-overlay.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid #e5e7eb;
+  border-top-color: #e68c19;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* 侧边栏初始样式 - 在 React 加载前应用，防止布局抖动 */
+#root aside {
+  transition: none !important;
+}
+
+@media (max-width: 767px) {
+  #root aside {
+    transform: translateX(-100%) !important;
+  }
+}

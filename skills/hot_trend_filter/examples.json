@@ -1,0 +1,16 @@
+[
+  {
+    "name": "示例 1：审核多条热点话题",
+    "description": "审核多条热点话题是否适合电商短视频",
+    "input": {
+      "trendTitles": "- 秋季穿搭灵感\n- 某明星出轨丑闻\n- 双十一购物攻略"
+    },
+    "expectedOutput": {
+      "results": [
+        { "title": "秋季穿搭灵感", "suitable": true, "reason": "穿搭相关" },
+        { "title": "某明星出轨丑闻", "suitable": false, "reason": "负面八卦" },
+        { "title": "双十一购物攻略", "suitable": true, "reason": "购物相关" }
+      ]
+    }
+  }
+]

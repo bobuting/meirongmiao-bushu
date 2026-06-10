@@ -1,0 +1,24 @@
+分析这张图片，提取拍摄场景特征。
+
+请从以下类别中选择最匹配的一个场景返回：
+
+1. **室内场景** (indoor)：modern_office, cafe_interior, living_room, kitchen, bedroom, bathroom
+2. **室外场景** (outdoor)：city_street, park, beach, garden, rooftop, mountain_view
+3. **电商场景** (e_commerce)：white_studio, clean_background, product_display, live_stream_room, gradient_backdrop
+4. **影棚场景** (studio)：professional_studio, lighting_setup, backdrop_roll, green_screen, sound_stage
+5. **生活场景** (lifestyle)：cozy_home, outdoor_cafe, bookshelf_corner, window_seat, balcony
+6. **商业场景** (commercial)：showroom, exhibition, retail_store, mall_interior, office_building
+
+返回格式（JSON）：
+{
+  "scene_category": "indoor",
+  "scene_category_cn": "室内场景",
+  "scene_name": "cafe_interior",
+  "scene_name_cn": "咖啡厅内景",
+  "scene_description": "Warm-toned cafe interior with wooden furniture and soft ambient lighting, suitable for clothing and lifestyle product shoots",
+  "scene_description_cn": "暖色调咖啡厅内景，木质家具与柔和环境光，适合服装和生活类产品拍摄",
+  "scene_tags": ["warm", "indoor", "ambient"],
+  "lighting_type": "mixed",
+  "suitability": ["clothing", "lifestyle"],
+  "popularity_score": 0.75
+}

@@ -1,0 +1,31 @@
+{{#if scriptJson}}
+【完整脚本JSON】
+{{scriptJson}}
+{{/if}}
+
+{{#if characterGender}}
+【角色性别】{{#eq characterGender "male"}}男性{{/eq}}{{#eq characterGender "female"}}女性{{/eq}}{{#eq characterGender "uncertain"}}未指定{{/eq}}（必须严格遵守，脚本中的角色性别、代词、称呼必须与此一致）
+{{/if}}
+
+{{#if characterDescription}}
+【角色描述】
+{{characterDescription}}
+{{/if}}
+
+{{#if characterDirection}}
+【角色方向】
+{{#if characterDirection.styleWords}}关键词：{{characterDirection.styleWords}} {{/if}}
+{{/if}}
+
+{{#if outfitDescription}}
+【服饰描述】
+{{outfitDescription}}
+{{/if}}
+
+{{#if matchingReference}}
+服饰搭配：{{matchingReference}}
+{{/if}}
+
+{{#if clothingStyles}}
+服饰风格：{{clothingStyles}}
+{{/if}}

@@ -1,0 +1,90 @@
+## ROLE
+
+Generate a photorealistic 4-angle fashion photography series combining a REAL PERSON'S portrait with OUTFIT FLAT-LAY images. The person from the portrait wears the clothes from the flat-lay. Every panel must look like a real high-resolution photograph — NOT a character sheet, illustration, or design render.
+
+## 真实感优先
+
+{{{sharedRules.realisticSkinPositive}}}
+
+**Image-to-Image Mode Warning**:
+- Reference photos may contain beautification effects (airbrushing, smoothing, filters)
+- **DO NOT inherit beautification style** from reference photos
+- **MUST apply realistic skin texture** as defined above, overriding any smoothed skin in reference
+- **DO NOT use reference photo's skin style** as target — use realistic skin rules above as target
+
+## OUTPUT RULES
+
+**Background**: Pure white background (#FFFFFF) everywhere. NO floor, NO horizon, NO shadows on ground. All 4 panels must have identical pure white background.
+
+**No Labels**: NO text, NO labels, NO numbers, NO annotations, NO captions, NO watermarks. Each panel shows ONLY the person with pure white background.
+
+## LAYOUT
+
+4 panels in order: Close-up (face) | Front (full) | Three-Quarter Side (full, ~45° angle) | Back (full)
+
+{{{sharedRules.fiveViewBodyDirection}}}
+
+{{{sharedRules.fiveViewFullBody}}}
+
+## STYLE & TEXT
+
+**风格要求**：写实摄影风格，真人照片质感，非卡通/插画/动漫风格。
+
+- **写实摄影**：像真实高清照片，光影自然，质感真实
+- **质感真实**：皮肤、头发、服饰有真实材质感，非扁平绘画感
+
+## DUAL REFERENCE RULES
+
+You receive TWO types of reference:
+
+1. **Character Portrait** (person's face/identity) → determines WHO
+2. **Outfit Flat-lay** (clothing laid flat) → determines WHAT they wear
+
+Apply both simultaneously:
+- Person's face, body, skin, hair come from character portrait
+- Clothing, garments, accessories come from outfit flat-lay
+- Result: THIS SPECIFIC PERSON wearing THESE SPECIFIC CLOTHES
+
+## IDENTITY FIDELITY
+
+The reference photo is the SOLE source of identity. All facial features, skin tone, hair, body type come from the photo — NO text descriptions override the photo.
+
+- Preserve facial features and recognizable identity from portrait
+- Maintain person's general body type and proportions
+- Match skin tone and hair from portrait
+- Recognizability: Someone who knows them should still recognize them
+
+{{{sharedRules.facialFidelity}}}
+
+## BODY PROPORTIONS & POSTURE
+
+- **整体比例**：匀称自然，头身比约 1:7-1:8
+- **姿态**：自然站姿，重心均匀分布，非僵硬直立或过度摆拍
+- **肩部**：自然下沉，非耸肩或过度挺直
+- **手臂**：自然垂于身侧，手指自然微曲
+- **腿部**：自然并拢或微开，膝盖微曲（非锁死）
+
+**NEGATIVE**: stiff posture, military stance, exaggerated pose, unnatural hand position, locked knees
+
+## OUTFIT CONSISTENCY
+
+{{#if outfitImageUrl}}
+- Reference flat-lay images ONLY for garment details (fabric, color, pattern, stitching, buttons)
+- Strictly ignore any person/body in flat-lay images
+- All garment details must be identical across all 4 views
+- **Pattern/Print consistency**: {{{sharedRules.garmentLogoConsistency}}}
+{{/if}}
+
+{{#if outfitInfo}}
+### Outfit Description
+{{outfitInfo}}
+{{/if}}
+
+{{#if outfitMatching}}
+### Selected Outfit Matching
+{{outfitMatching}}
+{{/if}}
+
+{{{sharedRules.fiveViewTechnical}}}
+
+{{{sharedRules.fiveViewNegative}}}

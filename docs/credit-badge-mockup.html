@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>积分角标方案对比</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, 'Segoe UI', sans-serif; background: #f3f4f6; padding: 40px; color: #111; }
+h1 { font-size: 20px; font-weight: 700; margin-bottom: 6px; }
+.subtitle { font-size: 13px; color: #6b7280; margin-bottom: 36px; }
+
+.section { margin-bottom: 48px; }
+.section-title {
+  font-size: 13px; font-weight: 700; color: #374151; margin-bottom: 6px;
+}
+.section-desc { font-size: 11px; color: #9ca3af; margin-bottom: 16px; }
+
+.row { display: flex; gap: 28px; align-items: flex-start; flex-wrap: wrap; }
+
+/* 每个预览块 */
+.demo-block { text-align: center; }
+.demo-label { font-size: 11px; color: #9ca3af; margin-top: 10px; }
+
+/* 模拟卡片图片区域 */
+.scene-light {
+  width: 168px; height: 224px; /* 9:12 */
+  background: linear-gradient(135deg, #f0f0f0, #e8e8e8);
+  border-radius: 12px; position: relative;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+}
+.scene-dark {
+  width: 168px; height: 224px;
+  background: linear-gradient(135deg, #1f2937, #111827);
+  border-radius: 12px; position: relative;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+}
+
+/* 通用按钮 */
+.btn-l {
+  position: absolute; right: 8px; top: 8px;
+  width: 36px; height: 36px; border-radius: 50%;
+  background: rgba(255,255,255,0.92); border: 1px solid rgba(0,0,0,0.06);
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  font-size: 17px; color: #475569; line-height: 1;
+}
+.btn-d {
+  position: absolute; right: 8px; top: 8px;
+  width: 32px; height: 32px; border-radius: 50%;
+  background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.25);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 15px; color: #fff; line-height: 1;
+}
+
+/* ===== 当前方案 ===== */
+.m0-badge-l, .m0-badge-d {
+  position: absolute; top: 2px; right: 0;
+  min-width: 16px; height: 16px; border-radius: 99px;
+  background: linear-gradient(135deg, #fbbf24, #f97316);
+  color: #fff; font-size: 9px; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  padding: 0 4px; box-shadow: 0 1px 4px rgba(249,115,22,0.35);
+}
+
+/* ===== 方案 A: 毛玻璃胶囊 ===== */
+.ma-badge-l {
+  position: absolute; top: 0; right: -2px;
+  display: flex; align-items: center; gap: 3px;
+  background: rgba(255,255,255,0.82); backdrop-filter: blur(8px);
+  border: 1px solid rgba(245,158,11,0.2); border-radius: 99px;
+  padding: 2px 7px 2px 4px;
+  box-shadow: 0 1px 8px rgba(0,0,0,0.08);
+}
+.ma-badge-l .coin {
+  width: 14px; height: 14px; border-radius: 50%; flex-shrink: 0;
+  background: linear-gradient(135deg, #fbbf24, #f59e0b);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 8px; color: rgba(255,255,255,0.95); font-weight: 700;
+}
+.ma-badge-l .num { font-size: 10px; font-weight: 700; color: #92400e; font-variant-numeric: tabular-nums; }
+
+.ma-badge-d {
+  position: absolute; top: 0; right: -2px;
+  display: flex; align-items: center; gap: 3px;
+  background: rgba(0,0,0,0.6); backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,0.1); border-radius: 99px;
+  padding: 2px 7px 2px 4px;
+  box-shadow: 0 1px 8px rgba(0,0,0,0.25);
+}
+.ma-badge-d .coin {
+  width: 14px; height: 14px; border-radius: 50%; flex-shrink: 0;
+  background: linear-gradient(135deg, #fbbf24, #f59e0b);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 8px; color: rgba(255,255,255,0.95); font-weight: 700;
+}
+.ma-badge-d .num { font-size: 10px; font-weight: 700; color: #fcd34d; font-variant-numeric: tabular-nums; }
+
+/* ===== 方案 B: 胶囊按钮 ===== */
+.mb-btn-l {
+  position: absolute; right: 8px; top: 8px;
+  height: 34px; border-radius: 99px; padding: 0 10px 0 8px;
+  background: rgba(255,255,255,0.94); border: 1px solid rgba(0,0,0,0.05);
+  display: flex; align-items: center; gap: 4px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+.mb-btn-l .icon { font-size: 15px; color: #475569; }
+.mb-btn-l .num { font-size: 11px; font-weight: 700; color: #b45309; font-variant-numeric: tabular-nums; }
+
+.mb-btn-d {
+  position: absolute; right: 8px; top: 8px;
+  height: 30px; border-radius: 99px; padding: 0 9px 0 7px;
+  background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.15);
+  display: flex; align-items: center; gap: 4px;
+}
+.mb-btn-d .icon { font-size: 13px; color: #fff; }
+.mb-btn-d .num { font-size: 10px; font-weight: 700; color: #fcd34d; font-variant-numeric: tabular-nums; }
+
+/* ===== 方案 C: 底部条 ===== */
+.mc-bar-l {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  display: flex; align-items: center; justify-content: center; gap: 4px;
+  padding: 6px 0;
+  background: linear-gradient(to top, rgba(255,255,255,0.95) 30%, transparent);
+  font-size: 11px; font-weight: 600; color: #92400e;
+}
+.mc-bar-l .coin {
+  width: 13px; height: 13px; border-radius: 50%; flex-shrink: 0;
+  background: linear-gradient(135deg, #fbbf24, #f59e0b);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 7px; color: rgba(255,255,255,0.95); font-weight: 700;
+}
+
+.mc-bar-d {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  display: flex; align-items: center; justify-content: center; gap: 4px;
+  padding: 6px 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.8) 30%, transparent);
+  font-size: 11px; font-weight: 600; color: #fcd34d;
+}
+.mc-bar-d .coin {
+  width: 13px; height: 13px; border-radius: 50%; flex-shrink: 0;
+  background: linear-gradient(135deg, #fbbf24, #f59e0b);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 7px; color: rgba(255,255,255,0.95); font-weight: 700;
+}
+
+/* ===== 方案 D: 描边小标 ===== */
+.md-badge-l {
+  position: absolute; top: 2px; right: 0;
+  display: flex; align-items: center;
+  background: #fff; border: 1.5px solid #f59e0b; border-radius: 99px;
+  padding: 1px 5px; font-size: 9px; font-weight: 700; color: #b45309;
+  box-shadow: 0 0 0 2px rgba(255,255,255,0.7);
+}
+.md-badge-d {
+  position: absolute; top: 2px; right: 0;
+  display: flex; align-items: center;
+  background: rgba(17,24,39,0.85); border: 1.5px solid #f59e0b; border-radius: 99px;
+  padding: 1px 5px; font-size: 9px; font-weight: 700; color: #fcd34d;
+  box-shadow: 0 0 0 2px rgba(0,0,0,0.3);
+}
+
+/* ===== 方案 E: 圆角方块（带图标） ===== */
+.me-badge-l {
+  position: absolute; top: 0; right: -2px;
+  display: flex; align-items: center; gap: 2px;
+  background: #fffef5; border: 1px solid #fde68a; border-radius: 6px;
+  padding: 2px 5px; box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+}
+.me-badge-l .coin {
+  width: 13px; height: 13px; border-radius: 3px; flex-shrink: 0;
+  background: linear-gradient(135deg, #fbbf24, #f59e0b);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 7px; color: rgba(255,255,255,0.95); font-weight: 700;
+}
+.me-badge-l .num { font-size: 10px; font-weight: 700; color: #92400e; font-variant-numeric: tabular-nums; }
+
+.me-badge-d {
+  position: absolute; top: 0; right: -2px;
+  display: flex; align-items: center; gap: 2px;
+  background: rgba(31,41,55,0.9); border: 1px solid rgba(251,191,36,0.3); border-radius: 6px;
+  padding: 2px 5px;
+}
+.me-badge-d .coin {
+  width: 13px; height: 13px; border-radius: 3px; flex-shrink: 0;
+  background: linear-gradient(135deg, #fbbf24, #f59e0b);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 7px; color: rgba(255,255,255,0.95); font-weight: 700;
+}
+.me-badge-d .num { font-size: 10px; font-weight: 700; color: #fcd34d; font-variant-numeric: tabular-nums; }
+
+/* ===== 方案 F: 左上角浮动标签 ===== */
+.mf-tag-l {
+  position: absolute; left: 0; top: 8px;
+  display: flex; align-items: center; gap: 3px;
+  background: linear-gradient(135deg, #fbbf24, #f59e0b);
+  border-radius: 0 8px 8px 0; padding: 3px 8px 3px 5px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+}
+.mf-tag-l .num { font-size: 10px; font-weight: 700; color: #fff; font-variant-numeric: tabular-nums; }
+.mf-tag-l .label { font-size: 8px; font-weight: 500; color: rgba(255,255,255,0.8); }
+
+.mf-tag-d {
+  position: absolute; left: 0; top: 8px;
+  display: flex; align-items: center; gap: 3px;
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+  border-radius: 0 8px 8px 0; padding: 3px 8px 3px 5px;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.3);
+}
+.mf-tag-d .num { font-size: 10px; font-weight: 700; color: #fff; font-variant-numeric: tabular-nums; }
+.mf-tag-d .label { font-size: 8px; font-weight: 500; color: rgba(255,255,255,0.8); }
+
+/* ===== 方案 G: 右上角 V形切角 ===== */
+.mg-ribbon-l {
+  position: absolute; right: 0; top: 0;
+  width: 48px; height: 48px; overflow: hidden;
+  border-radius: 0 12px 0 0;
+}
+.mg-ribbon-l::before {
+  content: ''; position: absolute; right: 0; top: 0;
+  border: 24px solid transparent; border-top-color: #f59e0b; border-right-color: #f59e0b;
+  border-radius: 0 12px 0 0;
+}
+.mg-ribbon-l .num {
+  position: absolute; right: 4px; top: 4px; z-index: 1;
+  font-size: 10px; font-weight: 700; color: #fff;
+  transform: rotate(0deg);
+}
+
+.mg-ribbon-d {
+  position: absolute; right: 0; top: 0;
+  width: 44px; height: 44px; overflow: hidden;
+  border-radius: 0 12px 0 0;
+}
+.mg-ribbon-d::before {
+  content: ''; position: absolute; right: 0; top: 0;
+  border: 22px solid transparent; border-top-color: #f59e0b; border-right-color: #f59e0b;
+  border-radius: 0 12px 0 0;
+}
+.mg-ribbon-d .num {
+  position: absolute; right: 3px; top: 3px; z-index: 1;
+  font-size: 9px; font-weight: 700; color: #fff;
+}
+</style>
+</head>
+<body>
+
+<h1>积分角标方案对比</h1>
+<p class="subtitle">浅色 = Step2/3 白底卡片 &nbsp;&bull;&nbsp; 深色 = Step4 视频卡片 &nbsp;&bull;&nbsp; 刷新页面可重新查看</p>
+
+<!-- 当前 -->
+<div class="section">
+  <div class="section-title">当前 — 渐变小球</div>
+  <div class="section-desc">纯数字，无语义提示</div>
+  <div class="row">
+    <div class="demo-block">
+      <div class="scene-light">
+        <div class="btn-l">&#x21bb;</div>
+        <div class="m0-badge-l">45</div>
+      </div>
+      <div class="demo-label">浅色</div>
+    </div>
+    <div class="demo-block">
+      <div class="scene-dark">
+        <div class="btn-d">&#x21bb;</div>
+        <div class="m0-badge-d">45</div>
+      </div>
+      <div class="demo-label">深色</div>
+    </div>
+    <div class="demo-block">
+      <div class="scene-light">
+        <div class="btn-l">&#x21bb;</div>
+        <div class="m0-badge-l">120</div>
+      </div>
+      <div class="demo-label">三位数</div>
+    </div>
+  </div>
+</div>
+
+<!-- A: 毛玻璃胶囊 -->
+<div class="section">
+  <div class="section-title">方案 A — 毛玻璃胶囊</div>
+  <div class="section-desc">硬币图标 + 数字，backdrop-filter 半透明，精致不突兀</div>
+  <div class="row">
+    <div class="demo-block">
+      <div class="scene-light">
+        <div class="btn-l">&#x21bb;</div>
+        <div class="ma-badge-l"><span class="coin">&yen;</span><span class="num">45</span></div>
+      </div>
+      <div class="demo-label">浅色</div>
+    </div>
+    <div class="demo-block">
+      <div class="scene-dark">
+        <div class="btn-d">&#x21bb;</div>
+        <div class="ma-badge-d"><span class="coin">&yen;</span><span class="num">45</span></div>
+      </div>
+      <div class="demo-label">深色</div>
+    </div>
+    <div class="demo-block">
+      <div class="scene-light">
+        <div class="btn-l">&#x21bb;</div>
+        <div class="ma-badge-l"><span class="coin">&yen;</span><span class="num">120</span></div>
+      </div>
+      <div class="demo-label">三位数</div>
+    </div>
+  </div>
+</div>
+
+<!-- B: 胶囊按钮 -->
+<div class="section">
+  <div class="section-title">方案 B — 胶囊按钮（积分内嵌）</div>
+  <div class="section-desc">图标+数字同在一个按钮里，不遮挡按钮</div>
+  <div class="row">
+    <div class="demo-block">
+      <div class="scene-light">
+        <div class="mb-btn-l"><span class="icon">&#x21bb;</span><span class="num">45</span></div>
+      </div>
+      <div class="demo-label">浅色</div>
+    </div>
+    <div class="demo-block">
+      <div class="scene-dark">
+        <div class="mb-btn-d"><span class="icon">&#x21bb;</span><span class="num">45</span></div>
+      </div>
+      <div class="demo-label">深色</div>
+    </div>
+    <div class="demo-block">
+      <div class="scene-light">
+        <div class="mb-btn-l"><span class="icon">&#x21bb;</span><span class="num">120</span></div>
+      </div>
+      <div class="demo-label">三位数</div>
+    </div>
+  </div>
+</div>
+
+<!-- C: 底部条 -->
+<div class="section">
+  <div class="section-title">方案 C — 底部渐变条</div>
+  <div class="section-desc">不遮挡按钮，图片底部渐变显示积分</div>
+  <div class="row">
+    <div class="demo-block">
+      <div class="scene-light">
+        <div class="btn-l">&#x21bb;</div>
+        <div class="mc-bar-l"><span class="coin">&yen;</span>消耗 45 积分</div>
+      </div>
+      <div class="demo-label">浅色</div>
+    </div>
+    <div class="demo-block">
+      <div class="scene-dark">
+        <div class="btn-d">&#x21bb;</div>
+        <div class="mc-bar-d"><span class="coin">&yen;</span>消耗 45 积分</div>
+      </div>
+      <div class="demo-label">深色</div>
+    </div>
+  </div>
+</div>
+
+<!-- D: 描边微标 -->
+<div class="section">
+  <div class="section-title">方案 D — 描边微标</div>
+  <div class="section-desc">琥珀色边框 + 数字，极简</div>
+  <div class="row">
+    <div class="demo-block">
+      <div class="scene-light">
+        <div class="btn-l">&#x21bb;</div>
+        <div class="md-badge-l">45</div>
+      </div>
+      <div class="demo-label">浅色</div>
+    </div>
+    <div class="demo-block">
+      <div class="scene-dark">
+        <div class="btn-d">&#x21bb;</div>
+        <div class="md-badge-d">45</div>
+      </div>
+      <div class="demo-label">深色</div>
+    </div>
+    <div class="demo-block">
+      <div class="scene-light">
+        <div class="btn-l">&#x21bb;</div>
+        <div class="md-badge-l">120</div>
+      </div>
+      <div class="demo-label">三位数</div>
+    </div>
+  </div>
+</div>
+
+<!-- E: 圆角方块 -->
+<div class="section">
+  <div class="section-title">方案 E — 圆角方块（带硬币图标）</div>
+  <div class="section-desc">方形比胶囊更有「标签」感，硬币图标一目了然</div>
+  <div class="row">
+    <div class="demo-block">
+      <div class="scene-light">
+        <div class="btn-l">&#x21bb;</div>
+        <div class="me-badge-l"><span class="coin">&yen;</span><span class="num">45</span></div>
+      </div>
+      <div class="demo-label">浅色</div>
+    </div>
+    <div class="demo-block">
+      <div class="scene-dark">
+        <div class="btn-d">&#x21bb;</div>
+        <div class="me-badge-d"><span class="coin">&yen;</span><span class="num">45</span></div>
+      </div>
+      <div class="demo-label">深色</div>
+    </div>
+    <div class="demo-block">
+      <div class="scene-light">
+        <div class="btn-l">&#x21bb;</div>
+        <div class="me-badge-l"><span class="coin">&yen;</span><span class="num">120</span></div>
+      </div>
+      <div class="demo-label">三位数</div>
+    </div>
+  </div>
+</div>
+
+<!-- F: 左上浮动标签 -->
+<div class="section">
+  <div class="section-title">方案 F — 左上角浮动标签</div>
+  <div class="section-desc">琥珀色色带从左侧伸出，一眼识别积分消耗</div>
+  <div class="row">
+    <div class="demo-block">
+      <div class="scene-light">
+        <div class="btn-l">&#x21bb;</div>
+        <div class="mf-tag-l"><span class="num">45</span><span class="label">积分</span></div>
+      </div>
+      <div class="demo-label">浅色</div>
+    </div>
+    <div class="demo-block">
+      <div class="scene-dark">
+        <div class="btn-d">&#x21bb;</div>
+        <div class="mf-tag-d"><span class="num">45</span><span class="label">积分</span></div>
+      </div>
+      <div class="demo-label">深色</div>
+    </div>
+    <div class="demo-block">
+      <div class="scene-light">
+        <div class="btn-l">&#x21bb;</div>
+        <div class="mf-tag-l"><span class="num">120</span><span class="label">积分</span></div>
+      </div>
+      <div class="demo-label">三位数</div>
+    </div>
+  </div>
+</div>
+
+<!-- G: 右上折角 -->
+<div class="section">
+  <div class="section-title">方案 G — 右上角折角</div>
+  <div class="section-desc">三角折角设计，数字在三角上，类似电商标签</div>
+  <div class="row">
+    <div class="demo-block">
+      <div class="scene-light">
+        <div class="btn-l">&#x21bb;</div>
+        <div class="mg-ribbon-l"><span class="num">45</span></div>
+      </div>
+      <div class="demo-label">浅色</div>
+    </div>
+    <div class="demo-block">
+      <div class="scene-dark">
+        <div class="btn-d">&#x21bb;</div>
+        <div class="mg-ribbon-d"><span class="num">45</span></div>
+      </div>
+      <div class="demo-label">深色</div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

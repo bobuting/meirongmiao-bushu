@@ -1,0 +1,101 @@
+{{#if concept}}
+## 背景（供参考）
+{{else}}
+## 产品展示命题（围绕产品创作展示短片）
+{{/if}}
+
+{{#if concept}}
+## 视觉概念（必须基于此概念展开）
+标题：{{concept.title}}
+色调方向：{{concept.colorTone}}
+核心卖点：{{#each concept.productFocus}}{{this}}{{#unless @last}}、{{/unless}}{{/each}}
+核心画面：{{concept.keyVisual}}
+结尾画面：{{concept.endingVisual}}
+{{#if concept.scenePlan}}
+场景规划：
+{{#each concept.scenePlan}}
+{{inc @index}}. {{this.scene}} — {{this.purpose}}
+{{/each}}
+{{/if}}
+{{#if concept.modelActions}}
+模特动作：
+{{#each concept.modelActions}}
+{{inc @index}}. {{this}}
+{{/each}}
+{{/if}}
+{{/if}}
+
+## 创作素材
+
+{{#if characterGender}}
+【角色性别】{{#eq characterGender "male"}}男性{{/eq}}{{#eq characterGender "female"}}女性{{/eq}}{{#eq characterGender "uncertain"}}未指定{{/eq}}（必须严格遵守，脚本中的角色性别、代词、称呼必须与此一致）
+{{/if}}
+
+{{#if characterDescription}}
+【角色信息】
+{{characterDescription}}
+{{/if}}
+
+{{#if selectedRoleDirection}}
+【角色方向】
+{{#if selectedRoleDirection.styleWords}}关键词：{{selectedRoleDirection.styleWords}} {{/if}}
+{{/if}}
+
+{{#if outfitDescription}}
+【服饰描述】（需要展示的核心产品）
+{{outfitDescription}}
+{{/if}}
+
+{{#if matchingReference}}
+【搭配描述】
+{{matchingReference}}
+{{/if}}
+
+{{#if clothingStyles}}
+【服饰风格】
+{{clothingStyles}}，场景选择应与服饰风格自然匹配
+{{/if}}
+
+## 视觉方向（本次生成必须遵循）
+
+| 维度 | 选择 |
+|------|------|
+| 拍摄场景 | {{diversity.scene}} |
+| 展示风格 | {{diversity.showcaseStyle}} |
+| 镜头运动 | {{diversity.cameraMovement}} |
+| 氛围情绪 | {{diversity.mood}} |
+| 开场方式 | {{diversity.openingStyle}} |
+| 收尾方式 | {{diversity.endingStyle}} |
+| 音乐节奏 | {{diversity.musicRhythm}} |
+
+请确保脚本以产品展示为核心，每个分镜都有明确的展示目的和画面质感描述。
+
+{{#if recommendedScenes}}
+## 推荐场景（场景库热度数据 + 基础场景）
+以下场景供参考，可以从中选取或借鉴灵感融入分镜：
+{{recommendedScenes}}
+{{/if}}
+
+{{#if directorPersona}}
+## 导演人格
+你是一位电商短视频导演，名叫{{directorPersona.name}}。
+- 擅长：{{directorPersona.specialty}}
+- 风格签名：{{directorPersona.styleSignature}}
+- 运镜偏好：{{directorPersona.cameraPreference}}
+- 剪辑节奏：{{directorPersona.editingRhythm}}
+
+请用你的个人风格来创作这条脚本。
+{{/if}}
+
+{{#if goldenExamplesText}}
+## 质量参考
+以下是同类型的高质量脚本参考，你的创作应该达到或超越这个质量水准：
+{{goldenExamplesText}}
+{{/if}}
+
+## 禁止的模板化套路
+- 禁止"全景展示→正面展示→侧面展示→背面展示"的流水线式换装展示
+- 禁止每个分镜都是"人物居中+正面朝向镜头"的呆板模特姿势
+- 禁止旁白直接念商品参数或价格信息的生硬推销
+- 禁止开场就是"今天给大家推荐"的直播带货语气
+- 禁止所有镜头都在同一个场景同一个背景下拍摄

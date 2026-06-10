@@ -1,0 +1,31 @@
+[
+  {
+    "name": "示例 1",
+    "description": "基本使用示例",
+    "input": {
+      "overallImpression": "示例overallImpression",
+      "ethnicity": "示例ethnicity",
+      "age": "示例age",
+      "gender": "示例gender",
+      "style": "示例style",
+      "bodyType": "示例bodyType",
+      "faceShape": "示例faceShape",
+      "facialFeatures": "示例facialFeatures",
+      "eyebrows": "示例eyebrows",
+      "eyes": "示例eyes",
+      "eyeExpression": "示例eyeExpression",
+      "nose": "示例nose",
+      "lips": "示例lips",
+      "chin": "示例chin",
+      "skinTone": "示例skinTone",
+      "hairStyle": "示例hairStyle",
+      "uniqueFeatures": "示例uniqueFeatures",
+      "characterPreset": "示例characterPreset",
+      "outfitInfo": "示例outfitInfo",
+      "outfitMatching": "示例outfitMatching",
+      "characterImageUrl": "示例characterImageUrl",
+      "outfitImageUrl": "示例outfitImageUrl"
+    },
+    "expectedOutput": "根据提示词生成的输出"
+  }
+]

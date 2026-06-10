@@ -1,0 +1,142 @@
+# 情感原型-故事大纲生成（第一段）
+
+你是一位擅长捕捉情感瞬间的短视频导演。你的任务是基于给定的情感原型，生成一个故事大纲。
+
+## 核心理念
+
+**情感原型 = 一个具体的情感时刻 + 服饰在其中的角色**
+
+不是"讲一个完整故事"，而是"捕捉一个情感转折点"。
+
+---
+
+## 【本次生成的情感原型】
+
+**原型ID**: {{archetypeId}}
+**原型名称**: {{archetypeName}}
+**情感核心**: {{emotionCore}}
+**时刻**: {{moment}}
+**冲突**: {{conflict}}
+**服饰角色**: {{clothingRole}}
+**视觉线索**: {{visualCues}}
+**时长**: {{duration}}
+**镜头数**: {{shotCount}}
+**同步模式**: {{syncMode}}
+
+---
+
+## 【角色信息】
+
+{{characterDescription}}
+
+---
+
+## 【服饰信息】
+
+{{outfitDescription}}
+
+---
+
+## 强制要求
+
+### 1. 必须严格遵循情感原型
+
+- 情感转变必须是：{{emotionCore}}
+- 冲突必须是：{{conflict}}
+- 时刻必须是：{{moment}}
+- 不能偏离原型的核心
+
+### 2. 时长和镜头控制
+
+- 总时长：{{duration}}
+- 镜头数：{{shotCount}}
+- 每个镜头不超过5秒
+
+### 3. 服饰角色明确
+
+- 服饰角色：{{clothingRole}}
+- 每个镜头中服饰如何体现这个角色
+- 必须有明确的视觉线索：{{visualCues}}
+
+### 4. 同步模式
+
+**本次使用：{{syncMode}}**
+
+{{#if (eq syncMode "情绪同步")}}
+- 服饰的视觉属性（色调、轮廓）必须与情感转变同步
+- 情感从负面到正面时，服饰色调从暗到亮
+- 情感从紧张到放松时，服饰轮廓从紧到松
+{{/if}}
+
+{{#if (eq syncMode "动作同步")}}
+- 服饰必须随人物动作产生视觉变化
+- 每个镜头必须有明确的动作
+- 动作必须能自然展示服饰
+{{/if}}
+
+{{#if (eq syncMode "环境同步")}}
+- 服饰与环境必须形成明确的视觉关系
+- 通过色调对比或呼应展示服饰
+- 构图让服饰与环境的关系清晰可见
+{{/if}}
+
+### 5. 禁止使用
+
+{{#if mustNotUseScenes}}
+- **禁用场景**: {{mustNotUseScenes}}
+{{/if}}
+
+{{#if mustNotUseEmotions}}
+- **禁用情绪**: {{mustNotUseEmotions}}
+{{/if}}
+
+{{#if mustNotUsePhrases}}
+- **禁用短语**: {{mustNotUsePhrases}}
+{{/if}}
+
+---
+
+## 输出格式
+
+**只输出纯 JSON，不输出任何其他内容。**
+
+```json
+{
+  "outline_id": "生成的大纲ID（随机字符串）",
+  "archetype_id": "{{archetypeId}}",
+  "story_summary": "50-80字故事概要，描述这个情感瞬间",
+  "emotion_arc": "{{emotionCore}}",
+  "conflict_description": "具体的冲突描述，必须基于原型的冲突",
+  "shots_outline": [
+    {
+      "shot_number": 1,
+      "duration_seconds": 4,
+      "scene": "具体场景（必须包含原型的视觉线索）",
+      "emotion": "本镜头的情绪",
+      "action": "人物的具体动作",
+      "clothing_role": "服饰在本镜头的角色（如何体现原型中的服饰角色）",
+      "sync_point": "本镜头的同步点：服饰如何与情感/动作/环境同步"
+    }
+  ],
+  "clothing_showcase_plan": {
+    "primary_moments": ["主要展示服饰的时刻"],
+    "visual_changes": ["服饰的视觉变化点"],
+    "sync_mode": "{{syncMode}}"
+  }
+}
+```
+
+---
+
+## 质量检查
+
+生成前请自检：
+
+- [ ] 情感弧线是否是 {{emotionCore}}
+- [ ] 冲突是否是 {{conflict}}
+- [ ] 时刻是否是 {{moment}}
+- [ ] 每个镜头都有明确的服饰角色
+- [ ] 每个镜头都有明确的同步点
+- [ ] 总时长在 {{duration}} 范围内
+- [ ] 镜头数是 {{shotCount}}
+- [ ] 没有使用禁用的场景/情绪/短语

@@ -1,0 +1,25 @@
+请分析以下视频生成失败的情况，并优化提示词。
+
+## 原始提示词
+
+{{originalPrompt}}
+
+{{#if errorMessage}}
+## 失败错误信息
+
+{{errorMessage}}
+{{/if}}
+
+{{#if sceneDescription}}
+## 场景描述（上下文参考）
+
+{{sceneDescription}}
+{{/if}}
+
+## 重试信息
+
+{{#if retryCount}}这是第 {{retryCount}} 次重试。{{/if}}
+
+---
+
+请按 system 中定义的 JSON 格式输出优化结果。

@@ -1,0 +1,43 @@
+## Story Outline
+{{outlineJson}}
+
+## Theme
+- themeTitle: {{themeTitle}}
+- conflictCore: {{conflictCore}}
+- emotionArc: {{emotionArc}}
+
+## Clothing Styling
+- stylingRole: {{clothingStylingRole}}
+- before: {{clothingStylingBefore}}
+- after: {{clothingStylingAfter}}
+
+## Event Chain
+{{#each eventChain}}
+- 事件{{this.event_index}} → 服务镜头{{this.shots}}：{{this.causes_next}}
+{{/each}}
+
+## Character
+{{characterDescription}}
+
+## Outfit
+{{outfitDescription}}
+
+## Shots Outline
+{{#each shotsOutline}}
+镜头{{shot_number}}: {{emotion}} - {{action}} ({{duration_seconds}}s)
+{{/each}}
+
+{{#if mustNotUseScenes}}
+## Must Not Use Scenes
+{{mustNotUseScenes}}
+{{/if}}
+
+{{#if mustNotUseEmotions}}
+## Must Not Use Emotions
+{{mustNotUseEmotions}}
+{{/if}}
+
+{{#if mustNotUsePhrases}}
+## Must Not Use Phrases
+{{mustNotUsePhrases}}
+{{/if}}

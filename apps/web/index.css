@@ -1,0 +1,497 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+ * 解决 FOUC 问题：在 :root 中预定义 CSS 变量
+ * 这些默认值与 DEFAULT_THEME_CONFIG 保持一致，确保样式在主题初始化前正确应用
+ * 主题初始化时会覆盖这些值，实现动态主题切换
+ */
+:root {
+  /* 颜色变量 */
+  --color-primary: #e68c19;
+  --color-primary-hover: #d97e10;
+  --color-primary-active: #c97108;
+  --color-primary-light: #fff7ed;
+  --color-accent: #00a8ff;
+  --color-accent-hover: #00ccff;
+  --color-accent-active: #0099dd;
+  --color-secondary: #1A1A1A;
+  --color-bg: #fdfbf7;
+  --color-bg-warm: #fcfaf7;
+  --color-surface: #ffffff;
+  --color-border: #e0e0e0;
+  --color-border-focus: #e68c19;
+  /* 文字颜色 */
+  --color-text-primary: #002244;
+  --color-text-secondary: #666666;
+  --color-text-muted: #999999;
+  /* 渐变 */
+  --gradient-primary: linear-gradient(135deg, #e68c19 0%, #00a8ff 100%);
+  --gradient-primary-hover: linear-gradient(135deg, #d97e10 0%, #00ccff 100%);
+  --gradient-primary-active: linear-gradient(135deg, #c97108 0%, #0099dd 100%);
+  /* 字体 */
+  --font-main: 'Noto Sans SC', Inter, sans-serif;
+  --font-display: Inter, sans-serif;
+  /* 动画 */
+  --transition-speed: 200ms;
+  --hover-transform: translateY(-2px);
+}
+
+/*
+ * 解决 FOUT 问题：定义后备字体，调整系统字体尺寸使其与 Noto Sans SC 匹配
+ * 这样在字体加载切换时视觉变化会大大减少
+ *
+ * Microsoft YaHei UI 字符宽度比 Noto Sans SC 宽约 8-10%，高度也更高
+ * 通过 size-adjust 缩小后备字体，ascent-override 调整基线对齐
+ */
+@font-face {
+  font-family: "SC Fallback";
+  src: local("Microsoft YaHei UI"), local("Microsoft YaHei"), local("PingFang SC"), local("Hiragino Sans GB");
+  size-adjust: 92%;
+  ascent-override: 95%;
+  descent-override: 25%;
+  line-gap-override: 0%;
+}
+
+@layer base {
+  html {
+    font-family:
+      "Noto Sans SC",
+      "SC Fallback",
+      "Inter",
+      "Segoe UI",
+      "Microsoft YaHei UI",
+      system-ui,
+      sans-serif;
+    background-color: #fdfbf7;
+    color: #1a1a1a;
+  }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    background-color: #fdfbf7;
+    color: #1a1a1a;
+    font-family: inherit;
+    line-height: 1.5;
+  }
+
+  #root {
+    min-height: 100vh;
+  }
+
+  button,
+  input,
+  textarea,
+  select {
+    font: inherit;
+    line-height: inherit;
+    letter-spacing: inherit;
+  }
+}
+
+/* Local fallback to ensure icon ligatures work even when external font CSS fails to load. */
+.material-icons-round {
+  font-family: "Material Icons Round";
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  display: inline-block;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  font-feature-settings: "liga";
+}
+
+/* Shared scrollbar styling used across the workspace. */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #e5e7eb;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #d1d5db;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* 全局 checkbox 统一样式：使用主题色 */
+input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 18px;
+  height: 18px;
+  border: 2px solid var(--color-primary, #e68c19);
+  border-radius: 4px;
+  cursor: pointer;
+  position: relative;
+  flex-shrink: 0;
+  background: white;
+  transition: all 0.15s ease;
+  vertical-align: middle;
+}
+
+input[type="checkbox"]:checked {
+  background: var(--color-primary, #e68c19);
+  border-color: var(--color-primary, #e68c19);
+}
+
+input[type="checkbox"]:checked::after {
+  content: '';
+  position: absolute;
+  left: 5px;
+  top: 1px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+input[type="checkbox"]:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--color-primary-light, rgba(230, 140, 25, 0.2));
+}
+
+/* 底部弹出动画 */
+@keyframes slide-up {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.animate-slide-up {
+  animation: slide-up 0.3s ease-out;
+}
+
+/* 淡入缩放动画（用于模态框内容） */
+@keyframes fade-in-scale {
+  from {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in-scale 0.2s ease-out;
+}
+
+/* 遮罩层淡入动画（无缩放，用于全屏遮罩） */
+@keyframes backdrop-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-backdrop-fade-in {
+  animation: backdrop-fade-in 0.2s ease-out;
+}
+
+/* 右侧滑入动画 */
+@keyframes slide-in-right {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.animate-slide-in-right {
+  animation: slide-in-right 0.3s ease-out;
+}
+
+/* 顶部滑入动画 */
+@keyframes slide-down {
+  from {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.animate-slide-down {
+  animation: slide-down 0.3s ease-out;
+}
+
+.phone-scroll::-webkit-scrollbar {
+  width: 3px;
+}
+
+.phone-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.phone-scroll::-webkit-scrollbar-thumb {
+  background: #d1d5db;
+  border-radius: 3px;
+}
+
+.phone-scroll::-webkit-scrollbar-thumb:hover {
+  background: #9ca3af;
+}
+
+/* 隐藏滚动条但保持滚动功能 */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* shimmer 闪烁动画（用于进度条） */
+@keyframes shimmer {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.animate-shimmer {
+  animation: shimmer 1.5s ease-in-out infinite;
+}
+
+/* 按钮脉冲缩放动画（带发光效果） */
+@keyframes pulse-scale {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 10px 25px -5px rgba(230, 140, 25, 0.3), 0 0 0 0 rgba(230, 140, 25, 0.4);
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 10px 25px -5px rgba(230, 140, 25, 0.3), 0 0 0 12px rgba(230, 140, 25, 0);
+  }
+}
+
+.animate-pulse-scale {
+  animation: pulse-scale 2s ease-in-out infinite;
+}
+
+/* 向下弹跳引导箭头 */
+@keyframes bounce-down {
+  0%, 100% {
+    transform: translateY(0);
+    opacity: 0.6;
+  }
+  50% {
+    transform: translateY(6px);
+    opacity: 1;
+  }
+}
+
+.animate-bounce-down {
+  animation: bounce-down 1.5s ease-in-out infinite;
+}
+
+/* 箭头粒子流动动画（平铺图生成中） */
+@keyframes flow-particle-left {
+  0% {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+  80% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+}
+
+@keyframes flow-particle-right {
+  0% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+  80% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+}
+
+@keyframes flow-glow-pulse {
+  0%, 100% {
+    opacity: 0.3;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.15);
+  }
+}
+
+@keyframes flow-arrow-bounce {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(3px);
+  }
+}
+
+@keyframes flow-gradient {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+@keyframes progress-shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(300%); }
+}
+
+/* 裂变引导：小卡片交错淡入滑出动画 */
+@keyframes fadeInSlide {
+  from {
+    opacity: 0;
+    transform: translateX(-8px) scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+
+/* 裂变引导：向下扩散淡入 */
+@keyframes fissionDropIn {
+  from {
+    opacity: 0;
+    transform: translateY(-16px) scale(0.6);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* 裂变引导：能量脉冲 */
+@keyframes fissionPulse {
+  0%, 100% {
+    opacity: 0.4;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.9;
+    transform: scale(1.2);
+  }
+}
+
+/* 裂变引导：光束扩散 */
+@keyframes beamGrow {
+  from {
+    opacity: 0;
+    transform: scaleY(0);
+  }
+  to {
+    opacity: 1;
+    transform: scaleY(1);
+  }
+}
+
+/* 裂变任务管理：pending 状态慢脉冲呼吸动画 */
+@keyframes fission-pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.45;
+  }
+}
+
+/* 裂变任务管理：卡片入场动画 */
+@keyframes fission-card-enter {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* 裂变任务管理：失败抖动动画 */
+@keyframes fission-failed-shake {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-5px); }
+  40%, 80% { transform: translateX(5px); }
+}
+
+/* 裂变任务管理：成功弹跳动画 */
+@keyframes fission-success-bounce {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+/* 图片预览 Lightbox：遮罩淡入 */
+@keyframes lightbox-backdrop-enter {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* 图片预览 Lightbox：内容微缩放淡入 */
+@keyframes lightbox-content-enter {
+  from {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}

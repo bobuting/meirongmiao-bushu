@@ -1,0 +1,11 @@
+[
+  {
+    "name": "低平均分信号",
+    "description": "平均评分过低触发的进化提案",
+    "input": {
+      "currentPromptContent": "你是一个短视频脚本生成器...",
+      "qualitySignals": "**信号类型**：平均评分过低\n- 平均分：45（阈值：60）\n- 通过率：30%\n- 样本数：20"
+    },
+    "expectedOutput": "{\"rationale\": \"当前提示词缺乏结构引导...\", \"proposed_content\": \"改进后的提示词...\"}"
+  }
+]

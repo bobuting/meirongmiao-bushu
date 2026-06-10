@@ -1,0 +1,36 @@
+{{#if garmentName}}
+服饰信息：
+- 名称：{{garmentName}}
+{{#if garmentDescription}}- 描述：{{garmentDescription}}{{/if}}
+{{#if mainColor}}- 主色：{{mainColor}}{{/if}}
+{{#if material}}- 材质：{{material}}{{/if}}
+{{#if pattern}}- 图案：{{pattern}}{{/if}}
+{{#if fit}}- 版型：{{fit}}{{/if}}
+{{#if neckline}}- 领型：{{neckline}}{{/if}}
+{{#if sleeve}}- 袖型：{{sleeve}}{{/if}}
+{{#if style}}- 风格：{{style}}{{/if}}
+{{#if occasion}}- 场合：{{occasion}}{{/if}}
+
+{{/if}}
+{{#if imageCount}}用户提供了{{imageCount}}张参考图片。{{/if}}
+请生成主体服饰的平铺展示图（正面+背面视图）。
+
+关键要求：
+- 仔细观察图片，仅选择轮廓完整、未被画面边缘裁切的那件衣物
+- 画面中只有这一件主体服饰的正面和背面，其他衣物不出现
+- 纯白背景，仅展示主体服饰，保持真实颜色和材质纹理
+- **图案与标识精确还原**：参考图中的品牌Logo、印花、刺绣、文字必须完整复制到生成图的对应位置，不允许变形、模糊、丢失或替换
+
+**颜色精确还原（强制执行）**：
+- 严格还原原图颜色，不允许任何颜色偏差
+- 白色服饰必须保持纯白色（RGB #FFFFFF），不接受泛粉、泛蓝、泛黄等偏色
+- 主色饱和度和色相必须与原图完全一致
+- Logo、印花、刺绣的颜色必须精确复制原图
+- 整体色调自然真实，不添加额外色调倾向
+
+- 服饰必须完整显示，自动缩放至合适大小，边缘不被裁切
+- 正面和背面各占画面约一半，保持服饰原有比例
+{{#if additionalInstructions}}
+
+额外要求：{{additionalInstructions}}
+{{/if}}

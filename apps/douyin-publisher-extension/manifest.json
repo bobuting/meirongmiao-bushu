@@ -1,0 +1,53 @@
+{
+  "manifest_version": 3,
+  "name": "内容喵 · 抖音发布助手",
+  "version": "1.0.0",
+  "description": "通过 Chrome 扩展自动化发布短视频到抖音创作者后台",
+  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAqXhgUgtPBvHTYP3mbHUofUIP4gX12BOUXgj6s2hgE8WXBsjGDxZbu5q/Jj1EpFRMwY90xueTQqgJzb9SBhuMxnYv415dDLLOtgZKBfbMSl30AutHUqugwftDR+upRjBFkD1p9C4XVnOdMAu9txxp1xdVVfSHHWcBPr1rZa3+bkrGlBpK7RE47Jj8z5C1C9wKMQp3frsb2aq4Wbjc15SuzxuMJY3In82HjiFNbk1j4OVBRxLDsWSkwFCDpUZy0wuZ/SKhDPss3Zpz8p7wvwaDD15hxO2KS46NUUWOjDs9zik/ZUXname/oxGv0wZs40jcstZDTUaAF5DTrKr0vAzxLwIDAQAB",
+  "permissions": [
+    "cookies",
+    "storage",
+    "tabs",
+    "scripting",
+    "downloads"
+  ],
+  "host_permissions": [
+    "https://creator.douyin.com/*",
+    "https://*.douyin.com/*",
+    "https://*.iesdouyin.com/*"
+  ],
+  "background": {
+    "service_worker": "src/background/index.ts",
+    "type": "module"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://creator.douyin.com/*"
+      ],
+      "js": ["src/content/douyin-creator.ts"],
+      "run_at": "document_idle"
+    }
+  ],
+  "action": {
+    "default_popup": "src/popup/index.html",
+    "default_icon": {
+      "16": "src/assets/icon-16.png",
+      "48": "src/assets/icon-48.png",
+      "128": "src/assets/icon-128.png"
+    }
+  },
+  "options_page": "src/options/index.html",
+  "externally_connectable": {
+    "matches": [
+      "https://*.neirongmiao.com/*",
+      "http://localhost:*/*"
+    ]
+  },
+  "web_accessible_resources": [
+    {
+      "resources": ["assets/*"],
+      "matches": ["https://creator.douyin.com/*"]
+    }
+  ]
+}

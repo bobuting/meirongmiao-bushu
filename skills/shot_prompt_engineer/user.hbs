@@ -1,0 +1,88 @@
+## 输入数据
+
+以下是本次任务的实际输入数据：
+
+### 脚本信息
+
+{{#if scriptData.video_info}}
+**视频基本信息**：
+- 标题：{{scriptData.video_info.title}}
+- 总时长：{{scriptData.video_info.duration_seconds}} 秒
+- 时间段：{{scriptData.video_info.time_of_day}}
+- 天气：{{scriptData.video_info.weather}}
+- 主场景：{{scriptData.video_info.main_scene}}
+{{/if}}
+
+{{#if scriptData.video_analysis}}
+**视频分析**：
+- 主题：{{scriptData.video_analysis.theme}}
+- 视频类型：{{scriptData.video_analysis.video_type}}
+- 视觉风格：{{scriptData.video_analysis.video_style}}
+- 氛围：{{scriptData.video_analysis.atmosphere}}
+{{#if scriptData.video_analysis.emotion}}
+- 主要情绪：{{scriptData.video_analysis.emotion.primary}}
+- 情绪弧线：{{scriptData.video_analysis.emotion.emotion_arc}}
+{{/if}}
+{{#if scriptData.video_analysis.target_audience}}
+- 目标受众：{{scriptData.video_analysis.target_audience}}
+{{/if}}
+{{/if}}
+
+### 角色参考（关键：角色还原度的核心依据）
+
+{{#if characterReferenceImages}}**角色参考图（五视图）**（共 {{length characterReferenceImages}} 张）：
+{{#each characterReferenceImages}}- {{this}}
+{{/each}}{{/if}}
+
+{{#if characterDescription}}**角色外貌描述**（必须准确提取并逐字重复）：
+{{characterDescription}}
+
+**重要提示**：
+- 以上角色描述是从参考图中提取的准确特征，必须逐字重复到每个镜头的关键帧 prompt 中
+- 不允许添加、遗漏或修改任何特征
+- 跨镜头必须保持逐字一致，确保角色还原度 100%
+{{else}}**注意**：未提供角色描述，请从分镜数据中的人物详情提取角色特征。{{/if}}
+
+### 服饰参考（关键：服饰还原度的核心依据）
+
+{{#if garmentReferenceImages}}**服饰参考图（平铺图）**（共 {{length garmentReferenceImages}} 张）：
+{{#each garmentReferenceImages}}- {{this}}
+{{/each}}{{/if}}
+
+{{#if outfitDescription}}**服饰搭配描述**（必须准确提取并逐字重复）：
+{{outfitDescription}}
+
+**重要提示（服饰一致性强制要求）**：
+- 以上服饰描述是从参考图中提取的准确特征，必须提取核心特征并逐字重复
+- 不允许添加、遗漏或修改任何特征
+- 跨镜头必须保持逐字一致，确保服饰还原度 100%
+- 提取 3-5 个最显著特征（颜色、材质、款式、设计细节），压缩至 150 字符以内
+- **每个关键帧 prompt 中必须包含 clothing_features**（格式：wearing outfit N: [提取的特征]），形成文本+参考图双重锚点
+- **每个关键帧的 negative prompt 必须包含服饰漂移防护**（no clothing color shift, no style drift, no pattern change, no outfit swap）
+{{else}}**注意**：未提供服饰描述，请从分镜数据中的服饰信息提取服饰特征。提取后仍须遵守双重锚点规则：keyframe prompt 中包含 clothing_features，negative prompt 中包含服饰漂移防护。{{/if}}
+
+{{#if clothingStyles}}**服饰风格标签**：{{#each clothingStyles}}{{this}}{{#unless @last}}, {{/unless}}{{/each}}
+{{/if}}
+
+{{#if scriptData.video_analysis.on_screen_presence.person_details}}
+**人物详情**：
+{{#each scriptData.video_analysis.on_screen_presence.person_details}}
+- Person {{person_id}}：{{description}}（{{gender}}，{{age}}岁）{{/each}}
+{{/if}}
+
+### 画面比例
+{{aspectRatio}}
+
+### 分镜数据
+
+共 {{length scriptData.shot_breakdown}} 个镜头：
+
+```json
+{{{json scriptData.shot_breakdown}}}
+```
+
+---
+
+## 开始工作
+
+请根据以上输入数据（脚本信息 + 角色参考 + 分镜数据），按照上述规则，为每个镜头生成完整的关键帧提示词和视频提示词，输出结构化 JSON。

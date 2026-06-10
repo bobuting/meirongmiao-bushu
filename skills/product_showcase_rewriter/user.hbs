@@ -1,0 +1,57 @@
+{{#if scriptJson}}
+【分镜脚本JSON】
+{{scriptJson}}
+{{/if}}
+
+{{#if shotClassifications}}
+**镜头分类标注（预分类结果，改写时必须按此分类执行）**：
+{{#each shotClassifications}}
+- 分镜 {{this.shotId}}：{{this.classification}}（{{this.reason}}）
+{{/each}}
+{{/if}}
+
+---
+
+## 新角色信息
+
+{{#if characterGender}}
+【角色性别】{{#eq characterGender "male"}}男性{{/eq}}{{#eq characterGender "female"}}女性{{/eq}}（必须严格遵守，脚本中的角色性别、代词、称呼必须与此一致）
+{{/if}}
+
+{{#if characterDescription}}
+【角色描述】
+{{characterDescription}}
+{{/if}}
+
+{{#if selectedRoleDirection}}
+【角色方向】
+{{#if selectedRoleDirection.styleWords}}关键词：{{selectedRoleDirection.styleWords}} {{/if}}
+{{/if}}
+
+---
+
+## 产品信息
+
+{{#if outfitDescription}}
+【服饰描述】（需要展示的核心产品）
+{{outfitDescription}}
+{{/if}}
+
+{{#if matchingReference}}
+【搭配描述】
+{{matchingReference}}
+{{/if}}
+
+{{#if clothingStyles}}
+【服饰风格】
+{{clothingStyles}}，场景选择应与服饰风格自然匹配
+{{/if}}
+
+---
+
+请根据以上信息改写分镜脚本，确保：
+1. 每个镜头都展示新产品卖点
+2. 角色信息与新角色描述完全一致
+3. 无模特镜头基于新产品卖点重新生成描述
+4. 局部出镜镜头适配局部描述为新模特属性
+5. 保持原脚本的展示结构和镜头数量

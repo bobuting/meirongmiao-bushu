@@ -1,0 +1,19 @@
+请根据以下信息规划 {{targetPhotoCount}} 张模特图的拍摄方案：
+
+**服装标题**：{{outfitTitle}}
+**风格名称**：{{styleName}}
+**搭配分析**：{{analysis}}
+**优化提示词**：{{optimizedPrompt}}
+**角色描述**：{{characterDescription}}
+**服装单品**：
+{{#each garments}}
+- {{this.description}}
+{{/each}}
+{{#if colorVariantLabel}}
+**颜色变体**：{{colorVariantLabel}}
+{{/if}}
+{{#if isMultiColorShowcase}}
+**多色同框要求**：请在其中 2-3 张照片中展示同一款服装的多个颜色变体同框效果，模特可以手持/展示不同颜色的同款服饰，或通过平铺对比方式呈现色差。
+{{/if}}
+
+请生成多样化的姿势和背景组合，确保展示服装的各个角度和细节。

@@ -1,0 +1,1 @@
+{"nodes": [{"id": "projects", "label": "projects.ts", "file_type": "code", "source_file": "apps/web/services/realApi/projects.ts", "source_location": "L1"}], "edges": [{"source": "projects", "target": "backendapi_request", "relation": "imports_from", "confidence": "EXTRACTED", "source_file": "apps/web/services/realApi/projects.ts", "source_location": "L5", "weight": 1.0}]}

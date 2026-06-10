@@ -1,0 +1,1 @@
+export { ExtDouyinPublishPanel } from "../ExtDouyinPublishPanel";

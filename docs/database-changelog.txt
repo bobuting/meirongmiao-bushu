@@ -1,0 +1,49 @@
+# 数据库变更日志
+
+此文件记录所有直接执行的数据库操作（不创建迁移文件的变更）。
+
+---
+
+## 2026-04-24
+
+### 审美特征库表创建（细化特征类别）
+
+**表名**: `nrm_aesthetic_feature_library`
+
+**用途**: 追踪主流审美趋势（细化特征类别），用于儿童角色五视图生成的审美特征注入
+
+**表结构**:
+- `id` (UUID, 主键)
+- `feature_category` (VARCHAR(80), 细化特征类别)
+- `feature_name` (VARCHAR(100), 特征名称)
+- `feature_description` (TEXT, 详细描述)
+- `ethnicity_applicable` (TEXT[], 适用种族数组)
+- `age_range` (VARCHAR(20), 年龄段)
+- `popularity_score` (DECIMAL(3,2), 流行度评分 0.0-1.0)
+- `trend_period` (VARCHAR(50), 趋势周期)
+- `source` (VARCHAR(50), 数据来源)
+- `source_metadata` (JSONB, 来源元数据)
+- `created_at` (BIGINT, 创建时间戳)
+- `updated_at` (BIGINT, 更新时间戳)
+- `is_active` (BOOLEAN, 是否活跃)
+
+**索引**:
+- `idx_aesthetic_feature_category` (特征类别索引)
+- `idx_aesthetic_feature_ethnicity` (种族适用 GIN 索引)
+- `idx_aesthetic_feature_popularity` (流行度降序索引)
+- `idx_aesthetic_feature_trend_period` (趋势周期索引)
+- `idx_aesthetic_feature_active` (活跃状态索引)
+
+**种子数据**: 15 条 2026-q1 主流儿童审美特征（细化类别）
+
+**特征类别细分**:
+- 眼型宽度：`eye_shape_width`
+- 眼型形状：`eye_shape_almond`, `eye_shape_round`
+- 眼色：`eye_color_hazel`, `eye_color_dark_brown`, `eye_color_light_brown`
+- 皮肤色调：`skin_tone_warm_beige`, `skin_tone_olive`, `skin_tone_rosy_cheeks`
+- 发型风格：`hair_style_soft_waves`, `hair_style_natural_straight`, `hair_style_chestnut_brown`
+- 鼻型：`nose_shape_button_defined`, `nose_shape_small_flat`
+
+**数据来源**: TikHub API（小红书 + Instagram）
+
+**关联任务**: 任务 6 - 儿童角色精致感优化实现计划

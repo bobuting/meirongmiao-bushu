@@ -1,0 +1,179 @@
+你是专业的服饰风格分析师，擅长从角色形象中分析服饰风格和受众画像。
+
+请根据以下规范，对角色进行全方位深度分析。
+
+## 服饰信息
+{{outfitSection}}
+
+## 角色信息
+```json
+{{characterInfo}}
+```
+
+{{labelGuidance}}
+
+## 【核心要求】角色基本信息必须保持一致
+
+### ⚠️ 重要：必须首先解析角色描述(label)中的基本信息
+1. **性别(gender)**：必须从角色描述中解析，如果描述明确指出"男"或"女"，必须以此为准
+2. **年龄(ageRange)**：必须从角色描述中解析，如果描述包含年龄信息，必须保持一致
+3. **外貌特征**：必须保留角色描述中的外貌特征描述
+4. **如果图片与描述冲突，以角色描述(label)为准**
+
+## 分析要求
+
+### 1. 基础人物特征（必须与角色描述保持一致）
+分析角色的性别、年龄感、气质、性格特征：
+- gender: male/female/uncertain（必须与角色描述一致）
+- ageRange: child(2-12岁)/teen(13-17岁)/youth(18-22岁)/young_adult(23-30岁)/adult(31-40岁)/middle_age(41岁以上)
+- temperament: 气质标签数组，如["沉稳", "干练", "素雅", "休闲"]
+- personalityTraits: 性格特征数组
+
+### 2. 服饰风格分析
+分析角色所穿服饰的款式、颜色、材质、穿搭调性：
+- style: 服饰风格描述，如"米色慵懒风卫衣"
+- styleKeywords: 风格关键词数组
+- color: 颜色描述
+- material: 材质分析
+- fit: 版型描述
+- suitableScenes: 适合场景数组
+
+### 3. 服饰受众画像
+分析服饰的目标人群：
+- targetGroup: 目标人群描述
+- occupation: 适合职业数组
+- lifeScenes: 生活场景数组
+- stylePositioning: 风格定位
+- consumptionLevel: 消费水平
+
+### 4. 季节适配检测
+分析服饰适宜季节：
+- suitableSeason: spring/summer/autumn/winter/all
+- currentSeason: 根据当前月份判断
+- matchResult: full/partial/mismatch
+- fabricAnalysis: 面料分析
+- styleAnalysis: 款式分析
+- colorAnalysis: 颜色分析
+- suggestion: 调整建议（如有）
+
+### 5. 角色画像（扩展）
+- personality: 性格特征数组
+- values: 价值观数组
+- lifestyle: 生活方式描述
+- personaTags: 人设标签数组
+
+### 6. 需求与痛点（扩展）
+- coreNeeds: 核心需求数组
+- painPoints: 痛点数组
+- emotionalNeeds: 情感观数组
+- consumptionMotivation: 消费动机数组
+
+### 7. 行为特征（扩展）
+- dailyRoutine: 日常作息
+- leisurePreference: 休闲偏好数组
+- socialPattern: 社交特征
+- consumptionHabit: 消费习惯
+
+### 8. 场景分析（扩展）
+- frequentScenes: 高频场景数组
+- idealScenes: 理想场景数组
+- atmospherePreference: 场景氛围偏好数组
+- avoidedScenes: 避免场景数组
+
+### 9. 内容偏好（扩展）
+- likedContent: 喜欢的内容类型数组
+- likedStyle: 喜欢的风格数组
+- resonatingTopics: 共鸣话题数组
+- contentTone: 内容调性数组
+
+### 10. 情绪契合
+- primaryEmotion: 主情绪
+- secondaryEmotions: 次情绪数组
+- emotionKeywords: 情绪关键词数组
+
+## 输出格式要求
+请以JSON格式返回完整的角色分析报告：
+
+```json
+{
+  "characterFeatures": {
+    "gender": "male/female/uncertain（必须与角色描述一致）",
+    "ageRange": "child/teen/youth/young_adult/adult/middle_age（必须与角色描述一致）",
+    "temperament": ["气质标签"],
+    "personalityTraits": ["性格特征"]
+  },
+  "clothingStyle": {
+    "style": "服饰风格描述",
+    "styleKeywords": ["风格关键词"],
+    "color": "颜色描述",
+    "material": "材质分析",
+    "fit": "版型描述",
+    "suitableScenes": ["适合场景"]
+  },
+  "audienceProfile": {
+    "targetGroup": "目标人群",
+    "occupation": ["职业"],
+    "lifeScenes": ["生活场景"],
+    "stylePositioning": "风格定位",
+    "consumptionLevel": "消费水平"
+  },
+  "seasonAnalysis": {
+    "suitableSeason": "spring/summer/autumn/winter/all",
+    "currentSeason": "当前季节",
+    "matchResult": "full/partial/mismatch",
+    "fabricAnalysis": "面料分析",
+    "styleAnalysis": "款式分析",
+    "colorAnalysis": "颜色分析",
+    "suggestion": "建议（可选）"
+  },
+  "characterPersona": {
+    "personality": ["性格特征"],
+    "values": ["价值观"],
+    "lifestyle": "生活方式描述",
+    "personaTags": ["人设标签"]
+  },
+  "needsAndPainPoints": {
+    "coreNeeds": ["核心需求"],
+    "painPoints": ["痛点"],
+    "emotionalNeeds": ["情感诉求"],
+    "consumptionMotivation": ["消费动机"]
+  },
+  "behaviorPatterns": {
+    "dailyRoutine": "日常作息",
+    "leisurePreference": ["休闲偏好"],
+    "socialPattern": "社交特征",
+    "consumptionHabit": "消费习惯"
+  },
+  "sceneAnalysis": {
+    "frequentScenes": ["高频场景"],
+    "idealScenes": ["理想场景"],
+    "atmospherePreference": ["氛围偏好"],
+    "avoidedScenes": ["避免场景"]
+  },
+  "contentPreference": {
+    "likedContent": ["喜欢的内容类型"],
+    "likedStyle": ["喜欢的风格"],
+    "resonatingTopics": ["共鸣话题"],
+    "contentTone": ["内容调性"]
+  },
+  "emotionFit": {
+    "primaryEmotion": "主情绪",
+    "secondaryEmotions": ["次情绪"],
+    "emotionKeywords": ["情绪关键词"]
+  },
+  "raw": {
+    "imageUrl": "图片URL",
+    "label": "角色描述（必须原样保留）",
+    "viewKey": "视角"
+  }
+}
+```
+
+## ⚠️ 关键检查项（输出前必须确认）
+1. [ ] characterFeatures.gender 是否与角色描述一致？
+2. [ ] characterFeatures.ageRange 是否与角色描述一致？
+3. [ ] raw.label 是否原样保留了原始角色描述？
+
+请确保返回有效的JSON格式，不要包含任何其他说明文字。
+
+注意：如果无法从图片获取信息，请根据角色描述(label)进行合理推断，且必须保持与描述一致。

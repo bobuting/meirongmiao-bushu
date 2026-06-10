@@ -1,0 +1,47 @@
+{{#if characterGender}}
+【角色性别】{{#eq characterGender "male"}}男性{{/eq}}{{#eq characterGender "female"}}女性{{/eq}}{{#eq characterGender "uncertain"}}未指定{{/eq}}（必须严格遵守，脚本中的角色性别、代词、称呼必须与此一致）
+{{/if}}
+
+{{#if characterLabel}}
+【角色标签】{{characterLabel}}
+{{/if}}
+
+{{#if characterDescription}}
+【角色信息】
+{{characterDescription}}
+{{/if}}
+
+{{#if selectedRoleDirection}}
+【角色方向】
+{{#if selectedRoleDirection.styleWords}}关键词：{{selectedRoleDirection.styleWords}} {{/if}}
+{{/if}}
+
+{{#if outfitDescription}}
+【服饰描述】
+{{outfitDescription}}
+{{/if}}
+
+{{#if matchingReference}}
+【搭配描述】
+{{matchingReference}}
+{{/if}}
+
+{{#if clothingStyles}}
+【服饰风格】
+{{clothingStyles}}，场景选择应与服饰风格自然匹配
+{{/if}}
+
+{{#if characterGender}}
+【角色锚点约定】用户提供的角色必须分配 person_id = 1，这是最高优先级铁律，不可因出场顺序或戏份多少而违反。
+{{/if}}
+
+{{#if outfitDescription}}
+【服饰锚点约定】用户提供的服饰锚点必须为 "搭配1"，跨所有镜头保持一致，不可使用其他编号。
+{{/if}}
+
+{{#if hotspotReport}}
+【时代情绪素材】（从热点数据中提炼，作为故事的时代背景和情感养料）
+{{hotspotReport}}
+{{/if}}
+
+请基于以上信息创作 {{scriptCount}} 条不同故事线的场景化短视频脚本。每条脚本讲一个不同的故事，服饰自然融入内容，不硬广、不推销。

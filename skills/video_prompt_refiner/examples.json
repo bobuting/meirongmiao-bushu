@@ -1,0 +1,47 @@
+[
+  {
+    "name": "内容安全过滤 - 移除敏感词",
+    "input": {
+      "originalPrompt": "Young girl walking in park, happy smile, bright eyes, floral dress twirling in wind",
+      "errorMessage": "Content filtered: policy violation detected in prompt",
+      "sceneDescription": "一个年轻女孩在公园里开心地转圈",
+      "retryCount": 1
+    },
+    "output": {
+      "refined_prompt": "Youthful character in floral dress, walking through park pathway, gentle spin with fabric catching breeze, serene natural setting, warm afternoon light",
+      "needs_refinement": true,
+      "analysis": "触发内容安全过滤，'Young girl' 组合词可能被平台误判为未成年人保护场景",
+      "changes_summary": "将 'Young girl' 替换为 'Youthful character'；移除直接面部表情描述，改用氛围暗示"
+    }
+  },
+  {
+    "name": "系统超时 - 无需优化",
+    "input": {
+      "originalPrompt": "Static camera. Maintain wearing outfit 1: white cotton hoodie from first frame throughout. 0-2s: figure stands by window looking outside. 2-4s: slowly turns head right.",
+      "errorMessage": "Task timeout: video generation exceeded maximum wait time",
+      "sceneDescription": "人物站在窗边看风景，然后转头",
+      "retryCount": 1
+    },
+    "output": {
+      "refined_prompt": "Static camera. Maintain wearing outfit 1: white cotton hoodie from first frame throughout. 0-2s: figure stands by window looking outside. 2-4s: slowly turns head right.",
+      "needs_refinement": false,
+      "analysis": "超时是平台负载问题，与提示词无关，直接重试即可",
+      "changes_summary": ""
+    }
+  },
+  {
+    "name": "提示词过长 - 精简优化",
+    "input": {
+      "originalPrompt": "Maintain wearing outfit 1 from first frame throughout. A beautiful stunning gorgeous young woman with long flowing dark brown hair, perfect flawless skin, wearing white cotton hoodie with oversized fit and front kangaroo pocket and brushed texture, standing in modern minimalist office interior with large floor-to-ceiling windows showing city skyline, warm golden afternoon sunlight streaming through windows casting long soft shadows on polished concrete floor, figure stands near window gazing at distant city view with contemplative serene peaceful expression, gentle breeze moves curtain slightly. Slow push in camera. 0-2s: figure remains still, breathing visible. 2-4s: head slowly turns right toward window, hair strands catch light and sway with movement. Soft film grain, cinematic composition, warm color grading, shallow depth of field.",
+      "errorMessage": "Prompt exceeds maximum token limit for video generation model",
+      "sceneDescription": "人物在办公室窗边思考",
+      "retryCount": 2
+    },
+    "output": {
+      "refined_prompt": "Maintain wearing outfit 1: white cotton hoodie, oversized fit, front kangaroo pocket from first frame throughout. Modern office, floor-to-ceiling windows, warm golden afternoon light. Slow push in. 0-2s: figure stands near window, breathing rhythm visible, contemplative gaze at city skyline. 2-4s: head slowly turns right toward window, hair strands catch rim light. Cinematic, warm grading, shallow DOF.",
+      "needs_refinement": true,
+      "analysis": "提示词超出 token 限制，存在大量冗余形容词（beautiful stunning gorgeous）和重复描述",
+      "changes_summary": "移除冗余形容词堆叠；精简人物外貌描述（由锚点保证）；压缩场景和光线描述；保留核心动作序列和服饰保留锚点"
+    }
+  }
+]

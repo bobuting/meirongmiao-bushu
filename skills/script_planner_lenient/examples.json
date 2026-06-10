@@ -1,0 +1,10 @@
+[
+  {
+    "name": "示例 1",
+    "description": "基本使用示例",
+    "input": {
+      "userPrompt": "示例userPrompt"
+    },
+    "expectedOutput": "根据提示词生成的输出"
+  }
+]

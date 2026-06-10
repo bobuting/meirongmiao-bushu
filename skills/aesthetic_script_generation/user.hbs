@@ -1,0 +1,150 @@
+## 创作类型与风格
+
+{{#if aestheticType}}
+【生活美学类型】{{#eq aestheticType "daily_record"}}日常记录{{/eq}}{{#eq aestheticType "aesthetic_atmosphere"}}唯美氛围{{/eq}}{{#eq aestheticType "life_discovery"}}生活发现{{/eq}}{{#eq aestheticType "fashion_aesthetic"}}时装美学{{/eq}}{{#eq aestheticType "travel_memory"}}旅行记录{{/eq}}
+{{/if}}
+
+{{#if atmosphereTheme}}
+【氛围主题】{{#eq atmosphereTheme "morning_routine"}}晨间routine{{/eq}}{{#eq atmosphereTheme "weekend_time"}}周末时光{{/eq}}{{#eq atmosphereTheme "after_work"}}下班路上{{/eq}}{{#eq atmosphereTheme "night_solitude"}}夜晚独处{{/eq}}{{#eq atmosphereTheme "seasonal"}}季节限定{{/eq}}{{#eq atmosphereTheme "rainy_snowy"}}雨天/雪天{{/eq}}
+{{/if}}
+
+{{#if rhythmType}}
+【节奏类型】{{#eq rhythmType "slow"}}慢呼吸节奏{{/eq}}{{#eq rhythmType "medium"}}中叙事节奏{{/eq}}{{#eq rhythmType "fast"}}快卡点节奏{{/eq}}
+{{/if}}
+
+{{#if sceneTypeHint}}
+【场景偏好】{{sceneTypeHint}}
+{{/if}}
+
+{{#if timeOfDay}}
+【时间段】{{#eq timeOfDay "morning"}}清晨{{/eq}}{{#eq timeOfDay "afternoon"}}午后{{/eq}}{{#eq timeOfDay "dusk"}}黄昏{{/eq}}{{#eq timeOfDay "night"}}夜晚{{/eq}}
+{{/if}}
+
+{{#if moodHint}}
+【情感基调】{{moodHint}}
+{{/if}}
+
+## 故事命题（围绕情感触发点创作）
+
+{{#if trendDescription}}
+{{trendDescription}}
+
+请从以上热点中提炼一个具体的、有画面感的生活美学故事起点，围绕它创作一个 15-30 秒的短视频脚本。让热点成为情感触发点或生活美好感的来源，而不是直接展示热点内容。
+{{/if}}
+
+{{#if emotionTrigger}}
+【情感触发点】{{emotionTrigger}}
+请围绕这个情感触发点，创作一个发现生活美好的生活美学脚本。
+{{/if}}
+
+## 创作素材
+
+{{#if characterGender}}
+【角色性别】{{#eq characterGender "male"}}男性{{/eq}}{{#eq characterGender "female"}}女性{{/eq}}{{#eq characterGender "uncertain"}}未指定{{/eq}}（必须严格遵守，脚本中的角色性别、代词、称呼必须与此一致）
+{{/if}}
+
+{{#if characterDescription}}
+【角色信息】
+{{characterDescription}}
+{{/if}}
+
+{{#if characters}}
+【角色列表】
+{{#each characters}}
+- {{this.name}}{{#if this.gender}}（{{this.gender}}）{{/if}}{{#if this.age}}，{{this.age}}岁{{/if}}{{#if this.description}}：{{this.description}}{{/if}}
+{{/each}}
+{{/if}}
+
+{{#if selectedRoleDirection}}
+【角色方向】
+{{#if selectedRoleDirection.styleWords}}关键词：{{selectedRoleDirection.styleWords}} {{/if}}
+{{/if}}
+
+{{#if assets}}
+【服饰信息】（作为美好生活的组成元素，不是展示目的）
+{{#each assets}}
+- {{this.type}}：{{this.description}}
+{{/each}}
+{{/if}}
+
+{{#if outfitDescription}}
+【服饰描述】
+{{outfitDescription}}
+{{/if}}
+
+{{#if clothingStyles}}
+【服饰风格】
+{{clothingStyles}}，场景选择应与服饰风格自然匹配，营造生活美好感
+{{/if}}
+
+{{#if matchingReference}}
+【搭配描述】
+{{matchingReference}}
+{{/if}}
+
+{{#if reflectionNotes}}
+## 迭代优化建议
+{{#each reflectionNotes}}
+{{inc @index}}. {{this}}
+{{/each}}
+{{/if}}
+
+{{#if recommendedScenes}}
+## 推荐场景（场景库热度数据 + 基础场景）
+以下场景供参考，可以从中选取或借鉴灵感融入分镜：
+{{recommendedScenes}}
+{{/if}}
+
+## 创作要求
+
+{{#if aestheticType}}
+{{#eq aestheticType "daily_record"}}
+请创作一条**日常记录**生活美学脚本：
+- 生活片段、自然真实
+- 服饰自然融入日常活动
+- 情感基调：惬意、舒适、小确幸
+- 镜头缓慢、有呼吸感
+- 结尾余韵悠长
+{{/eq}}
+{{#eq aestheticType "aesthetic_atmosphere"}}
+请创作一条**唯美氛围**生活美学脚本：
+- 光影、声音、情绪营造
+- 情感基调：诗意、治愈、浪漫
+- 镜头极慢、氛围沉浸
+- 服饰是美好生活的组成元素
+- 结尾意境留白
+{{/eq}}
+{{#eq aestheticType "life_discovery"}}
+请创作一条**生活发现**生活美学脚本：
+- 发现平凡之美
+- 情感基调：期待、惊喜、满足
+- 镜头中叙事节奏
+- 服饰自然出现在生活场景中
+- 结尾余韵回味
+{{/eq}}
+{{#eq aestheticType "fashion_aesthetic"}}
+请创作一条**时装美学**脚本：
+- 服饰融入生活场景（街拍、居家、出行）
+- 情感基调：自信、从容、有品位
+- 镜头中叙事节奏，情感细节与服饰融合
+- 服饰是美好生活的一部分
+- 结尾美感收尾
+{{/eq}}
+{{#eq aestheticType "travel_memory"}}
+请创作一条**旅行记录**生活美学脚本：
+- 场景与服饰自然融合
+- 情感基调：自由、放松、向往
+- 镜头快卡点节奏或多场景切换
+- 服饰是旅行美好记忆的一部分
+- 结尾离开背影或意境留白
+{{/eq}}
+{{else}}
+请创作一条**生活美学**短视频脚本：
+- 情感叙事与视觉展示两者平衡
+- 核心是"发现生活的美好"
+- 服饰是美好生活的一部分
+- 光影、声音、节奏营造氛围感
+- 结尾余韵悠长
+{{/if}}
+
+**输出格式**：严格按照 JSON 格式输出，包含 video_info、video_analysis、shot_breakdown、editing_analysis 四个字段。

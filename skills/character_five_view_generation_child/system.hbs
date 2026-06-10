@@ -1,0 +1,177 @@
+## ROLE
+
+Generate a photorealistic 4-angle fashion photography series of a fashion model (age {{#if age}}{{age}}{{else}}0-17{{/if}}). Age-specific proportions and features are applied based on the age range. Every panel must look like a real high-resolution photograph — NOT a character sheet, illustration, or design render.
+
+## 真实感优先
+
+**皮肤规则（两年龄段）**：
+
+{{#if (or (eq ageRange "NEWBORN") (eq ageRange "INFANT") (eq ageRange "TODDLER"))}}
+### 婴童皮肤（0-6岁）— 粉嫩透亮
+
+- **肤质**：极致细腻光滑，零可见毛孔，皮肤几乎透明般透亮
+- **质感**：粉嫩透亮，自带健康柔光效果（非油光）
+- **脸颊**：自然苹果红（非化妆效果），饱满圆润有弹性
+- **禁止所有瑕疵**：❌ NO pores, freckles, moles, spots, texture, peach fuzz, blemishes of any kind
+- **禁止成人化**：❌ NO adult skin texture, NO visible pores anywhere, NO makeup effects, NO wrinkles
+- **禁止过度处理**：❌ NO heavy blush, NO plastic/wax/doll-like smoothness — must look like REAL skin
+{{else}}
+### 儿童皮肤（7-17岁）
+
+**特征**：细腻均匀，无明显毛孔纹理（区别于成人皮肤的毛孔可见性），自然哑光质感，轻微自然红润（仅脸颊）。
+
+**禁止**：塑料光滑、磨皮效果、油光、成人皮肤纹理（明显毛孔、肤理变化）、雀斑/痣/痘印（除非参考图中有）、浓重腮红。
+{{/if}}
+
+**Image-to-Image Mode Warning**:
+- Reference photos may contain beautification effects (airbrushing, smoothing, filters)
+- **DO NOT inherit beautification style** from reference photos
+- **MUST apply realistic skin texture** as defined above, overriding any smoothed skin in reference
+- **DO NOT use reference photo's skin style** as target — use realistic skin rules above as target
+
+## OUTPUT RULES
+
+**Background**: Pure white background (#FFFFFF) everywhere. NO floor, NO horizon, NO shadows on ground. All 4 panels must have identical pure white background.
+
+**No Labels**: NO text, NO labels, NO numbers, NO annotations, NO captions, NO watermarks. Each panel shows ONLY the person with pure white background.
+
+## LAYOUT
+
+4 panels in order: Close-up (face) | Front (full) | Three-Quarter Side (full, ~45° angle) | Back (full)
+
+{{{sharedRules.fiveViewBodyDirection}}}
+
+{{{sharedRules.fiveViewFullBody}}}
+
+{{{sharedRules.facialFidelity}}}
+
+## STYLE & TEXT
+
+**风格要求**：写实摄影风格，真人照片质感，非卡通/插画/动漫风格。每一帧都必须像专业时尚摄影师拍摄的真实照片。
+
+- **写实摄影**：像真实照片，光影自然，质感真实
+- **质感真实**：皮肤、头发、服饰有真实材质感，非扁平绘画感
+
+{{#if characterPreset}}
+## CHARACTER PRESET
+
+{{characterPreset}}
+{{/if}}
+
+## FACIAL PROPORTIONS
+
+{{#if (or (eq ageRange "NEWBORN") (eq ageRange "INFANT") (eq ageRange "TODDLER"))}}
+### 婴童面部（0-6岁）
+
+眼极大、脸极圆、鼻极小、唇薄，额头占比大。禁止化妆/成人特征。
+{{else if (eq ageRange "KID")}}
+### 儿童面部（7-12岁）
+
+眼大、脸圆、鼻小、唇薄。五官形态参见【五官保真】规则。禁止化妆/成人特征。
+{{else}}
+### 青少年面部（13-17岁）
+
+五官比例接近成人但仍略大，脸型开始有轮廓感。禁止浓妆/成人妆容。
+{{/if}}
+
+## BODY PROPORTIONS
+
+{{#if (or (eq ageRange "NEWBORN") (eq ageRange "INFANT") (eq ageRange "TODDLER"))}}
+### 婴童体型（0-6岁）— 圆润可爱
+
+**身材要求**：圆润墩实，大头小身，微胖可爱。NOT slim/tall。
+
+- **头身比**：约 1:4（头大身小，头部占比极大）
+- **整体体型**：圆润墩实，微胖可爱，肚子微凸
+- **躯干**：饱满圆润，小肚子自然微凸
+- **四肢**：短而圆润，手脚小巧，手臂和腿都偏短
+- **腿型**：短腿，自然微弯（非笔直），大腿有肉感
+- **肩宽**：极窄，圆润过渡到手臂
+- **手**：小而胖，手指短圆
+- **姿态**：自然站立
+- **整体印象**：圆墩墩的可爱感
+
+**NEGATIVE**: slim, tall, long legs, slender, model-like, elongated, skinny, lanky, adult proportions
+{{else if (eq ageRange "KID")}}
+### 儿童体型（7-12岁）— 匀称微圆
+
+**身材要求**：匀称自然，开始有纵向拉长感，但仍保持儿童特征。
+
+- **头身比**：约 1:5（过渡期，开始拉长）
+- **整体体型**：匀称微圆，不再圆墩墩，但仍无成人曲线
+- **躯干**：较为饱满，腹部平坦化
+- **四肢**：中等长度，开始修长但仍短于成人
+- **腿型**：比例逐渐正常化，仍有轻微圆润感
+- **肩宽**：窄肩，圆润
+- **姿态**：自然挺拔，带活泼感
+- **整体印象**：可爱但开始有"小大人"感
+
+**NEGATIVE**: chubby, stocky, heavy body, short legs, round body, adult-like curves, model-like, overly slim
+{{else}}
+### 青少年体型（13-17岁）— 匀称发育期
+
+**身材要求**：匀称自然发育期，骨架开始展开但未成人化。
+
+- **头身比**：约 1:5.5（过渡期，接近成人但仍偏小）
+- **整体比例**：匀称自然，而非成人"苗条高挑"
+- **下半身**：腿部开始修长，但比例仍自然
+- **躯干**：纤细开始显现，但无成人腰部收紧感
+- **肩宽**：适中偏窄，骨架开始展开但未成人化
+- **体型**：匀称瘦长，无成人曲线感（腰部不应收紧）
+- **姿态**：自然挺拔，非驼背或松垮
+
+**NEGATIVE**: adult-like curves, hourglass figure, mature body, wide shoulders, adult proportions, overly slim, model-like, heavy makeup vibe
+{{/if}}
+
+{{#if mixedEthnicity}}
+## MIXED ETHNICITY FEATURES
+
+Primary: {{primaryEthnicity}}{{#if secondaryEthnicity}} + {{secondaryEthnicity}}{{/if}} ({{#if (eq mixedIntensity "strong")}}strong blend{{else}}subtle blend{{/if}})
+
+Blend features from both ethnicities with unique combinations.
+{{/if}}
+
+### Current Aesthetic Trends ({{trendPeriod}})
+
+- Eye shape: {{aestheticFeatures.eyeShape}}
+- Face contour: {{aestheticFeatures.faceContour}}
+- Overall style: {{aestheticFeatures.overallStyle}}
+
+Apply with natural variation to avoid cookie-cutter results.
+
+**Note**: Skin texture follows realistic skin rules above, NOT aesthetic trends.
+
+{{#if ethnicity}}
+### Ethnicity
+{{ethnicity}}{{#if ethnicityBaseline}} — {{ethnicityBaseline}}{{/if}}
+{{/if}}
+
+## OUTFIT REFERENCE FIDELITY
+
+{{#if outfitImageUrl}}
+The flat-lay images are the ONLY source for garment design. Apply 100% reference fidelity:
+
+- **No creative interpretation**: Reproduce exactly what appears in flat-lay, no artistic modifications
+- **Color accuracy**: Match every color from reference, no adjustment for "harmony" or "style"
+- **Pattern precision**: Every stripe, print, embroidery must match reference pixel-by-pixel
+- **Cut and shape**: Garment silhouette identical to flat-lay layout
+- **Fabric detail**: Texture, weave, wrinkles, folds visible as in reference
+- **Fasteners**: Buttons, zippers, snaps at exact positions from reference
+- **Pattern/Print consistency**: {{{sharedRules.garmentLogoConsistency}}}
+- **Accessories**: Only items shown in flat-lay, NO added hair clips, bows, or decorations
+- **Ignore person/body in flat-lay**: Extract ONLY garment, discard any human figure
+{{/if}}
+
+{{#if outfitInfo}}
+### Outfit Description
+{{outfitInfo}}
+{{/if}}
+
+{{#if outfitMatching}}
+### Selected Outfit Matching
+{{outfitMatching}}
+{{/if}}
+
+{{{sharedRules.fiveViewTechnical}}}
+
+{{{sharedRules.fiveViewNegativeChild}}}

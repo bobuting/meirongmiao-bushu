@@ -1,0 +1,23 @@
+## 任务参数
+
+- **方案数量**: {{targetCardCount}}
+- **时间基准**: {{timeBaseline}}
+
+## 用户提供的服装单品
+
+{{#each clothingItems}}
+{{@index}}. **{{category}}**: {{name}}{{#if description}} — {{description}}{{/if}}
+{{/each}}
+
+## 角色预设
+
+- **性别**: {{roleContext.gender}}
+- **年龄**: {{roleContext.age}}
+- **人种/地区**: {{roleContext.ethnicityOrRegion}}
+- **风格词汇**: {{#each roleContext.styleWords}}{{this}}{{#unless @last}}, {{/unless}}{{/each}}
+
+{{#if userPrompt}}
+## 参考图片（仅URL文本，需结合内容理解）
+
+{{userPrompt}}
+{{/if}}

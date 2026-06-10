@@ -1,0 +1,31 @@
+[
+  {
+    "name": "商务套装走路场景",
+    "description": "分镜1：角色穿着白色衬衫配黑色西裤走路",
+    "input": {
+      "garmentName": "白色衬衫配黑色西裤",
+      "garmentDescription": "经典商务套装，纯白衬衫配修身黑色西裤",
+      "segmentIndex": 0,
+      "actionType": "walking"
+    }
+  },
+  {
+    "name": "休闲服装站立场景",
+    "description": "分镜2：角色穿着休闲T恤牛仔裤站立",
+    "input": {
+      "garmentName": "休闲T恤牛仔裤",
+      "garmentDescription": "蓝色宽松T恤配浅色牛仔裤，休闲风格",
+      "segmentIndex": 1,
+      "actionType": "standing"
+    }
+  },
+  {
+    "name": "运动服装跑步场景",
+    "description": "分镜3：角色穿着运动服跑步",
+    "input": {
+      "garmentName": "运动套装",
+      "segmentIndex": 2,
+      "actionType": "running"
+    }
+  }
+]

@@ -1,0 +1,12 @@
+[
+  {
+    "name": "示例 1",
+    "description": "基本使用示例",
+    "input": {
+      "topicLabel": "示例topicLabel",
+      "sourceUrl": "示例sourceUrl",
+      "criteria": "示例criteria"
+    },
+    "expectedOutput": "根据提示词生成的输出"
+  }
+]

@@ -1,0 +1,66 @@
+[
+  {
+    "description": "单主角色 + 2色变体 + 6张模特图（覆盖3种关系模式）",
+    "input": {
+      "outfitTitle": "白色字母短袖T恤 + 粉色字母短袖T恤",
+      "styleName": "清新甜美休闲",
+      "analysis": "同款不同色的休闲T恤，白色清爽，粉色甜美，适合多场景搭配",
+      "targetPhotoCount": 6,
+      "backgroundStyle": "balanced",
+      "characters": [
+        {
+          "characterId": "char-001",
+          "gender": "female",
+          "age": 22,
+          "description": "年轻女性，长直发，清秀五官，体型匀称",
+          "assignedVariantAssetId": "asset-white",
+          "assignedColor": "白色"
+        }
+      ],
+      "garmentVariants": [
+        {
+          "assetId": "asset-white",
+          "colorName": "白色",
+          "description": "白色字母短袖T恤"
+        },
+        {
+          "assetId": "asset-pink",
+          "colorName": "粉色",
+          "description": "粉色字母短袖T恤"
+        }
+      ]
+    }
+  },
+  {
+    "description": "单主角色男性 + 2色变体 + 4张模特图（覆盖2种关系模式）",
+    "input": {
+      "outfitTitle": "深蓝休闲外套 + 卡其休闲外套",
+      "styleName": "商务休闲",
+      "analysis": "同款不同色休闲外套，深蓝沉稳，卡其百搭",
+      "targetPhotoCount": 4,
+      "backgroundStyle": "scene",
+      "characters": [
+        {
+          "characterId": "char-003",
+          "gender": "male",
+          "age": 30,
+          "description": "成熟男性，短发，阳刚五官，体型健壮",
+          "assignedVariantAssetId": "asset-navy",
+          "assignedColor": "深蓝色"
+        }
+      ],
+      "garmentVariants": [
+        {
+          "assetId": "asset-navy",
+          "colorName": "深蓝色",
+          "description": "深蓝色休闲外套"
+        },
+        {
+          "assetId": "asset-khaki",
+          "colorName": "卡其色",
+          "description": "卡其色休闲外套"
+        }
+      ]
+    }
+  }
+]

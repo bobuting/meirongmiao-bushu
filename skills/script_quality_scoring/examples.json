@@ -1,0 +1,24 @@
+[
+  {
+    "name": "观众视角评分",
+    "description": "从观众吸引力角度评估脚本",
+    "input": {
+      "perspectivePrompt": "你是普通短视频观众，请评估以下脚本的吸引力：\n\n请从观众视角回答：\n- 这个视频的前3秒能抓住我的注意力吗？\n- 我会看完、点赞、或分享吗？为什么？\n- 内容节奏是否拖沓？",
+      "scriptTitle": "春季穿搭推荐",
+      "scriptContent": "镜头1：近景 开场白...",
+      "scriptSummary": "春季女装穿搭推荐短视频"
+    },
+    "expectedOutput": "{\"score\": 75, \"strengths\": [\"开场有吸引力\"], \"weaknesses\": [\"节奏偏慢\"], \"suggestions\": [\"加快前3秒节奏\"]}"
+  },
+  {
+    "name": "编导视角评分",
+    "description": "从拍摄可执行性角度评估脚本",
+    "input": {
+      "perspectivePrompt": "你是短视频编导，请评估以下脚本的拍摄可执行性：\n\n请从编导视角回答：\n- 每个分镜的场景和动作是否可实际拍摄？\n- 分镜之间的转衔是否流畅？\n- 整体节奏是否适合 15-30 秒短视频？",
+      "scriptTitle": "产品展示视频",
+      "scriptContent": "镜头1：特写 产品细节...",
+      "videoStyle": "现代简约"
+    },
+    "expectedOutput": "{\"score\": 80, \"strengths\": [\"分镜清晰\"], \"weaknesses\": [], \"suggestions\": [\"可增加转场效果\"]}"
+  }
+]

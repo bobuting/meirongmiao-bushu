@@ -1,0 +1,36 @@
+请规划以下短视频脚本的结构和内容：
+
+{{#if characterGender}}
+【角色性别】{{#eq characterGender "male"}}男性{{/eq}}{{#eq characterGender "female"}}女性{{/eq}}{{#eq characterGender "uncertain"}}未指定{{/eq}}（必须严格遵守，脚本中的角色性别、代词、称呼必须与此一致）
+{{/if}}
+
+{{#if characterDescription}}
+【角色信息】
+{{characterDescription}}
+{{/if}}
+
+{{#if outfitDescription}}
+【服饰描述】
+{{outfitDescription}}
+{{/if}}
+
+{{#if clothingStyles}}
+【服饰风格】
+{{clothingStyles}}
+{{/if}}
+
+{{#if sceneDescription}}
+【场景描述】
+{{sceneDescription}}
+{{/if}}
+
+{{#if hotTrendText}}
+【热点数据】
+{{hotTrendText}}
+{{/if}}
+
+【生成配置】
+- 脚本数量：{{scriptCount}} 条
+- 视频时长：{{duration}} 秒
+
+请返回 JSON 格式的脚本规划。

@@ -1,0 +1,2574 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="内容喵视频项目操作指南 - 从服装到成片的完整流程，帮助电商商家快速上手。">
+  <title>视频项目操作手册 - 内容喵</title>
+  <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16.png">
+  <style>
+    /* 全局样式 */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      background-color: #fdfbf7;
+      color: #333333;
+      line-height: 1.8;
+      font-size: 16px;
+    }
+
+    /* 配色变量 */
+    :root {
+      --primary: #e68c19;
+      --primary-light: #f5a623;
+      --bg-light: #fdfbf7;
+      --bg-card: #ffffff;
+      --text-dark: #333333;
+      --text-light: #666666;
+      --success: #22c55e;
+      --warning: #ef4444;
+      --border: #e5e5e5;
+    }
+
+    /* 容器 */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    /* 页面头部 */
+    .page-header {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+      color: white;
+      padding: 60px 20px;
+      text-align: center;
+    }
+
+    .page-header h1 {
+      font-size: 32px;
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+
+    .page-header p {
+      font-size: 18px;
+      opacity: 0.95;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* 时间预估标签 */
+    .time-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      background: linear-gradient(135deg, #fef3e2 0%, #fff5eb 100%);
+      border: 1px solid var(--primary-light);
+      border-radius: 16px;
+      font-size: 14px;
+      color: var(--primary);
+      margin-left: 12px;
+    }
+
+    .time-badge .icon {
+      font-size: 16px;
+    }
+
+    /* 警告横幅 */
+    .warning-banner {
+      background: #fef2f2;
+      border: 2px solid var(--warning);
+      border-radius: 12px;
+      padding: 20px;
+      margin: 30px auto;
+      max-width: 800px;
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+    }
+
+    .warning-banner .icon {
+      font-size: 24px;
+      flex-shrink: 0;
+    }
+
+    .warning-banner p {
+      color: #991b1b;
+      font-weight: 500;
+    }
+
+    /* 主内容区 */
+    .main-content {
+      display: flex;
+      gap: 40px;
+      margin-top: 40px;
+    }
+
+    /* 侧边目录 */
+    .sidebar {
+      width: 280px;
+      flex-shrink: 0;
+      position: sticky;
+      top: 20px;
+      height: fit-content;
+    }
+
+    .sidebar h3 {
+      font-size: 16px;
+      color: var(--text-light);
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid var(--border);
+    }
+
+    .sidebar nav a {
+      display: block;
+      padding: 10px 16px;
+      color: var(--text-dark);
+      text-decoration: none;
+      border-radius: 8px;
+      margin-bottom: 4px;
+      transition: all 0.2s;
+    }
+
+    .sidebar nav a:hover {
+      background: #fef3e2;
+      color: var(--primary);
+    }
+
+    /* 内容区 */
+    .content {
+      flex: 1;
+      min-width: 0;
+    }
+
+    /* 章节 */
+    .chapter {
+      margin-bottom: 60px;
+    }
+
+    .chapter-header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .chapter-number {
+      width: 48px;
+      height: 48px;
+      background: var(--primary);
+      color: white;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      font-weight: 700;
+    }
+
+    .chapter-title {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--text-dark);
+    }
+
+    .chapter-desc {
+      color: var(--text-light);
+      margin-top: 4px;
+    }
+
+    /* 小节 */
+    .section {
+      margin-bottom: 32px;
+    }
+
+    .section h3 {
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--text-dark);
+      margin-bottom: 16px;
+      padding-left: 12px;
+      border-left: 4px solid var(--primary);
+    }
+
+    /* 清单样式 */
+    .checklist {
+      background: var(--bg-card);
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+    }
+
+    .checklist-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 12px 0;
+      border-bottom: 1px solid #f0f0f0;
+    }
+
+    .checklist-item:last-child {
+      border-bottom: none;
+    }
+
+    .checklist-item .checkbox {
+      width: 22px;
+      height: 22px;
+      border: 2px solid var(--primary);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      color: var(--primary);
+      font-size: 14px;
+    }
+
+    .checklist-item .text {
+      flex: 1;
+    }
+
+    .checklist-item .text strong {
+      color: var(--text-dark);
+    }
+
+    .checklist-item .text span {
+      color: var(--text-light);
+      font-size: 14px;
+    }
+
+    /* 表格样式 */
+    .table-wrapper {
+      overflow-x: auto;
+      margin: 20px 0;
+    }
+
+    table {
+      width: 100%;
+      min-width: 600px;
+      border-collapse: collapse;
+      background: var(--bg-card);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    th {
+      background: var(--primary);
+      color: white;
+      padding: 14px 16px;
+      text-align: left;
+      font-weight: 600;
+    }
+
+    td {
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    tr:nth-child(even) {
+      background: #fafafa;
+    }
+
+    /* 表格第一列宽度 */
+    th:nth-child(1),
+    td:nth-child(1) {
+      min-width: 100px;
+    }
+
+    /* 图片展示 */
+    .image-showcase {
+      margin: 20px 0;
+      padding: 20px;
+      background: var(--bg-card);
+      border-radius: 12px;
+      border: 1px solid var(--border);
+    }
+
+    .image-showcase img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 8px;
+      display: block;
+      margin: 12px 0;
+    }
+
+    .image-showcase .image-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 16px;
+    }
+
+    .image-showcase .image-grid img {
+      margin: 0;
+    }
+
+    .image-caption {
+      font-size: 14px;
+      color: var(--text-light);
+      text-align: center;
+      margin-top: 8px;
+    }
+
+    /* 案例卡片 */
+    .case-card {
+      background: linear-gradient(135deg, #fef9f3 0%, #fff5eb 100%);
+      border: 2px solid var(--primary-light);
+      border-radius: 16px;
+      padding: 24px;
+      margin: 24px 0;
+    }
+
+    .case-card .case-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .case-card .case-icon {
+      font-size: 28px;
+    }
+
+    .case-card .case-title {
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--primary);
+    }
+
+    .case-card .case-content {
+      color: var(--text-dark);
+    }
+
+    /* 警告框 */
+    .alert {
+      background: #fef2f2;
+      border-left: 4px solid var(--warning);
+      padding: 16px 20px;
+      border-radius: 0 8px 8px 0;
+      margin: 20px 0;
+    }
+
+    .alert-warning {
+      color: #991b1b;
+    }
+
+    /* 成功提示 */
+    .tip {
+      background: #f0fdf4;
+      border-left: 4px solid var(--success);
+      padding: 16px 20px;
+      border-radius: 0 8px 8px 0;
+      margin: 20px 0;
+    }
+
+    .tip p {
+      color: #166534;
+    }
+
+    /* 进度指示器 */
+    .progress-indicator {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 20px;
+      background: #f5f5f5;
+      border-radius: 20px;
+      margin-bottom: 24px;
+      width: fit-content;
+    }
+
+    .progress-indicator .step {
+      color: var(--text-light);
+      font-size: 14px;
+    }
+
+    .progress-indicator .current {
+      color: var(--primary);
+      font-weight: 600;
+    }
+
+    /* 页脚 */
+    .page-footer {
+      text-align: center;
+      padding: 40px 20px;
+      border-top: 1px solid var(--border);
+      margin-top: 60px;
+      color: var(--text-light);
+    }
+
+    .page-footer a {
+      color: var(--primary);
+      text-decoration: none;
+    }
+
+    /* 项目类型切换 Tab */
+    .project-tabs {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 24px;
+    }
+
+    .project-tabs .tab-btn {
+      padding: 10px 24px;
+      border: 2px solid rgba(255, 255, 255, 0.5);
+      background: rgba(255, 255, 255, 0.15);
+      color: white;
+      border-radius: 24px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: 500;
+      transition: all 0.3s;
+    }
+
+    .project-tabs .tab-btn:hover {
+      background: rgba(255, 255, 255, 0.3);
+    }
+
+    .project-tabs .tab-btn.active {
+      background: white;
+      color: var(--primary);
+      border-color: white;
+    }
+
+    /* 视频/图片项目内容区切换 */
+    .video-content,
+    .image-content {
+      display: none;
+    }
+
+    .video-content.active,
+    .image-content.active {
+      display: block;
+    }
+
+    /* 图片项目侧栏链接颜色区分 */
+    .sidebar nav a.image-nav {
+      border-left: 3px solid #8b5cf6;
+    }
+
+    .sidebar nav a.image-nav:hover {
+      background: #f3e8ff;
+      color: #8b5cf6;
+    }
+
+    /* 响应式设计 */
+    @media (max-width: 1024px) {
+      .main-content {
+        flex-direction: column;
+      }
+
+      .sidebar {
+        width: 100%;
+        position: static;
+        background: var(--bg-card);
+        padding: 20px;
+        border-radius: 12px;
+        margin-bottom: 30px;
+      }
+
+      .sidebar nav {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .sidebar nav a {
+        padding: 8px 16px;
+        font-size: 14px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .page-header {
+        padding: 40px 20px;
+      }
+
+      .page-header h1 {
+        font-size: 24px;
+      }
+
+      .page-header p {
+        font-size: 16px;
+      }
+
+      .chapter-title {
+        font-size: 20px;
+      }
+
+      .warning-banner {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .image-showcase .image-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* 打印样式 */
+    @media print {
+      .sidebar {
+        display: none;
+      }
+
+      .page-header {
+        background: none;
+        color: var(--text-dark);
+      }
+
+      .warning-banner {
+        border: 2px solid #000;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- 页面头部 -->
+  <header class="page-header">
+    <h1>内容喵操作指南</h1>
+    <p>从服装到成片/详情页的完整流程，帮助电商商家快速上手</p>
+
+    <!-- 项目类型切换 Tab -->
+    <div class="project-tabs">
+      <button class="tab-btn active" data-tab="video" onclick="switchTab('video')">视频项目</button>
+      <button class="tab-btn" data-tab="image" onclick="switchTab('image')">图片项目</button>
+    </div>
+  </header>
+
+  
+  <!-- 主内容区 -->
+  <div class="container">
+    <div class="main-content">
+      <!-- 侧边目录 -->
+      <aside class="sidebar">
+        <h3>目录导航</h3>
+        <nav class="video-nav">
+          <a href="#chapter-1">第一章：开始前最重要的决策</a>
+          <a href="#chapter-reverse">第二章：反推项目 — 从视频到创作</a>
+          <a href="#chapter-2">第三章：Step1 服装上传与搭配</a>
+          <a href="#chapter-3">第四章：Step2 角色定妆</a>
+          <a href="#chapter-4">第五章：Step3 脚本与分镜</a>
+          <a href="#chapter-5">第六章：Step4 视频生成</a>
+          <a href="#chapter-6">第七章：Step5 发布准备</a>
+          <a href="#chapter-7">第八章：Step6 裂变扩展</a>
+          <a href="#appendix">附录：素材准备清单</a>
+        </nav>
+        <nav class="image-nav" style="display: none; margin-top: 16px; padding-top: 16px; border-top: 2px solid #8b5cf6;">
+          <a href="#image-chapter-1" class="image-nav">第一章：图片项目是什么</a>
+          <a href="#image-chapter-2" class="image-nav">第二章：Step1 服装上传与搭配</a>
+          <a href="#image-chapter-3" class="image-nav">第三章：Step2 角色定妆</a>
+          <a href="#image-chapter-4" class="image-nav">第四章：Step3 模特图生成</a>
+          <a href="#image-chapter-5" class="image-nav">第五章：Step4 电商详情页</a>
+          <a href="#image-appendix" class="image-nav">附录：时间预估与常见问题</a>
+        </nav>
+      </aside>
+
+      <!-- 视频项目内容 -->
+      <main class="content video-content active">
+        <!-- 第一章：开始前最重要的决策 -->
+        <section class="chapter" id="chapter-1">
+          <div class="chapter-header">
+            <div class="chapter-number">1</div>
+            <div>
+              <h2 class="chapter-title">开始前最重要的决策</h2>
+              <p class="chapter-desc">项目类型选择后不可撤回，请仔细阅读</p>
+            </div>
+          </div>
+
+          <section class="section">
+            <h3>1.1 四种项目类型对比</h3>
+            <div class="table-wrapper">
+              <table>
+                <thead>
+                  <tr>
+                    <th>项目类型</th>
+                    <th>流程步骤</th>
+                    <th>产出物</th>
+                    <th>适用场景</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>视频项目</strong></td>
+                    <td>6 步（服装→定妆→脚本分镜→视频生成→发布→裂变）</td>
+                    <td>电商短视频</td>
+                    <td>需要生成商品展示视频的商家</td>
+                  </tr>
+                  <tr>
+                    <td><strong>图片项目</strong></td>
+                    <td>4 步（服装→定妆→模特图→详情页）</td>
+                    <td>商品详情页图片</td>
+                    <td>需要生成商品主图/详情图的商家</td>
+                  </tr>
+                  <tr>
+                    <td><strong>换装项目</strong></td>
+                    <td>4 步（选视频→选服装→选角色→一键换装）</td>
+                    <td>换装视频</td>
+                    <td>已有视频，需要替换服装的商家</td>
+                  </tr>
+                  <tr>
+                    <td><strong>反推项目</strong></td>
+                    <td>从创作广场输入视频链接→AI反推脚本→联合反推生成搭配→定妆→脚本分镜→视频生成→发布→裂变</td>
+                    <td>电商短视频</td>
+                    <td>看到别人的爆款视频，想复刻类似风格的商家</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <section class="section">
+            <h3>1.2 视频项目适合哪些商家？</h3>
+            <div class="checklist">
+              <div class="checklist-item">
+                <div class="checkbox">✓</div>
+                <div class="text">
+                  <strong>需要生成电商短视频的商家</strong>
+                  <span>— 抖音、快手、小红书等平台的商品展示视频</span>
+                </div>
+              </div>
+              <div class="checklist-item">
+                <div class="checkbox">✓</div>
+                <div class="text">
+                  <strong>已有服装素材，想快速产出视频</strong>
+                  <span>— 上传服装照片，AI 自动生成搭配和视频</span>
+                </div>
+              </div>
+              <div class="checklist-item">
+                <div class="checkbox">✓</div>
+                <div class="text">
+                  <strong>需要批量生成多个服装视频</strong>
+                  <span>— 打开多个页面，分别生成视频</span>
+                </div>
+              </div>
+              <div class="checklist-item">
+                <div class="checkbox" style="border-color: var(--warning); color: var(--warning);">✗</div>
+                <div class="text">
+                  <strong>暂不建议的情况</strong>
+                  <span>— 只有一张图片、图片质量差、服装不清晰</span>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="section">
+            <h3>1.3 案例：服装店老板小王的选择</h3>
+            <div class="case-card">
+              <div class="case-header">
+                <span class="case-icon">👤</span>
+                <span class="case-title">真实案例</span>
+              </div>
+              <div class="case-content">
+                <p>小王经营一家女装店，最近进了 5 款春装新品，想在抖音上发短视频推广。</p>
+                <p style="margin-top: 12px;"><strong>他的选择：</strong>视频项目</p>
+                <p style="margin-top: 8px;"><strong>原因：</strong>需要给每款服装生成独立的展示视频，方便在抖音发布。他有现成的服装照片，可以直接上传使用。</p>
+                <p style="margin-top: 8px; color: var(--success);"><strong>结果：</strong>1 个小时完成了 5 个主视频，裂变了 10 几个，顺利发布到抖音。</p>
+              </div>
+            </div>
+          </section>
+        </section>
+
+        <!-- 第二章：反推项目 — 从视频到创作 -->
+        <section class="chapter" id="chapter-reverse">
+          <div class="chapter-header">
+            <div class="chapter-number">2</div>
+            <div>
+              <h2 class="chapter-title">反推项目 — 从视频到创作<span class="time-badge"><span class="icon">⏱️</span> 5-15 分钟</span></h2>
+              <p class="chapter-desc">从创作广场/Dashboard 输入视频链接，AI 自动反推脚本并生成项目</p>
+            </div>
+          </div>
+
+          <section class="section">
+            <h3>2.1 什么是反推项目？</h3>
+            <p>反推项目是内容喵的特色功能 — 您看到一个喜欢的电商短视频，想要制作类似风格的视频，只需将视频链接输入系统，AI 会自动分析视频内容，提取脚本、分镜、服装搭配等关键信息，帮您快速复刻。</p>
+            <div class="checklist">
+              <div class="checklist-item">
+                <div class="checkbox">✓</div>
+                <div class="text">
+                  <strong>输入视频链接即可开始</strong>
+                  <span>— 支持抖音链接、视频直链、或上传本地视频文件</span>
+                </div>
+              </div>
+              <div class="checklist-item">
+                <div class="checkbox">✓</div>
+                <div class="text">
+                  <strong>AI 自动提取脚本和分镜</strong>
+                  <span>— LLM 多模态分析视频内容，提取脚本文案和分镜画面</span>
+                </div>
+              </div>
+              <div class="checklist-item">
+                <div class="checkbox">✓</div>
+                <div class="text">
+                  <strong>自动推导服装搭配方案</strong>
+                  <span>— 联合反推自动从视频中识别服装，生成搭配推荐</span>
+                </div>
+              </div>
+              <div class="checklist-item">
+                <div class="checkbox">✓</div>
+                <div class="text">
+                  <strong>后续步骤与普通视频项目一致</strong>
+                  <span>— 从定妆到裂变，完全复用视频项目流程</span>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="section">
+            <h3>2.2 如何进入反推项目</h3>
+            <p>反推项目有两个入口：</p>
+
+            <div class="table-wrapper">
+              <table>
+                <thead>
+                  <tr>
+                    <th>入口</th>
+                    <th>位置</th>
+                    <th>操作方式</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>创作广场（Dashboard）</strong></td>
+                    <td>侧边栏「创作广场」页面</td>
+                    <td>在顶部输入框粘贴视频链接，点击「一键复刻」按钮；或在广场视频卡片上点击「一键复刻」</td>
+                  </tr>
+                  <tr>
+                    <td><strong>脚本中心</strong></td>
+                    <td>侧边栏「脚本中心」页面</td>
+                    <td>查看反推完成的脚本，点击「投入创作」创建反推项目</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="tip">
+              <p><strong>💡 提示：</strong>推荐从「创作广场」开始，一步完成视频分析和项目创建。如果您已经反推过视频，可在「脚本中心」直接投入创作。</p>
+            </div>
+          </section>
+
+          <section class="section">
+            <h3>2.3 反推项目完整流程</h3>
+            <p>反推项目分为两个阶段：<strong>视频反推分析</strong> 和 <strong>反推项目创作</strong>。</p>
+
+            <p style="margin-top: 16px; font-weight: 600;">阶段一：视频反推分析（从视频到脚本）</p>
+            <div class="checklist">
+              <div class="checklist-item">
+                <div class="checkbox">1</div>
+                <div class="text">
+                  <strong>输入视频来源</strong>
+                  <span>— 粘贴抖音链接、视频直链或上传本地视频</span>
+                </div>
+              </div>
+              <div class="checklist-item">
+                <div class="checkbox">2</div>
+                <div class="text">
+                  <strong>系统自动分析视频</strong>
+                  <span>— 依次执行：解析链接 → 下载视频 → 上传存储 → LLM 多模态分析 → 写入脚本库</span>
+                </div>
+              </div>
+              <div class="checklist-item">
+                <div class="checkbox">3</div>
+                <div class="text">
+                  <strong>查看反推结果</strong>
+                  <span>— 包含脚本正文、分镜帧数据、分析报告、关键词标签</span>
+                </div>
+              </div>
+              <div class="checklist-item">
+                <div class="checkbox">4</div>
+                <div class="text">
+                  <strong>点击「投入创作」创建项目</strong>
+                  <span>— 自动创建反推项目，进入 Step1</span>
+                </div>
+              </div>
+            </div>
+
+            <p style="margin-top: 16px; font-weight: 600;">阶段二：反推项目创作（从脚本到视频）</p>
+            <div class="checklist">
+              <div class="checklist-item">
+                <div class="checkbox">5</div>
+                <div class="text">
+                  <strong>Step1 联合反推</strong>
+                  <span>— 系统自动从反推脚本推导服装搭配方案和角色方向，无需手动上传服装</span>
+                </div>
+              </div>
+              <div class="checklist-item">
+                <div class="checkbox">6</div>
+                <div class="text">
+                  <strong>Step2-Step6 与普通视频项目一致</strong>
+                  <span>— 定妆 → 脚本分镜（可基于反推脚本改写） → 视频生成 → 发布 → 裂变</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="alert alert-warning">
+              <strong>⚠️ 注意：</strong>反推项目在 Step1 阶段不需要手动上传服装图片，系统会从反推的视频中自动提取并生成搭配方案。确认搭配后，后续步骤与普通视频项目完全一致。
+            </div>
+          </section>
+
+          <section class="section">
+            <h3>2.4 支持的视频来源</h3>
+            <div class="table-wrapper">
+              <table>
+                <thead>
+                  <tr>
+                    <th>输入类型</th>
+                    <th>说明</th>
+                    <th>注意事项</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>抖音链接</strong></td>
+                    <td>粘贴抖音短视频分享链接</td>
+                    <td>支持抖音短视频链接解析</td>
+                  </tr>
+                  <tr>
+                    <td><strong>视频直链</strong></td>
+                    <td>粘贴视频文件的直接下载链接</td>
+                    <td>链接需可直接访问视频文件</td>
+                  </tr>
+                  <tr>
+                    <td><strong>上传本地视频</strong></td>
+                    <td>直接上传本地视频文件</td>
+                    <td>视频需清晰，时长适中</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <section class="section">
+            <h3>2.5 反推项目与普通视频项目的区别</h3>
+            <div class="table-wrapper">
+              <table>
+                <thead>
+                  <tr>
+                    <th>维度</th>
+                    <th>普通视频项目</th>
+                    <th>反推项目</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>起点</strong></td>
+                    <td>手动上传服装图片开始</td>
+                    <td>从已有视频/脚本反推开始</td>
+                  </tr>
+                  <tr>
+                    <td><strong>入口</strong></td>
+                    <td>项目管理页面创建</td>
+                    <td>创作广场/脚本中心</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Step1 行为</strong></td>
+                    <td>手动上传和选择服饰</td>
+                    <td>联合反推自动生成搭配方案和角色方向</td>
+                  </tr>
+                  <tr>
+                    <td><strong>脚本来源</strong></td>
+                    <td>Step3 从零生成脚本</td>
+                    <td>Step3 可基于反推脚本改写优化</td>
+                  </tr>
+                  <tr>
+                    <td><strong>后续步骤</strong></td>
+                    <td>定妆→脚本分镜→视频→发布→裂变</td>
+                    <td>与普通视频项目完全一致</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <section class="section">
+            <h3>2.6 案例：小王从爆款视频复刻</h3>
+            <div class="case-card">
+              <div class="case-header">
+                <span class="case-icon">👤</span>
+                <span class="case-title">真实案例</span>
+              </div>
+              <div class="case-content">
+                <p>小王在抖音上看到一个同行的爆款服装展示视频，想做一个类似风格的视频推广自己的新款衬衫。</p>
+                <p style="margin-top: 12px;"><strong>操作：</strong>进入「创作广场」，粘贴该抖音视频链接，点击「一键复刻」</p>
+                <p style="margin-top: 8px;"><strong>反推结果：</strong>系统自动分析了视频的脚本、分镜和服装搭配，生成了完整的脚本库</p>
+                <p style="margin-top: 8px;"><strong>投入创作：</strong>点击「投入创作」，系统自动从反推脚本推导出搭配方案和角色方向</p>
+                <p style="margin-top: 8px; color: var(--success);"><strong>结果：</strong>从输入链接到获得搭配方案仅需 5-10 分钟，后续正常走定妆→脚本分镜→视频生成流程即可</p>
+              </div>
+            </div>
+          </section>
+        </section>
+
+        <!-- 第三章：Step1 服装上传与搭配推荐 -->
+        <section class="chapter" id="chapter-2">
+          <div class="chapter-header">
+            <div class="chapter-number">3</div>
+            <div>
+              <h2 class="chapter-title">Step1：服装上传与搭配推荐<span class="time-badge"><span class="icon">⏱️</span> 3-5 分钟</span></h2>
+              <p class="chapter-desc">上传服装照片，系统自动推荐搭配方案</p>
+            </div>
+          </div>
+
+          <div class="progress-indicator">
+            <span class="step">进度：</span>
+            <span class="current">Step 1/6</span>
+          </div>
+
+          <section class="section">
+            <h3>3.1 上传前的准备清单</h3>
+            <div class="checklist">
+              <div class="checklist-item">
+                <div class="checkbox">✓</div>
+                <div class="text">
+                  <strong>建议上传正面图，如果背面/侧面有图案，建议补充其他视角图（套装不要遮挡细节）</strong>
+                </div>
+              </div>
+              <div class="checklist-item">
+                <div class="checkbox">✓</div>
+                <div class="text">
+                  <strong>按步骤操作</strong>
+                  <span>— 上传图片 → 识别平铺图 → 角色预设 → 穿搭风格</span>
+                </div>
+              </div>
+              <div class="checklist-item">
+                <div class="checkbox">✓</div>
+                <div class="text">
+                  <strong>认真选择适合衣服的风格</strong>
+                  <span>— 风格选择会影响后续生成效果</span>
+                </div>
+              </div>
+              <div class="checklist-item">
+                <div class="checkbox" style="border-color: var(--warning); color: var(--warning);">✗</div>
+                <div class="text">
+                  <strong>图片不要过大</strong>
+                  <span>— 单张图片小于 4M，过大可能导致上传失败</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- 服饰#1 图片展示 -->
+            <div class="image-showcase">
+              <p style="font-weight: 600; margin-bottom: 12px;">服饰#1 — 主服装（可分开或一起上传）</p>
+              <div class="image-grid">
+                <div>
+                  <img src="images/step1-outfit1-front.jpg" alt="上装正面示例">
+                  <p class="image-caption">正面示例</p>
+                </div>
+                <div>
+                  <img src="images/step1-outfit1-back.jpg" alt="上装背面示例">
+                  <p class="image-caption">背面示例（如有图案建议上传）</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- 服饰#2 图片展示 -->
+            <div class="image-showcase">
+              <p style="font-weight: 600; margin-bottom: 12px;">服饰#2 — 搭配服装（可选）</p>
+              <div class="image-grid">
+                <div>
+                  <img src="images/step1-outfit2-bottom.jpg" alt="搭配服装示例">
+                  <p class="image-caption">搭配服装示例</p>
+                </div>
+              </div>
+              <p class="image-caption" style="margin-top: 8px;">如果需要搭配，可在【服饰#2】上传搭配服装</p>
+            </div>
+
+            <!-- Step1 完整示例 -->
+            <div class="image-showcase">
+              <p style="font-weight: 600; margin-bottom: 12px;">完整操作示例</p>
+              <img src="images/step1-example.webp" alt="Step1 完整操作示例">
+              <p class="image-caption">上传服装 → 识别 → 选择风格 → 确认搭配的完整流程示例</p>
+            </div>
+
+            <div class="tip">
+              <p><strong>💡 提示：</strong>照片质量越好，生成效果越好。建议使用清晰、光线均匀的正反面照片。</p>
+            </div>
+
+            <!-- 错误示范 -->
+            <div class="image-showcase" style="border-color: #ef4444; background: #fef2f2;">
+              <p style="font-weight: 600; margin-bottom: 12px; color: #ef4444;">⚠️ 不推荐示范（可能影响生成效果）</p>
+              <div class="image-grid">
+                <div>
+                  <img src="images/error-example/step1-error1.jpg" alt="套装重叠遮盖1">
+                  <p class="image-caption" style="color: #991b1b;">套装不能重叠遮盖</p>
+                </div>
+                <div>
+                  <img src="images/error-example/step1-error2.jpg" alt="套装重叠遮盖2">
+                  <p class="image-caption" style="color: #991b1b;">套装不能重叠遮盖</p>
+                </div>
+                <div>
+                  <img src="images/error-example/step1-error-with-model.jpg" alt="包含模特">
+                  <p class="image-caption" style="color: #991b1b;">不要包含模特人物</p>
+                </div>
+                <div>
+                  <img src="images/error-example/step1-error-logo-watermark.jpg" alt="水印logo">
+                  <p class="image-caption" style="color: #991b1b;">不要有水印/服饰外其他logo</p>
+                </div>
+                <div>
+                  <img src="images/error-example/step1-error-complex-background.jpg" alt="背景复杂">
+                  <p class="image-caption" style="color: #991b1b;">背景不能太复杂</p>
+                </div>
+                <div>
+                  <img src="images/error-example/step-error-text-clutter.jpg" alt="文字太多">
+                  <p class="image-caption" style="color: #991b1b;">不要有大量文字干扰</p>
+                </div>
+                <div>
+                  <img src="images/error-example/step1-error-mixed-colors.jpg" alt="不同颜色混一起">
+                  <p class="image-caption" style="color: #991b1b;">不同颜色服装不要混在一起上传</p>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="section">
+            <h3>3.2 系统搭配推荐是什么</h3>
+            <p>上传服装照片后，系统会自动分析服装风格、颜色、款式，为您推荐合适的搭配方案。您可以选择系统推荐，也可以自行调整搭配。</p>
+
+            <!-- 角色预设和穿搭风格图片 -->
+            <div class="image-showcase">
+              <div class="image-grid">
+                <div>
+                  <img src="images/step1-character-preset.png" alt="角色预设界面">
+                  <p class="image-caption">角色预设界面</p>
+                </div>
+                <div>
+                  <img src="images/step1-style.png" alt="穿搭风格界面">
+                  <p class="image-caption">穿搭风格选择界面</p>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="section">
+            <h3>3.3 如何选择搭配方案</h3>
+            <div class="checklist">
+              <div class="checklist-item">
+                <div class="checkbox">✓</div>
+                <div class="text">
+                  <strong>查看整体搭配效果</strong>
+                  <span>— 系统会展示服装组合的预览图</span>
+                </div>
+              </div>
+              <div class="checklist-item">
+                <div class="checkbox">✓</div>
+                <div class="text">
+                  <strong>考虑目标场景</strong>
+                  <span>— 选择适合展示场景的搭配（如休闲、商务、户外）</span>
+                </div>
+              </div>
+              <div class="checklist-item">
+                <div class="checkbox">✓</div>
+                <div class="text">
+                  <strong>确认后不可更改</strong>
+                  <span>— 选择搭配方案后进入下一步，无法退回修改</span>
+                </div>
+              </div>
+            </div>
+            <div class="alert alert-warning">
+              <strong>⚠️ 注意：</strong>搭配方案确认后将进入定妆环节，无法返回此步骤修改。请仔细确认后再进入下一步。
+            </div>
+          </section>
+
+          <section class="section">
+            <h3>3.4 案例：小王上传了 3 款服装</h3>
+            <div class="case-card">
+              <div class="case-header">
+                <span class="case-icon">👤</span>
+                <span class="case-title">真实案例</span>
+              </div>
+              <div class="case-content">
+                <p>小王上传了 3 款春装：白色衬衫、浅蓝色牛仔裤、米色风衣。</p>
+                <p style="margin-top: 12px;"><strong>系统推荐：</strong>三件搭配成"都市通勤"风格套装</p>
+                <p style="margin-top: 8px;"><strong>小王的操作：</strong>确认采用系统推荐，点击"下一步"进入定妆环节。</p>
+              </div>
+            </div>
+          </section>
+        </section>
+
+        <!-- 第四章：Step2 角色定妆 -->
+        <section class="chapter" id="chapter-3">
+          <div class="chapter-header">
+            <div class="chapter-number">4</div>
+            <div>
+              <h2 class="chapter-title">Step2：角色定妆<span class="time-badge"><span class="icon">⏱️</span> 1-2 分钟</span></h2>
+              <p class="chapter-desc">确定视频中人物的形象和风格</p>
+            </div>
+          </div>
+
+          <div class="progress-indicator">
+            <span class="step">进度：</span>
+            <span class="current">Step 2/6</span>
+          </div>
+
+          <section class="section">
+            <h3>4.1 定妆是什么？为什么重要？</h3>
+            <p>定妆是为视频中的虚拟人物确定形象和风格。系统会根据您的服装和风格偏好，生成适合的人物形象。定妆结果会影响视频的整体风格和人物表现。</p>
+
+            <!-- 角色选择图片 -->
+            <div class="image-showcase">
+              <img src="images/step2-character-select.png" alt="角色选择界面">
+              <p class="image-caption">角色选择界面示例</p>
+            </div>
+          </section>
+
+          <section class="section">
+            <h3>4.2 定妆前需要准备什么</h3>
+            <div class="checklist">
+              <div class="checklist-item">
+                <div class="checkbox">✓</div>
+                <div class="text">
+                  <strong>目标风格描述</strong>
+                  <span>— 可选择休闲、商务、优雅、运动等风格</span>
+                </div>
+              </div>
+              <div class="checklist-item">
+                <div class="checkbox">✓</div>
+                <div class="text">
+                  <strong>参考图片（可选）</strong>
+                  <span>— 有喜欢的风格图片可以上传参考</span>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="section">
+            <h3>4.3 五视图是什么，如何确认</h3>
+            <p>五视图是系统生成的人物形象多角度展示：正面、侧面、背面、四分之三侧面等。</p>
+            <div class="checklist">
+              <div class="checklist-item">
+                <div class="checkbox">✓</div>
+                <div class="text">
+                  <strong>检查人物形象是否符合预期</strong>
+                  <span>— 确认服装、发型、妆容风格</span>
+                </div>
+              </div>
+              <div class="checklist-item">
+                <div class="checkbox">✓</div>
+                <div class="text">
+                  <strong>检查各角度是否协调</strong>
+                  <span>— 确保正反面、侧面风格一致</span>
+                </div>
+              </div>
+              <div class="checklist-item">
+                <div class="checkbox">✓</div>
+                <div class="text">
+                  <strong>不满意可重新生成</strong>
+                  <span>— 如不满意，可调整描述重新生成</span>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="section">
+            <h3>4.4 案例：小王定妆"都市白领"风格</h3>
+            <div class="case-card">
+              <div class="case-header">
+                <span class="case-icon">👤</span>
+                <span class="case-title">真实案例</span>
+              </div>
+              <div class="case-content">
+                <p>小王希望视频风格偏"都市白领"，适合上班族穿着场景。</p>
+                <p style="margin-top: 12px;"><strong>操作：</strong>选择"都市白领"风格标签，系统生成职业女性形象</p>
+                <p style="margin-top: 8px;"><strong>五视图确认：</strong>小王仔细查看五个角度的人物形象，确认符合预期后点击"确认定妆"</p>
+              </div>
+            </div>
+          </section>
+        </section>
+
+        <!-- 第五章：Step3 脚本与分镜生成 -->
+        <section class="chapter" id="chapter-4">
+          <div class="chapter-header">
+            <div class="chapter-number">5</div>
+            <div>
+              <h2 class="chapter-title">Step3：脚本与分镜生成<span class="time-badge"><span class="icon">⏱️</span> 8策略并行 4-9分钟</span></h2>
+              <p class="chapter-desc">9 种 AI 策略并行生成多样化脚本，选择最适合的方案</p>
+            </div>
+          </div>
+
+          <div class="progress-indicator">
+            <span class="step">进度：</span>
+            <span class="current">Step 3/6</span>
+          </div>
+
+          <section class="section">
+            <h3>5.1 脚本生成的工作原理<span class="time-badge"><span class="icon">⏱️</span> 2-6 分钟</span></h3>
+            <p>系统根据您的服装、搭配和定妆风格，通过 <strong>9 种 AI 策略并行</strong> 生成脚本，每种策略侧重不同的创意方向，产出多样化的脚本供您选择：</p>
+            <div class="table-wrapper">
+              <table>
+                <thead>
+                  <tr>
+                    <th>策略</th>
+                    <th>风格特点</th>
+                    <th>适合场景</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>📚 库存精选</strong></td>
+                    <td>经典稳定、复用优质脚本模板</td>
+                    <td>快速产出、稳妥可靠</td>
+                  </tr>
+                  <tr>
+                    <td><strong>🎬 视频热榜</strong></td>
+                    <td>紧跟热门视频趋势</td>
+                    <td>蹭热度、紧跟潮流</td>
+                  </tr>
+                  <tr>
+                    <td><strong>🔥 实时热榜</strong></td>
+                    <td>捕捉当下最新热点话题</td>
+                    <td>时效性强、话题引爆</td>
+                  </tr>
+                  <tr>
+                    <td><strong>🤖 实时智能</strong></td>
+                    <td>AI 智能匹配最佳脚本方案</td>
+                    <td>不知选什么时推荐</td>
+                  </tr>
+                  <tr>
+                    <td><strong>🎭 场景化脚本</strong></td>
+                    <td>围绕具体场景构建叙事</td>
+                    <td>场景明确、有故事性</td>
+                  </tr>
+                  <tr>
+                    <td><strong>👗 时尚大片</strong></td>
+                    <td>时装杂志风格、视觉冲击</td>
+                    <td>高端服装、品牌展示</td>
+                  </tr>
+                  <tr>
+                    <td><strong>❤️ 情感原型</strong></td>
+                    <td>从情感共鸣切入叙事</td>
+                    <td>打动人心、引发共鸣</td>
+                  </tr>
+                  <tr>
+                    <td><strong>✨ 生活美学</strong></td>
+                    <td>日常氛围、慢节奏叙事</td>
+                    <td>生活方式、柔和表达</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="tip">
+              <p><strong>💡 建议：</strong>每种策略各有所长，不必只看一种。浏览所有策略生成的脚本，选择最符合您品牌调性的方案。</p>
+            </div>
+
+            <!-- 脚本生成图片 -->
+            <div class="image-showcase">
+              <img src="images/step3-script.png" alt="脚本生成界面">
+              <p class="image-caption">脚本生成和选择界面</p>
+            </div>
+          </section>
+
+          <section class="section">
+            <h3>5.2 如何选择脚本</h3>
+            <p><strong>按需求场景快速定位：</strong></p>
+            <div class="checklist">
+              <div class="checklist-item">
+                <div class="checkbox">✓</div>
+                <div class="text">
+                  <strong>想稳妥快速</strong>
+                  <span>— 库存精选 / 实时智能</span>
+                </div>
+              </div>
+              <div class="checklist-item">
+                <div class="checkbox">✓</div>
+                <div class="text">
+                  <strong>想蹭热点引流</strong>
+                  <span>— 视频热榜 / 实时热榜</span>
+                </div>
+              </div>
+              <div class="checklist-item">
+                <div class="checkbox">✓</div>
+                <div class="text">
+                  <strong>想讲品牌故事</strong>
+                  <span>— 场景化脚本 / 情感原型</span>
+                </div>
+              </div>
+              <div class="checklist-item">
+                <div class="checkbox">✓</div>
+                <div class="text">
+                  <strong>想高端视觉感</strong>
+                  <span>— 时尚大片</span>
+                </div>
+              </div>
+              <div class="checklist-item">
+                <div class="checkbox">✓</div>
+                <div class="text">
+                  <strong>想生活方式感</strong>
+                  <span>— 生活美学</span>
+                </div>
+              </div>
+            </div>
+            <p style="margin-top: 16px;"><strong>选择要点：</strong></p>
+            <div class="checklist">
+              <div class="checklist-item">
+                <div class="checkbox">✓</div>
+                <div class="text">
+                  <strong>浏览所有策略的脚本</strong>
+                  <span>— 不同策略视角不同，总有更适合的</span>
+                </div>
+              </div>
+              <div class="checklist-item">
+                <div class="checkbox">✓</div>
+                <div class="text">
+                  <strong>不满意可对某策略重新生成</strong>
+                  <span>— 已完成或异常的策略卡片支持点击重新生成</span>
+                </div>
+              </div>
+              <div class="checklist-item">
+                <div class="checkbox">✓</div>
+                <div class="text">
+                  <strong>确认脚本时长是否合适</strong>
+                  <span>— 根据需求选择合适长度的脚本</span>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="section">
+            <h3>5.3 分镜的作用和确认要点<span class="time-badge"><span class="icon">⏱️</span> 2-3 分钟</span></h3>
+            <p>分镜是将脚本转化为可视化的画面预览。每个分镜对应视频中的一个镜头，展示人物动作、服装展示方式、场景背景等。</p>
+
+            <!-- 分镜预览图片 -->
+            <div class="image-showcase">
+              <img src="images/step3-storyboard.png" alt="分镜预览界面">
+              <p class="image-caption">分镜预览界面</p>
+            </div>
+
+            <div class="checklist">
+              <div class="checklist-item">
+                <div class="checkbox">✓</div>
+                <div class="text">
+                  <strong>检查服装是否正确展示</strong>
+                  <span>— 确认服装细节清晰可见</span>
+                </div>
+              </div>
+              <div class="checklist-item">
+                <div class="checkbox">✓</div>
+                <div class="text">
+                  <strong>检查场景是否符合预期</strong>
+                  <span>— 背景、光线是否与服装搭配</span>
+                </div>
+              </div>
+              <div class="checklist-item">
+                <div class="checkbox">✓</div>
+                <div class="text">
+                  <strong>检查人物动作是否自然</strong>
+                  <span>— 姿态、表情是否协调</span>
+                </div>
+              </div>
+            </div>
+            <div class="alert alert-warning">
+              <strong>⚠️ 注意：</strong>脚本和分镜确认后将进入视频生成环节，无法返回修改。请仔细检查后再确认。
+            </div>
+          </section>
+
+          <section class="section">
+            <h3>5.4 案例：小王从 9 种策略中选择脚本</h3>
+            <div class="case-card">
+              <div class="case-header">
+                <span class="case-icon">👤</span>
+                <span class="case-title">真实案例</span>
+              </div>
+              <div class="case-content">
+                <p>系统通过 9 种 AI 策略并行生成了多个不同风格的脚本，覆盖库存精选、时尚大片、情感原型等方向。</p>
+                <p style="margin-top: 12px;"><strong>操作：</strong>小王浏览了各策略生成的脚本，选择了适合抖音推广的"时尚大片"策略脚本，视觉效果强、品牌感突出</p>
+                <p style="margin-top: 8px;"><strong>分镜确认：</strong>查看每个分镜画面，确认服装展示效果，点击"确认分镜"</p>
+              </div>
+            </div>
+          </section>
+        </section>
+
+        <!-- 第六章：Step4 视频生成与合成 -->
+        <section class="chapter" id="chapter-5">
+          <div class="chapter-header">
+            <div class="chapter-number">6</div>
+            <div>
+              <h2 class="chapter-title">Step4：视频生成与合成<span class="time-badge"><span class="icon">⏱️</span> 3-6 分钟</span></h2>
+              <p class="chapter-desc">AI 自动生成视频内容</p>
+            </div>
+          </div>
+
+          <div class="progress-indicator">
+            <span class="step">进度：</span>
+            <span class="current">Step 4/6</span>
+          </div>
+
+          <section class="section">
+            <h3>6.1 视频生成<span class="time-badge"><span class="icon">⏱️</span> 2-5 分钟</span></h3>
+            <p>视频生成需要一定时间，具体时长取决于视频长度和复杂度。系统会根据分镜自动生成视频片段。</p>
+
+            <!-- 视频生成图片 -->
+            <div class="image-showcase">
+              <img src="images/step4-video-generate.png" alt="视频生成界面">
+              <p class="image-caption">视频生成进度界面</p>
+            </div>
+
+            <div class="tip">
+              <p><strong>💡 提示：</strong>生成过程中您可以离开页面，系统会自动保存进度。完成后会有通知提醒。</p>
+            </div>
+          </section>
+
+          <section class="section">
+            <h3>6.2 如何查看生成进度</h3>
+            <p>在项目详情页可以看到当前生成进度和状态。包括：排队中、生成中、已完成。</p>
+          </section>
+
+          <section class="section">
+            <h3>6.3 合成<span class="time-badge"><span class="icon">⏱️</span> 约 1 分钟</span></h3>
+            <p>视频片段生成完成后，需要进行合成。您可以：</p>
+            <div class="checklist">
+              <div class="checklist-item">
+                <div class="checkbox">✓</div>
+                <div class="text">
+                  <strong>选择背景音乐</strong>
+                  <span>— 为视频添加合适的背景音乐</span>
+                </div>
+              </div>
+              <div class="checklist-item">
+                <div class="checkbox">✓</div>
+                <div class="text">
+                  <strong>设置是否卡点</strong>
+                  <span>— 视频节奏是否与音乐卡点</span>
+                </div>
+              </div>
+              <div class="checklist-item">
+                <div class="checkbox">✓</div>
+                <div class="text">
+                  <strong>修改封面</strong>
+                  <span>— 选择或上传视频封面图片</span>
+                </div>
+              </div>
+              <div class="checklist-item">
+                <div class="checkbox">✓</div>
+                <div class="text">
+                  <strong>可以多次合成</strong>
+                  <span>— 不满意可以重新调整合成参数</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- 合成图片 -->
+            <div class="image-showcase">
+              <img src="images/step4-compose.png" alt="合成界面">
+              <p class="image-caption">合成和再合成界面</p>
+            </div>
+          </section>
+
+          <section class="section">
+            <h3>6.4 不满意怎么办？</h3>
+            <div class="checklist">
+              <div class="checklist-item">
+                <div class="checkbox">✓</div>
+                <div class="text">
+                  <strong>重新合成</strong>
+                  <span>— 可以多次调整合成参数，重新合成</span>
+                </div>
+              </div>
+              <div class="checklist-item">
+                <div class="checkbox">✓</div>
+                <div class="text">
+                  <strong>裂变功能</strong>
+                  <span>— 基于当前视频，生成多个变体版本</span>
+                </div>
+              </div>
+            </div>
+          </section>
+        </section>
+
+        <!-- 第七章：Step5 发布准备 -->
+        <section class="chapter" id="chapter-6">
+          <div class="chapter-header">
+            <div class="chapter-number">7</div>
+            <div>
+              <h2 class="chapter-title">Step5：发布准备</h2>
+              <p class="chapter-desc">预览成片和分享</p>
+            </div>
+          </div>
+
+          <div class="progress-indicator">
+            <span class="step">进度：</span>
+            <span class="current">Step 5/6</span>
+          </div>
+
+          <section class="section">
+            <h3>7.1 预览成片</h3>
+            <p>视频合成完成后，可以在线预览成片效果。检查画面质量、服装展示、整体流畅度。</p>
+
+            <!-- 预览成片图片 -->
+            <div class="image-showcase">
+              <img src="images/step5-preview.png" alt="预览成片界面">
+              <p class="image-caption">预览成片和分享界面</p>
+            </div>
+          </section>
+
+          <section class="section">
+            <h3>7.2 发布前的检查清单</h3>
+            <div class="checklist">
+              <div class="checklist-item">
+                <div class="checkbox">✓</div>
+                <div class="text">
+                  <strong>视频时长是否符合平台要求</strong>
+                  <span>— 不同平台有不同的时长限制</span>
+                </div>
+              </div>
+              <div class="checklist-item">
+                <div class="checkbox">✓</div>
+                <div class="text">
+                  <strong>视频画面是否清晰</strong>
+                  <span>— 检查服装细节是否清楚</span>
+                </div>
+              </div>
+              <div class="checklist-item">
+                <div class="checkbox">✓</div>
+                <div class="text">
+                  <strong>视频内容是否符合平台规范</strong>
+                  <span>— 确保无违规内容</span>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="section">
+            <h3>7.3 分享和导出</h3>
+            <p>可以将视频分享到社交平台，或导出到本地保存。</p>
+          </section>
+        </section>
+
+        <!-- 第八章：Step6 裂变扩展 -->
+        <section class="chapter" id="chapter-7">
+          <div class="chapter-header">
+            <div class="chapter-number">8</div>
+            <div>
+              <h2 class="chapter-title">Step6：裂变扩展<span class="time-badge"><span class="icon">⏱️</span> 5-10 分钟</span></h2>
+              <p class="chapter-desc">基于已生成的视频创建更多变体</p>
+            </div>
+          </div>
+
+          <div class="progress-indicator">
+            <span class="step">进度：</span>
+            <span class="current">Step 6/6</span>
+          </div>
+
+          <section class="section">
+            <h3>8.1 裂变是什么？能做什么？</h3>
+            <p>裂变功能可以基于已完成的视频，快速生成多个变体版本。一键裂变，支持删除后重新裂变。</p>
+
+            <!-- 裂变图片 -->
+            <div class="image-showcase">
+              <img src="images/step6-fission.png" alt="裂变界面">
+              <p class="image-caption">裂变功能界面</p>
+            </div>
+
+            <div class="checklist">
+              <div class="checklist-item">
+                <div class="checkbox">✓</div>
+                <div class="text">
+                  <strong>不同风格版本</strong>
+                  <span>— 同一服装，不同背景或音乐</span>
+                </div>
+              </div>
+              <div class="checklist-item">
+                <div class="checkbox">✓</div>
+                <div class="text">
+                  <strong>不同时长版本</strong>
+                  <span>— 裁剪成不同长度适应各平台</span>
+                </div>
+              </div>
+              <div class="checklist-item">
+                <div class="checkbox">✓</div>
+                <div class="text">
+                  <strong>批量生成</strong>
+                  <span>— 一次生成多个变体，提高效率</span>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="section">
+            <h3>8.2 如何使用裂变功能</h3>
+            <p>在项目详情页点击"裂变"按钮，选择裂变类型和参数，系统会自动生成变体视频。如不满意可删除后重新裂变。</p>
+          </section>
+        </section>
+
+        <!-- 附录 -->
+        <section class="chapter" id="appendix">
+          <div class="chapter-header">
+            <div class="chapter-number">+</div>
+            <div>
+              <h2 class="chapter-title">附录：时间预估总览</h2>
+              <p class="chapter-desc">完整一个项目流程大约需要 15-30 分钟，支持多个项目同时进行</p>
+            </div>
+          </div>
+
+          <section class="section">
+            <h3>各步骤时间预估</h3>
+            <div class="table-wrapper">
+              <table>
+                <thead>
+                  <tr>
+                    <th>步骤</th>
+                    <th>操作内容</th>
+                    <th>预估时间</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>Step1</strong></td>
+                    <td>上传图片、识别平铺图、角色预设、穿搭风格</td>
+                    <td>3-5 分钟</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Step2</strong></td>
+                    <td>角色生成</td>
+                    <td>1-2 分钟</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Step3</strong></td>
+                    <td>脚本生成（9 种策略并行）</td>
+                    <td>2-6 分钟</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Step3</strong></td>
+                    <td>分镜预览图生成</td>
+                    <td>2-3 分钟</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Step4</strong></td>
+                    <td>视频生成</td>
+                    <td>2-5 分钟</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Step4</strong></td>
+                    <td>合成（选择音乐、是否卡点、修改封面）</td>
+                    <td>约 1 分钟</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Step6</strong></td>
+                    <td>裂变（一键裂变，可多次重试）</td>
+                    <td>5-10 分钟</td>
+                  </tr>
+                  <tr>
+                    <td><strong>反推</strong></td>
+                    <td>视频反推分析（输入链接→AI分析→生成脚本）</td>
+                    <td>5-10 分钟</td>
+                  </tr>
+                  <tr>
+                    <td><strong>联合反推</strong></td>
+                    <td>反推项目 Step1 自动生成搭配方案和角色方向</td>
+                    <td>2-5 分钟</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <section class="section">
+            <h3>服装拍摄要点</h3>
+            <div class="table-wrapper">
+              <table>
+                <thead>
+                  <tr>
+                    <th>拍摄要点</th>
+                    <th>具体要求</th>
+                    <th>注意事项</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>正面图</strong></td>
+                    <td>清晰展示服装正面全貌</td>
+                    <td>光线均匀，背景简洁</td>
+                  </tr>
+                  <tr>
+                    <td><strong>背面/侧面</strong></td>
+                    <td>如有图案建议补充其他视角图</td>
+                    <td>确保图案细节可见</td>
+                  </tr>
+                  <tr>
+                    <td><strong>搭配服装</strong></td>
+                    <td>如需搭配可在【服饰#2】上传</td>
+                    <td>系统会自动推荐搭配方案</td>
+                  </tr>
+                  <tr>
+                    <td><strong>图片质量</strong></td>
+                    <td>清晰度高，无模糊</td>
+                    <td>质量越好生成效果越好（不过图片不要过大，小于 4M）</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <section class="section">
+            <h3>常见问题</h3>
+            <div class="checklist">
+              <div class="checklist-item">
+                <div class="checkbox">?</div>
+                <div class="text">
+                  <strong>项目类型选错了怎么办？</strong>
+                  <span>— 无法撤回，需要重新创建新项目</span>
+                </div>
+              </div>
+              <div class="checklist-item">
+                <div class="checkbox">?</div>
+                <div class="text">
+                  <strong>服装照片上传后不满意怎么办？</strong>
+                  <span>— 在生成角色预设前可以重新上传</span>
+                </div>
+              </div>
+              <div class="checklist-item">
+                <div class="checkbox">?</div>
+                <div class="text">
+                  <strong>定妆后能修改吗？</strong>
+                  <span>— 确认后无法修改，需要重新创建项目</span>
+                </div>
+              </div>
+              <div class="checklist-item">
+                <div class="checkbox">?</div>
+                <div class="text">
+                  <strong>脚本锁定后可以更换吗？</strong>
+                  <span>— 不行，确认锁定后会自动生成分镜预览图，无法撤回</span>
+                </div>
+              </div>
+              <div class="checklist-item">
+                <div class="checkbox">?</div>
+                <div class="text">
+                  <strong>视频生成不满意怎么办？</strong>
+                  <span>— 可以重新生成</span>
+                </div>
+              </div>
+              <div class="checklist-item">
+                <div class="checkbox">?</div>
+                <div class="text">
+                  <strong>分镜预览图不满意怎么办？</strong>
+                  <span>— 可以重新生成</span>
+                </div>
+              </div>
+              <div class="checklist-item">
+                <div class="checkbox">?</div>
+                <div class="text">
+                  <strong>可以导出视频到本地吗？</strong>
+                  <span>— 可以，在成片页面点击下载</span>
+                </div>
+              </div>
+              <div class="checklist-item">
+                <div class="checkbox">?</div>
+                <div class="text">
+                  <strong>合成不满意可以重试吗？</strong>
+                  <span>— 可以多次合成，调整音乐、卡点、封面</span>
+                </div>
+              </div>
+              <div class="checklist-item">
+                <div class="checkbox">?</div>
+                <div class="text">
+                  <strong>反推项目支持哪些视频来源？</strong>
+                  <span>— 支持抖音链接、视频直链、本地视频上传三种方式</span>
+                </div>
+              </div>
+              <div class="checklist-item">
+                <div class="checkbox">?</div>
+                <div class="text">
+                  <strong>反推分析失败怎么办？</strong>
+                  <span>— 请检查视频链接是否有效，或尝试重新输入链接</span>
+                </div>
+              </div>
+              <div class="checklist-item">
+                <div class="checkbox">?</div>
+                <div class="text">
+                  <strong>反推项目的脚本可以修改吗？</strong>
+                  <span>— 可以，在 Step3 脚本与分镜阶段可基于反推脚本进行改写优化</span>
+                </div>
+              </div>
+              <div class="checklist-item">
+                <div class="checkbox">?</div>
+                <div class="text">
+                  <strong>反推项目还需要手动上传服装吗？</strong>
+                  <span>— 不需要，系统会从反推的视频中自动提取服装信息并生成搭配方案</span>
+                </div>
+              </div>
+            </div>
+          </section>
+        </section>
+
+      </main>
+
+      <!-- 图片项目内容 -->
+      <main class="content image-content">
+        <!-- 图片项目 第一章：开始前最重要的决策 -->
+        <section class="chapter" id="image-chapter-1">
+          <div class="chapter-header">
+            <div class="chapter-number" style="background: #8b5cf6;">1</div>
+            <div>
+              <h2 class="chapter-title">开始前：图片项目是什么？<span class="time-badge"><span class="icon">⏱️</span> 10-20 分钟</span></h2>
+              <p class="chapter-desc">4 步完成电商商品详情页从模特到详情页的一站式制作</p>
+            </div>
+          </div>
+
+          <section class="section">
+            <h3>1.1 图片项目适合哪些商家？</h3>
+            <p>图片项目专注于生成<strong>高质量电商商品详情页图片</strong>，适合：</p>
+            <div class="checklist">
+              <div class="checklist-item">
+                <div class="checkbox">✓</div>
+                <div class="text">
+                  <strong>需要生成商品详情页的商家</strong>
+                  <span>— 淘宝、京东、拼多多、抖音小店等平台的商品详情主图与详情图</span>
+                </div>
+              </div>
+              <div class="checklist-item">
+                <div class="checkbox">✓</div>
+                <div class="text">
+                  <strong>已有服装照片，需要模特展示</strong>
+                  <span>— 上传服装照片，AI 自动匹配模特生成专业商品图</span>
+                </div>
+              </div>
+              <div class="checklist-item">
+                <div class="checkbox">✓</div>
+                <div class="text">
+                  <strong>需要快速产出多套详情页</strong>
+                  <span>— 一次可制作多张详情页，分别发布</span>
+                </div>
+              </div>
+              <div class="checklist-item">
+                <div class="checkbox" style="border-color: var(--warning); color: var(--warning);">✗</div>
+                <div class="text">
+                  <strong>暂不建议的情况</strong>
+                  <span>— 需要视频内容、需要动态展示效果</span>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="section">
+            <h3>1.2 图片项目 vs 视频项目</h3>
+            <div class="table-wrapper">
+              <table>
+                <thead>
+                  <tr>
+                    <th>维度</th>
+                    <th>图片项目</th>
+                    <th>视频项目</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>步骤数</strong></td>
+                    <td>4 步（服装→定妆→模特图→详情页）</td>
+                    <td>6 步（服装→定妆→脚本分镜→视频→发布→裂变）</td>
+                  </tr>
+                  <tr>
+                    <td><strong>产出物</strong></td>
+                    <td>商品详情页长图（可分享、可下载）</td>
+                    <td>电商短视频（可分享、可裂变）</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Step1-2</strong></td>
+                    <td>服装上传 + 角色定妆（与视频项目一致）</td>
+                    <td>服装上传 + 角色定妆</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Step3</strong></td>
+                    <td>模特图生成：AI 生成 2-12 张模特穿搭图</td>
+                    <td>脚本与分镜：AI 生成 9 种策略脚本 + 分镜预览</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Step4</strong></td>
+                    <td>电商详情页：AI 规划模块 + 图文编辑 + 长图合成</td>
+                    <td>视频生成 + 合成：AI 生成视频片段 + 背景音乐</td>
+                  </tr>
+                  <tr>
+                    <td><strong>时间预估</strong></td>
+                    <td>10-20 分钟</td>
+                    <td>15-30 分钟</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <section class="section">
+            <h3>1.3 案例：服装店老板小王的选择</h3>
+            <div class="case-card">
+              <div class="case-header">
+                <span class="case-icon">👤</span>
+                <span class="case-title">真实案例</span>
+              </div>
+              <div class="case-content">
+                <p>小王经营一家童装店，进了 3 款春夏新品童装，想在淘宝和拼多多上架商品详情页。</p>
+                <p style="margin-top: 12px;"><strong>他的选择：</strong>图片项目</p>
+                <p style="margin-top: 8px;"><strong>原因：</strong>需要为每款童装生成模特展示图 + 商品详情页，他有现成的服装平铺照片，可以直接上传。</p>
+                <p style="margin-top: 8px; color: var(--success);"><strong>结果：</strong>20 分钟完成了 3 个详情页，顺利上架到淘宝。</p>
+              </div>
+            </div>
+          </section>
+        </section>
+
+        <!-- 图片项目 第二章：Step1（与视频项目相同） -->
+        <section class="chapter" id="image-chapter-2">
+          <div class="chapter-header">
+            <div class="chapter-number" style="background: #8b5cf6;">2</div>
+            <div>
+              <h2 class="chapter-title">Step1：服装上传与搭配<span class="time-badge"><span class="icon">⏱️</span> 3-5 分钟</span></h2>
+              <p class="chapter-desc">上传服装照片，系统自动推荐搭配方案（与视频项目 Step1 完全一致）</p>
+            </div>
+          </div>
+
+          <div class="progress-indicator">
+            <span class="step">进度：</span>
+            <span class="current">Step 1/4</span>
+          </div>
+
+          <section class="section">
+            <h3>2.1 上传前的准备</h3>
+            <p>图片项目的 Step1 与视频项目完全相同。上传服装照片后，系统会自动分析服装风格、颜色、款式，为您推荐搭配方案。</p>
+            <div class="checklist">
+              <div class="checklist-item">
+                <div class="checkbox">✓</div>
+                <div class="text">
+                  <strong>建议上传正面图，补充背面/侧面图</strong>
+                  <span>— 套装不要遮挡细节</span>
+                </div>
+              </div>
+              <div class="checklist-item">
+                <div class="checkbox">✓</div>
+                <div class="text">
+                  <strong>按步骤操作</strong>
+                  <span>— 上传图片 → 识别平铺图 → 角色预设 → 穿搭风格</span>
+                </div>
+              </div>
+              <div class="checklist-item">
+                <div class="checkbox">✓</div>
+                <div class="text">
+                  <strong>认真选择适合的风格</strong>
+                  <span>— 风格选择会影响后续生成效果</span>
+                </div>
+              </div>
+              <div class="checklist-item">
+                <div class="checkbox" style="border-color: var(--warning); color: var(--warning);">✗</div>
+                <div class="text">
+                  <strong>图片不要过大</strong>
+                  <span>— 单张图片小于 4M</span>
+                </div>
+              </div>
+            </div>
+            <div class="tip">
+              <p><strong>💡 提示：</strong>详细操作请参考 <a href="#chapter-2" onclick="switchTab('video')" style="color: var(--primary);">视频项目 Step1 章节</a>，两者完全一致。</p>
+            </div>
+          </section>
+        </section>
+
+        <!-- 图片项目 第三章：Step2（与视频项目相同） -->
+        <section class="chapter" id="image-chapter-3">
+          <div class="chapter-header">
+            <div class="chapter-number" style="background: #8b5cf6;">3</div>
+            <div>
+              <h2 class="chapter-title">Step2：角色定妆<span class="time-badge"><span class="icon">⏱️</span> 1-2 分钟</span></h2>
+              <p class="chapter-desc">确定模特形象和风格（与视频项目 Step2 完全一致）</p>
+            </div>
+          </div>
+
+          <div class="progress-indicator">
+            <span class="step">进度：</span>
+            <span class="current">Step 2/4</span>
+          </div>
+
+          <section class="section">
+            <h3>3.1 定妆流程</h3>
+            <p>图片项目的 Step2 与视频项目完全相同。系统会根据服装和风格偏好，生成适合的人物形象，影响整体模特图风格。</p>
+            <div class="checklist">
+              <div class="checklist-item">
+                <div class="checkbox">✓</div>
+                <div class="text">
+                  <strong>选择目标风格</strong>
+                  <span>— 休闲、商务、优雅、运动、学院风等</span>
+                </div>
+              </div>
+              <div class="checklist-item">
+                <div class="checkbox">✓</div>
+                <div class="text">
+                  <strong>检查五视图</strong>
+                  <span>— 确认人物形象、服装、发型、妆容是否符合预期</span>
+                </div>
+              </div>
+              <div class="checklist-item">
+                <div class="checkbox">✓</div>
+                <div class="text">
+                  <strong>不满意可重新生成</strong>
+                  <span>— 确认后不可退回修改</span>
+                </div>
+              </div>
+            </div>
+            <div class="tip">
+              <p><strong>💡 提示：</strong>详细操作请参考 <a href="#chapter-3" onclick="switchTab('video')" style="color: var(--primary);">视频项目 Step2 章节</a>，两者完全一致。</p>
+            </div>
+          </section>
+        </section>
+
+        <!-- 图片项目 第四章：Step3 模特图生成 -->
+        <section class="chapter" id="image-chapter-4">
+          <div class="chapter-header">
+            <div class="chapter-number" style="background: #8b5cf6;">4</div>
+            <div>
+              <h2 class="chapter-title">Step3：模特图生成<span class="time-badge"><span class="icon">⏱️</span> 3-8 分钟</span></h2>
+              <p class="chapter-desc">AI 自动创作多张专业模特图，选择进入电商详情页</p>
+            </div>
+          </div>
+
+          <div class="progress-indicator">
+            <span class="step">进度：</span>
+            <span class="current">Step 3/4</span>
+          </div>
+
+          <section class="section">
+            <h3>4.1 生成前的设置</h3>
+            <p>进入 Step3 后，页面顶部会显示服装参考图和搭配方案、角色预设等信息，确认无误后可开始生成模特图。</p>
+            <div class="checklist">
+              <div class="checklist-item">
+                <div class="checkbox">✓</div>
+                <div class="text">
+                  <strong>选择生成数量</strong>
+                  <span>— 可选 2/4/6/8/10/12 张，数量越多选择余地越大</span>
+                </div>
+              </div>
+              <div class="checklist-item">
+                <div class="checkbox">✓</div>
+                <div class="text">
+                  <strong>上传品牌 Logo（可选）</strong>
+                  <span>— 支持 PNG/WebP 格式，透明背景，会自动叠加到模特图上</span>
+                </div>
+              </div>
+              <div class="checklist-item">
+                <div class="checkbox">✓</div>
+                <div class="text">
+                  <strong>点击「一键生成」</strong>
+                  <span>— 系统会弹出确认提示，开始后自动创作</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Step3 模特图生成截图 -->
+            <div class="image-showcase">
+              <img src="images/step3-model-photos.png" alt="Step3 模特图生成界面">
+              <p class="image-caption">Step3 模特图生成界面，已生成 10 张，可选择 1-4 张进入下一步</p>
+            </div>
+          </section>
+
+          <section class="section">
+            <h3>4.2 生成过程与进度</h3>
+            <p>生成过程分为多个阶段，页面顶部进度条会实时显示：</p>
+            <div class="checklist">
+              <div class="checklist-item">
+                <div class="checkbox">1</div>
+                <div class="text">
+                  <strong>AI 规划中</strong>
+                  <span>— 系统根据服装和角色信息，智能规划姿势与背景组合</span>
+                </div>
+              </div>
+              <div class="checklist-item">
+                <div class="checkbox">2</div>
+                <div class="text">
+                  <strong>创建照片</strong>
+                  <span>— 按规划方案逐一创建模特图</span>
+                </div>
+              </div>
+              <div class="checklist-item">
+                <div class="checkbox">3</div>
+                <div class="text">
+                  <strong>准备生成 → 生成图片</strong>
+                  <span>— 显示进度计数，如 "3/10"</span>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="section">
+            <h3>4.3 如何选择模特图</h3>
+            <p>生成完成后，图片以网格形式展示。每张图左上角有复选框，用于勾选满意的图片。</p>
+            <div class="checklist">
+              <div class="checklist-item">
+                <div class="checkbox">✓</div>
+                <div class="text">
+                  <strong>至少选择 1 张</strong>
+                  <span>— 需要选中至少 1 张模特图才能进入下一步</span>
+                </div>
+              </div>
+              <div class="checklist-item">
+                <div class="checkbox">✓</div>
+                <div class="text">
+                  <strong>最多选择 4 张</strong>
+                  <span>— 系统建议选 4 张以内，便于后续电商详情页排版</span>
+                </div>
+              </div>
+              <div class="checklist-item">
+                <div class="checkbox">✓</div>
+                <div class="text">
+                  <strong>点击图片可放大预览</strong>
+                  <span>— 支持左右切换、键盘方向键导航</span>
+                </div>
+              </div>
+              <div class="checklist-item">
+                <div class="checkbox">✓</div>
+                <div class="text">
+                  <strong>勾选后可下载</strong>
+                  <span>— 底部工具栏显示「下载 N 张」按钮</span>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="section">
+            <h3>4.4 进入电商详情页</h3>
+            <p>选择好模特图后，点击底部工具栏的「下一步」按钮。</p>
+            <div class="checklist">
+              <div class="checklist-item">
+                <div class="checkbox">✓</div>
+                <div class="text">
+                  <strong>确认提示</strong>
+                  <span>— 系统会提示 "将使用已选中的 N 张模特图生成电商详情页，确认继续？"</span>
+                </div>
+              </div>
+              <div class="checklist-item">
+                <div class="checkbox">✓</div>
+                <div class="text">
+                  <strong>确认后进入 Step4</strong>
+                  <span>— 项目状态变更为 "模特图已选定"，跳转至电商详情页编辑</span>
+                </div>
+              </div>
+              <div class="checklist-item">
+                <div class="checkbox" style="border-color: var(--warning); color: var(--warning);">✗</div>
+                <div class="text">
+                  <strong>Step3 进入后锁定</strong>
+                  <span>— 进入 Step4 后无法退回修改模特图</span>
+                </div>
+              </div>
+            </div>
+          </section>
+        </section>
+
+        <!-- 图片项目 第五章：Step4 电商详情页 -->
+        <section class="chapter" id="image-chapter-5">
+          <div class="chapter-header">
+            <div class="chapter-number" style="background: #8b5cf6;">5</div>
+            <div>
+              <h2 class="chapter-title">Step4：电商详情页<span class="time-badge"><span class="icon">⏱️</span> 5-15 分钟</span></h2>
+              <p class="chapter-desc">AI 自动规划模块 + 生成图片 + 编辑文字样式 + 长图合成分享</p>
+            </div>
+          </div>
+
+          <div class="progress-indicator">
+            <span class="step">进度：</span>
+            <span class="current">Step 4/4</span>
+          </div>
+
+          <section class="section">
+            <h3>5.1 页面布局总览</h3>
+            <p>Step4 采用三栏布局：左侧模块树、中间手机预览、右侧编辑面板。</p>
+
+            <!-- Step4 电商详情页截图 -->
+            <div class="image-showcase">
+              <img src="images/step4-ecommerce-editor.png" alt="Step4 电商详情页编辑界面">
+              <p class="image-caption">Step4 电商详情页编辑界面：左侧模块列表、中间手机预览、右侧编辑面板</p>
+            </div>
+
+            <div class="table-wrapper">
+              <table>
+                <thead>
+                  <tr>
+                    <th>区域</th>
+                    <th>功能</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>左侧：模块树</strong></td>
+                    <td>显示所有电商模块，支持拖拽排序、单个生成/删除、添加新模块</td>
+                  </tr>
+                  <tr>
+                    <td><strong>中间：手机预览</strong></td>
+                    <td>模拟手机端商品详情页的实时预览效果，点击模块进入编辑模式</td>
+                  </tr>
+                  <tr>
+                    <td><strong>右侧：编辑面板</strong></td>
+                    <td>三个 Tab 页：内容（标题/正文）、文字样式（字体/颜色/位置）、图形特效（装饰/艺术字）</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <section class="section">
+            <h3>5.2 AI 自动规划模块</h3>
+            <p>进入 Step4 后，系统会自动执行「模块规划」，根据模特图、服装搭配和角色风格，智能规划电商详情页的模块结构：</p>
+            <div class="checklist">
+              <div class="checklist-item">
+                <div class="checkbox">1</div>
+                <div class="text">
+                  <strong>AI 规划模块</strong>
+                  <span>— 自动生成 7-8 个模块，包含品牌介绍、版型展示、面料细节、场景图、搭配指南、购买引导等</span>
+                </div>
+              </div>
+              <div class="checklist-item">
+                <div class="checkbox">2</div>
+                <div class="text">
+                  <strong>模块列表展示</strong>
+                  <span>— 规划完成后，左侧显示所有模块，状态为"待生成"</span>
+                </div>
+              </div>
+              <div class="checklist-item">
+                <div class="checkbox">3</div>
+                <div class="text">
+                  <strong>点击「生成全部」</strong>
+                  <span>— 一键生成所有模块图片，也可逐个点击生成按钮</span>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="section">
+            <h3>5.3 模块类型说明</h3>
+            <p>系统支持 12 种模块类型，覆盖电商详情页的常见场景：</p>
+            <div class="table-wrapper">
+              <table>
+                <thead>
+                  <tr>
+                    <th>模块类型</th>
+                    <th>用途</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr><td><strong>outfit_overview</strong></td><td>整体穿搭概览，展示全身搭配效果</td></tr>
+                  <tr><td><strong>detail_showcase</strong></td><td>细节展示，突出服装亮点</td></tr>
+                  <tr><td><strong>scene_application</strong></td><td>场景应用，模特在实际场景中展示</td></tr>
+                  <tr><td><strong>material_texture</strong></td><td>面料质感，展示材质与手感</td></tr>
+                  <tr><td><strong>size_comparison</strong></td><td>尺码对比，帮助买家选择合适尺码</td></tr>
+                  <tr><td><strong>call_to_action</strong></td><td>购买引导，促进下单转化</td></tr>
+                  <tr><td><strong>brand_story</strong></td><td>品牌故事，建立信任感</td></tr>
+                  <tr><td><strong>styling_guide</strong></td><td>穿搭指南，展示多种搭配方式</td></tr>
+                  <tr><td><strong>detail_closeup</strong></td><td>细节特写，聚焦工艺与设计</td></tr>
+                  <tr><td><strong>outfit_recommendation</strong></td><td>搭配推荐，搭配其他商品购买</td></tr>
+                  <tr><td><strong>user_review</strong></td><td>用户评价，展示买家口碑</td></tr>
+                  <tr><td><strong>自定义模块</strong></td><td>点击「添加模块」，可手动新增任意类型</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <section class="section">
+            <h3>5.4 编辑模块内容</h3>
+            <p>点击左侧任一模块，右侧编辑面板会自动切换到该模块的编辑状态。编辑面板有三个 Tab：</p>
+
+            <p style="margin-top: 16px; font-weight: 600;">Tab 1：内容</p>
+            <div class="checklist">
+              <div class="checklist-item">
+                <div class="checkbox">✓</div>
+                <div class="text">
+                  <strong>编辑标题</strong>
+                  <span>— 修改模块标题文字，最多 100 字</span>
+                </div>
+              </div>
+              <div class="checklist-item">
+                <div class="checkbox">✓</div>
+                <div class="text">
+                  <strong>编辑正文</strong>
+                  <span>— 修改模块文案描述，最多 2000 字，右下角显示字数统计</span>
+                </div>
+              </div>
+              <div class="checklist-item">
+                <div class="checkbox">✓</div>
+                <div class="text">
+                  <strong>版本历史</strong>
+                  <span>— 展开可查看历次修改，点击可回退到任一历史版本</span>
+                </div>
+              </div>
+            </div>
+
+            <p style="margin-top: 16px; font-weight: 600;">Tab 2：文字样式</p>
+            <div class="checklist">
+              <div class="checklist-item">
+                <div class="checkbox">✓</div>
+                <div class="text">
+                  <strong>字体大小</strong>
+                  <span>— 5 档可选：18px / 24px / 32px / 36px / 48px</span>
+                </div>
+              </div>
+              <div class="checklist-item">
+                <div class="checkbox">✓</div>
+                <div class="text">
+                  <strong>字体风格</strong>
+                  <span>— 12 种字体：黑体、宋体、楷体、仿宋、微软雅黑等</span>
+                </div>
+              </div>
+              <div class="checklist-item">
+                <div class="checkbox">✓</div>
+                <div class="text">
+                  <strong>文字颜色</strong>
+                  <span>— 6 种预设：深灰、灰色、浅灰、黑色、白色、主题色</span>
+                </div>
+              </div>
+              <div class="checklist-item">
+                <div class="checkbox">✓</div>
+                <div class="text">
+                  <strong>对齐与位置</strong>
+                  <span>— 左中右对齐 + 上/下/左/右位置调整</span>
+                </div>
+              </div>
+              <div class="checklist-item">
+                <div class="checkbox">✓</div>
+                <div class="text">
+                  <strong>文字背景</strong>
+                  <span>— 可开启/关闭文字背景色，4 种预设（浅灰、白色、渐变、透明）</span>
+                </div>
+              </div>
+            </div>
+
+            <p style="margin-top: 16px; font-weight: 600;">Tab 3：图形特效</p>
+            <div class="checklist">
+              <div class="checklist-item">
+                <div class="checkbox">✓</div>
+                <div class="text">
+                  <strong>装饰图形</strong>
+                  <span>— 为模块添加形状装饰，可调节颜色、透明度、旋转角度</span>
+                </div>
+              </div>
+              <div class="checklist-item">
+                <div class="checkbox">✓</div>
+                <div class="text">
+                  <strong>标签文字</strong>
+                  <span>— 如 "透气"、"高弹" 等标签，最多 4 个汉字</span>
+                </div>
+              </div>
+              <div class="checklist-item">
+                <div class="checkbox">✓</div>
+                <div class="text">
+                  <strong>艺术字效果</strong>
+                  <span>— 18 种风格：描边字、立体字、渐变字、霓虹字、印章字、金属立体、冰晶字等</span>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="section">
+            <h3>5.5 长图合成与下载</h3>
+            <p>所有模块生成完成后，底部工具栏会显示「下载」按钮，点击可合成并下载长图。</p>
+            <div class="checklist">
+              <div class="checklist-item">
+                <div class="checkbox">✓</div>
+                <div class="text">
+                  <strong>长图合成</strong>
+                  <span>— 将所有模块按左侧顺序拼接成一张完整的详情页长图</span>
+                </div>
+              </div>
+              <div class="checklist-item">
+                <div class="checkbox">✓</div>
+                <div class="text">
+                  <strong>拖拽排序</strong>
+                  <span>— 可在合成前拖拽调整模块顺序</span>
+                </div>
+              </div>
+              <div class="checklist-item">
+                <div class="checkbox">✓</div>
+                <div class="text">
+                  <strong>随时重新生成</strong>
+                  <span>— 单个模块不满意可点击重新生成</span>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="section">
+            <h3>5.6 分享功能</h3>
+            <p>所有模块生成完成后，页面右上角会出现「分享作品」按钮。</p>
+            <div class="checklist">
+              <div class="checklist-item">
+                <div class="checkbox">✓</div>
+                <div class="text">
+                  <strong>生成分享链接</strong>
+                  <span>— 点击后自动生成可分享的在线预览链接</span>
+                </div>
+              </div>
+              <div class="checklist-item">
+                <div class="checkbox">✓</div>
+                <div class="text">
+                  <strong>复制/扫码</strong>
+                  <span>— 支持复制链接发送到手机，或扫描 QR 码直接查看</span>
+                </div>
+              </div>
+              <div class="checklist-item">
+                <div class="checkbox">✓</div>
+                <div class="text">
+                  <strong>移动端适配</strong>
+                  <span>— 分享页面为手机端自适应布局，方便直接预览</span>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="section">
+            <h3>5.7 案例：小王完成童装详情页</h3>
+            <div class="case-card">
+              <div class="case-header">
+                <span class="case-icon">👤</span>
+                <span class="case-title">真实案例</span>
+              </div>
+              <div class="case-content">
+                <p>小王选定了 3 张模特图后，点击"进入电商详情页"进入 Step4。</p>
+                <p style="margin-top: 12px;"><strong>AI 规划：</strong>系统自动规划了 7 个模块，包含品牌介绍、版型展示、面料细节、场景图、搭配指南、尺码参考、购买引导</p>
+                <p style="margin-top: 8px;"><strong>生成全部：</strong>点击"生成全部"，AI 逐一生成各模块图片，约 3-5 分钟完成</p>
+                <p style="margin-top: 8px;"><strong>编辑调整：</strong>小王修改了标题文案，将字体改为"黑体"，位置设为底部居中，效果更加醒目</p>
+                <p style="margin-top: 8px; color: var(--success);"><strong>完成发布：</strong>确认所有模块后，合成下载长图，直接上传到淘宝商品详情页</p>
+              </div>
+            </div>
+          </section>
+        </section>
+
+        <!-- 图片项目 附录 -->
+        <section class="chapter" id="image-appendix">
+          <div class="chapter-header">
+            <div class="chapter-number" style="background: #8b5cf6;">+</div>
+            <div>
+              <h2 class="chapter-title">图片项目：时间预估与常见问题</h2>
+              <p class="chapter-desc">完整流程大约需要 10-20 分钟</p>
+            </div>
+          </div>
+
+          <section class="section">
+            <h3>各步骤时间预估</h3>
+            <div class="table-wrapper">
+              <table>
+                <thead>
+                  <tr>
+                    <th>步骤</th>
+                    <th>操作内容</th>
+                    <th>预估时间</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>Step1</strong></td>
+                    <td>上传图片、识别平铺图、角色预设、穿搭风格</td>
+                    <td>3-5 分钟</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Step2</strong></td>
+                    <td>角色生成、五视图确认</td>
+                    <td>1-2 分钟</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Step3</strong></td>
+                    <td>模特图生成（AI 规划 + 图片生成 + 选择）</td>
+                    <td>3-8 分钟</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Step4</strong></td>
+                    <td>电商详情页（AI 规划模块 + 生成图片 + 编辑 + 合成）</td>
+                    <td>5-15 分钟</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <section class="section">
+            <h3>常见问题</h3>
+            <div class="checklist">
+              <div class="checklist-item">
+                <div class="checkbox">?</div>
+                <div class="text">
+                  <strong>图片项目的 Step1 和视频项目有什么区别？</strong>
+                  <span>— 完全一致，操作方式相同</span>
+                </div>
+              </div>
+              <div class="checklist-item">
+                <div class="checkbox">?</div>
+                <div class="text">
+                  <strong>模特图可以生成多少张？</strong>
+                  <span>— 可选 2/4/6/8/10/12 张，建议至少选 4 张</span>
+                </div>
+              </div>
+              <div class="checklist-item">
+                <div class="checkbox">?</div>
+                <div class="text">
+                  <strong>进入 Step4 后能退回修改模特图吗？</strong>
+                  <span>— 不能，Step3 进入后会锁定，需要重新创建项目</span>
+                </div>
+              </div>
+              <div class="checklist-item">
+                <div class="checkbox">?</div>
+                <div class="text">
+                  <strong>电商详情页模块不满意怎么办？</strong>
+                  <span>— 可单个模块重新生成，也可删除后添加新模块</span>
+                </div>
+              </div>
+              <div class="checklist-item">
+                <div class="checkbox">?</div>
+                <div class="text">
+                  <strong>可以导出详情页到本地吗？</strong>
+                  <span>— 可以，合成后下载长图即可保存到本地</span>
+                </div>
+              </div>
+              <div class="checklist-item">
+                <div class="checkbox">?</div>
+                <div class="text">
+                  <strong>分享链接有效期多久？</strong>
+                  <span>— 链接在项目有效期内有效，可随时查看</span>
+                </div>
+              </div>
+              <div class="checklist-item">
+                <div class="checkbox">?</div>
+                <div class="text">
+                  <strong>Logo 上传后能替换吗？</strong>
+                  <span>— 可以，在 Step3 生成前可随时替换或删除 Logo</span>
+                </div>
+              </div>
+            </div>
+          </section>
+        </section>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- 页脚 -->
+  <footer class="page-footer">
+    <p>如有疑问，请联系客服获取帮助</p>
+    <p style="margin-top: 8px;">查看 <a href="video-project-faq.html">常见问题版</a> 文档</p>
+    <p style="margin-top: 12px; color: #aaa; font-size: 12px;">© 2026 内容喵 · <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener noreferrer" style="color: #aaa;">浙ICP备2026010329号-2</a></p>
+  </footer>
+
+  <!-- Tab 切换逻辑 -->
+  <script>
+    function switchTab(tab) {
+      // 切换按钮状态
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.tab === tab);
+      });
+      // 切换内容显示
+      document.querySelector('.video-content').classList.toggle('active', tab === 'video');
+      document.querySelector('.image-content').classList.toggle('active', tab === 'image');
+      // 切换侧边栏导航
+      const videoNav = document.querySelector('.video-nav');
+      const imageNav = document.querySelector('.image-nav');
+      if (videoNav) videoNav.style.display = tab === 'video' ? 'block' : 'none';
+      if (imageNav) imageNav.style.display = tab === 'image' ? 'block' : 'none';
+      // 更新 URL hash
+      window.location.hash = tab === 'image' ? 'image' : '';
+    }
+
+    // 页面加载时根据 hash 切换
+    if (window.location.hash === '#image') {
+      switchTab('image');
+    }
+  </script>
+</body>
+</html>

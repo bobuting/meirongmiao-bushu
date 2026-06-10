@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/ico.png" />
+    <title>内容喵AI</title>
+
+    <!-- 关键样式：只包含字体和基础样式，不覆盖 Tailwind -->
+    <style>
+      /* 后备中文字体 */
+      @font-face {
+        font-family: "SC Fallback";
+        src: local("PingFang SC"), local("Microsoft YaHei UI"), local("Microsoft YaHei"), local("Hiragino Sans GB");
+        size-adjust: 92%;
+        ascent-override: 95%;
+        descent-override: 25%;
+        line-gap-override: 0%;
+      }
+
+      /* Material Icons Round 字体预加载 */
+      @font-face {
+        font-family: "Material Icons Round";
+        font-style: normal;
+        font-weight: 400;
+        font-display: block;
+        src: url("/assets/material-icons-round-latin-400-normal-DrirKXBx.woff2") format("woff2"),
+             url("/assets/material-icons-round-latin-400-normal-BDlwx-sv.woff") format("woff");
+      }
+
+      /* 基础重置 */
+      *, *::before, *::after { box-sizing: border-box; }
+      html { background-color: #fdfbf7; }
+      body { margin: 0; min-height: 100vh; background-color: #fdfbf7; }
+      #root { min-height: 100vh; }
+
+      /* CSS 变量默认值 - 与主题配置一致，防止主题 API 加载延迟导致的样式闪烁 */
+      :root {
+        --color-primary: #e68c19;
+        --color-primary-hover: #d97e10;
+        --color-primary-active: #c97108;
+        --color-primary-light: #fff7ed;
+        --color-accent: #00a8ff;
+        --color-accent-hover: #00ccff;
+        --color-accent-active: #0099dd;
+        --color-secondary: #1A1A1A;
+        --color-bg: #fdfbf7;
+        --color-bg-warm: #fcfaf7;
+        --color-surface: #ffffff;
+        --color-border: #e0e0e0;
+        --color-border-focus: #e68c19;
+        --color-text-primary: #002244;
+        --color-text-secondary: #666666;
+        --color-text-muted: #999999;
+        --gradient-primary: linear-gradient(135deg, #e68c19 0%, #00a8ff 100%);
+        --font-main: 'Noto Sans SC', 'SC Fallback', 'Inter', system-ui, sans-serif;
+      }
+
+      /* Material Icons 样式 */
+      .material-icons-round {
+        font-family: "Material Icons Round" !important;
+        font-weight: normal;
+        font-style: normal;
+        font-size: 24px;
+        line-height: 1;
+        letter-spacing: normal;
+        text-transform: none;
+        display: inline-block;
+        white-space: nowrap;
+        word-wrap: normal;
+        direction: ltr;
+        -webkit-font-smoothing: antialiased;
+        text-rendering: optimizeLegibility;
+        font-feature-settings: "liga";
+      }
+
+      /* 加载遮罩 - 覆盖整个页面直到样式就绪 */
+      #loading-overlay {
+        position: fixed;
+        inset: 0;
+        background-color: #fdfbf7;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 99999;
+        transition: opacity 0.3s ease-out;
+      }
+      #loading-overlay.hidden {
+        opacity: 0;
+        pointer-events: none;
+      }
+      .loading-spinner {
+        width: 40px;
+        height: 40px;
+        border: 3px solid #e5e7eb;
+        border-top-color: #e68c19;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+      }
+      @keyframes spin { to { transform: rotate(360deg); } }
+    </style>
+
+    <script>
+      // 移动端侧边栏初始状态
+      (function() {
+        if (window.innerWidth < 768) {
+          document.documentElement.classList.add('sidebar-mobile-init');
+        }
+      })();
+    </script>
+    <script type="module" crossorigin src="/assets/index-tAP-oKyq.js"></script>
+    <link rel="modulepreload" crossorigin href="/assets/vendor-react-IsQBEoPv.js">
+    <link rel="modulepreload" crossorigin href="/assets/vendor-state-B0nylnMD.js">
+    <link rel="stylesheet" crossorigin href="/assets/index-Lb2nAnWZ.css">
+  </head>
+  <body>
+    <div id="loading-overlay"><div class="loading-spinner"></div></div>
+    <div id="root"></div>
+  </body>
+</html>
