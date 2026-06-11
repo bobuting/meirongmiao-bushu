@@ -86,6 +86,10 @@ export default defineConfig(({ mode }) => {
       },
       // 分包配置：将大型依赖拆分为独立 chunk
       build: {
+        // 禁用 HTML 内联 CSS 代理模块（Vite 6 已知问题）
+        html: {
+          inlineCSS: false,
+        },
         rollupOptions: {
           output: {
             manualChunks: {

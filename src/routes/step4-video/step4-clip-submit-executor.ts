@@ -85,7 +85,7 @@ export async function executeStep4ClipSubmitJob(
     const clipGeneration = sceneRecord?.clipGeneration ?? 0;
     if (clipGeneration > 0) {
       // 更新 stage 为"优化中"，让前端能看到优化状态
-      await updateAsyncJobStage(repos, job.id, "优化中", now, null);
+      await updateAsyncJobStage(repos, job.id, "优化中", now);
 
       const previousError = sceneRecord?.errorMessage ?? null;
       const refineResult = await refineStep4Prompt(ctx, {

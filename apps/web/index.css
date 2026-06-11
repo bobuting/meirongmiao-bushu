@@ -495,3 +495,40 @@ input[type="checkbox"]:focus {
     transform: scale(1);
   }
 }
+
+/* 加载遮罩 - 覆盖整个页面直到样式就绪 */
+#loading-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: #fdfbf7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 99999;
+  transition: opacity 0.3s ease-out;
+}
+#loading-overlay.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid #e5e7eb;
+  border-top-color: #e68c19;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Material Icons Round 字体预加载 */
+@font-face {
+  font-family: "Material Icons Round";
+  font-style: normal;
+  font-weight: 400;
+  font-display: block;
+  src: url("/node_modules/@fontsource/material-icons-round/files/material-icons-round-latin-400-normal.woff2") format("woff2"),
+       url("/node_modules/@fontsource/material-icons-round/files/material-icons-round-latin-400-normal.woff") format("woff");
+}
