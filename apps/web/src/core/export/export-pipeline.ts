@@ -26,6 +26,8 @@ import {
   AudioEncodingConfig,
   AudioSampleSink,
   QUALITY_MEDIUM,
+  // 导入 mediabunny 的编码能力检测 API
+  canEncodeVideo,
 } from 'mediabunny';
 import type { MediabunnyVideoSource } from '../video-source';
 import { getLogger } from '../logger';
@@ -198,49 +200,285 @@ export interface ExportOptions {
 }
 
 /**
+ * 编码器配置候选（从最优到最兼容）
+ */
+interface EncodingConfigCandidate {
+  /** 配置名称（用于日志） */
+  name: string;
+  /** 码率 */
+  bitrate: number;
+  /** 硬件加速偏好 */
+  hardwareAcceleration: 'prefer-hardware' | 'no-preference';
+}
+
+// 编码配置降级候选：最优 → 最兼容
+const ENCODING_CONFIG_CANDIDATES: EncodingConfigCandidate[] = [
+  { name: 'high-quality-hardware', bitrate: 5000000, hardwareAcceleration: 'prefer-hardware' },
+  { name: 'high-quality-software', bitrate: 5000000, hardwareAcceleration: 'no-preference' },
+  { name: 'medium-quality-hardware', bitrate: 3000000, hardwareAcceleration: 'prefer-hardware' },
+  { name: 'medium-quality-software', bitrate: 3000000, hardwareAcceleration: 'no-preference' },
+  { name: 'low-quality-software', bitrate: 2000000, hardwareAcceleration: 'no-preference' },
+];
+
+/**
  * 导出管线
  * 所有导出都带 GPU 转场，转场由 video-merge.ts 随机选择
  */
 export class ExportPipeline {
   /**
+   * 检测编码器配置是否支持
+   * 使用 mediabunny 的 canEncodeVideo API 检测（内部使用正确的 codec 字符串）
+   */
+  private static async probeEncodingConfig(
+    codec: string,
+    width: number,
+    height: number,
+    candidate: EncodingConfigCandidate
+  ): Promise<boolean> {
+    try {
+      // 使用 mediabunny 的 canEncodeVideo API，它会内部生成正确的 codec 字符串
+      // 例如：avc + 720x1280 + 5Mbps → 检测 'avc1.64001f' (High Profile Level 4.0)
+      const videoCodec = codec === 'h264' ? 'avc' : codec === 'h265' ? 'hevc' : codec === 'vp9' ? 'vp9' : codec === 'av1' ? 'av1' : 'avc';
+
+      const supported = await canEncodeVideo(videoCodec, {
+        width,
+        height,
+        bitrate: candidate.bitrate,
+        hardwareAcceleration: candidate.hardwareAcceleration,
+      });
+
+      if (supported) {
+        log.debug({ codec: videoCodec, width, height, bitrate: candidate.bitrate, hardwareAcceleration: candidate.hardwareAcceleration }, '编码配置支持');
+      }
+
+      return supported;
+    } catch (e) {
+      log.warn({ candidate: candidate.name, codec, width, height, bitrate: candidate.bitrate, error: e }, '编码器配置检测失败');
+      return false;
+    }
+  }
+
+  /**
+   * 选择最佳编码配置
+   * 按优先级检测，选择第一个支持的配置
+   */
+  private static async selectBestEncodingConfig(
+    codec: string,
+    width: number,
+    height: number,
+    userBitrate?: number
+  ): Promise<EncodingConfigCandidate> {
+    // 如果用户指定了码率，优先尝试用户配置
+    if (userBitrate) {
+      const userCandidates: EncodingConfigCandidate[] = [
+        { name: 'user-preferred-hardware', bitrate: userBitrate, hardwareAcceleration: 'prefer-hardware' },
+        { name: 'user-preferred-software', bitrate: userBitrate, hardwareAcceleration: 'no-preference' },
+      ];
+      for (const candidate of userCandidates) {
+        const supported = await ExportPipeline.probeEncodingConfig(codec, width, height, candidate);
+        if (supported) {
+          log.info({ candidate: candidate.name, bitrate: candidate.bitrate, hardwareAcceleration: candidate.hardwareAcceleration }, '使用用户指定码率配置');
+          return candidate;
+        }
+      }
+    }
+
+    // 降级检测预设配置
+    for (const candidate of ENCODING_CONFIG_CANDIDATES) {
+      const supported = await ExportPipeline.probeEncodingConfig(codec, width, height, candidate);
+      if (supported) {
+        log.info({ candidate: candidate.name, bitrate: candidate.bitrate, hardwareAcceleration: candidate.hardwareAcceleration }, '选择编码配置');
+        return candidate;
+      }
+    }
+
+    // 所有配置都不支持，使用最保守配置
+    log.warn('所有编码配置检测失败，使用最保守配置');
+    const lastConfig = ENCODING_CONFIG_CANDIDATES[ENCODING_CONFIG_CANDIDATES.length - 1];
+    if (!lastConfig) {
+      throw new Error('编码配置候选列表为空');
+    }
+    return lastConfig;
+  }
+
+  /**
    * 导出视频（带 GPU 转场）
    * 使用 VideoSampleSource + 双缓冲流水线实现渲染编码并行
+   *
+   * 重试机制：如果编码中途失败（如硬件编码器不支持），自动降级配置重试
    */
   static async export(options: ExportOptions): Promise<Blob> {
     const {
       sources,
       codec = 'h264',
-      bitrate = 5000000,
+      bitrate, // 不设默认值，由 selectBestEncodingConfig 决定
       transitions = [],
       backgroundAudio,
       sourceAudioVolume = 1,
       onProgress,
     } = options;
 
-    // 初始化完成，不打印日志
-
     // 确保所有源都已初始化
     for (const source of sources) {
       await source.ready;
     }
 
-    // 获取输出分辨率
-    const width = Math.max(...sources.map(s => s.meta?.width ?? 0));
-    const height = Math.max(...sources.map(s => s.meta?.height ?? 0));
+    // 边界检查：sources 不能为空
+    if (sources.length === 0) {
+      throw new Error('导出失败：没有视频源');
+    }
+
+    // 获取输出分辨率（取所有源的最大值）
+    const width = Math.max(1, ...sources.map(s => s.meta?.width ?? 0));
+    const height = Math.max(1, ...sources.map(s => s.meta?.height ?? 0));
     const fps = 30;
 
-    // 编码配置
-    const encodingConfig: VideoEncodingConfig = {
-      codec: ExportPipeline.mapCodec(codec),
-      bitrate,
-      keyFrameInterval: 2,
-      sizeChangeBehavior: 'contain',
-      hardwareAcceleration: 'prefer-hardware',
-      // quality 延迟模式：启用 B 帧和更好的码率控制，适合离线编码
-      latencyMode: 'quality',
-    };
+    // 边界检查：分辨率必须有效
+    if (width <= 0 || height <= 0) {
+      throw new Error(`导出失败：无效分辨率 ${width}x${height}`);
+    }
 
-    // 编码配置已设置
+    // 检测并选择最佳编码配置
+    onProgress?.(0, '检测编码器支持...');
+    const initialConfig = await ExportPipeline.selectBestEncodingConfig(codec, width, height, bitrate);
+
+    // 构建降级配置列表（包含用户指定和预设配置）
+    const configCandidates: EncodingConfigCandidate[] = [];
+    if (bitrate) {
+      configCandidates.push(
+        { name: 'user-preferred-hardware', bitrate, hardwareAcceleration: 'prefer-hardware' },
+        { name: 'user-preferred-software', bitrate, hardwareAcceleration: 'no-preference' }
+      );
+    }
+    configCandidates.push(...ENCODING_CONFIG_CANDIDATES);
+
+    // 找到初始配置的索引
+    let configIndex = configCandidates.findIndex(c => c.name === initialConfig.name);
+    if (configIndex === -1) configIndex = configCandidates.length - 1;
+
+    // 确保至少有一个配置
+    if (configCandidates.length === 0) {
+      throw new Error('编码配置候选列表为空');
+    }
+    if (configIndex < 0 || configIndex >= configCandidates.length) {
+      configIndex = 0;
+    }
+
+    // 重试循环：最多尝试 3 个配置
+    const maxRetries = 3;
+    for (let retry = 0; retry < maxRetries; retry++) {
+      const currentConfig = configCandidates[configIndex];
+      if (!currentConfig) {
+        throw new Error(`编码配置索引 ${configIndex} 无效`);
+      }
+
+      // 重试时显示明确状态提示
+      if (retry === 0) {
+        onProgress?.(2, `使用 ${currentConfig.name} 配置编码...`);
+      } else {
+        // 重试时重置进度到 0%，明确告知用户正在重试
+        onProgress?.(0, `编码失败，降级到 ${currentConfig.name} 配置重试...`);
+      }
+
+      // 重试前重置所有源的迭代器状态（确保从正确位置开始）
+      if (retry > 0) {
+        for (const source of sources) {
+          source.resetState();
+        }
+      }
+
+      // 包装进度回调：重试时进度从 2% 开始，避免与之前的进度冲突
+      const wrappedOnProgress = retry === 0
+        ? onProgress
+        : (percent: number, message: string) => {
+            // 重试时进度范围：0-98%（留 2% 给最终完成）
+            const adjustedPercent = Math.min(98, percent);
+            onProgress?.(adjustedPercent, `重试[${retry}]: ${message}`);
+          };
+
+      try {
+        const blob = await ExportPipeline.exportWithConfig({
+          sources,
+          codec,
+          width,
+          height,
+          fps,
+          encodingConfig: {
+            codec: ExportPipeline.mapCodec(codec),
+            bitrate: currentConfig.bitrate,
+            keyFrameInterval: 2,
+            sizeChangeBehavior: 'contain',
+            hardwareAcceleration: currentConfig.hardwareAcceleration,
+            latencyMode: 'quality',
+          },
+          transitions,
+          backgroundAudio,
+          sourceAudioVolume,
+          ...(wrappedOnProgress && { onProgress: wrappedOnProgress }),
+        });
+
+        // 成功，返回结果
+        return blob;
+
+      } catch (error) {
+        const errorMsg = error instanceof Error ? error.message : String(error);
+
+        // 检查是否是编码器不支持错误（可重试）
+        const isEncoderError = errorMsg.includes('encoder configuration') ||
+                               errorMsg.includes('not supported') ||
+                               errorMsg.includes('hardware acceleration');
+
+        if (isEncoderError && configIndex < configCandidates.length - 1) {
+          // 降级到下一个配置
+          const nextConfig = configCandidates[configIndex + 1];
+          if (!nextConfig) {
+            throw new Error('无法获取下一个编码配置');
+          }
+          log.warn({
+            failedConfig: currentConfig.name,
+            nextConfig: nextConfig.name,
+            retry,
+            error: errorMsg
+          }, '编码失败，降级配置重试');
+          configIndex++;
+          continue;
+        }
+
+        // 不可重试的错误，或已达到最低配置，直接抛出
+        throw error;
+      }
+    }
+
+    // 所有重试都失败
+    throw new Error('视频编码失败：尝试了所有配置都无法完成');
+  }
+
+  /**
+   * 使用指定配置导出视频（内部方法）
+   */
+  private static async exportWithConfig(params: {
+    sources: MediabunnyVideoSource[];
+    codec: string;
+    width: number;
+    height: number;
+    fps: number;
+    encodingConfig: VideoEncodingConfig;
+    transitions: TransitionConfig[];
+    backgroundAudio?: ExportOptions['backgroundAudio'];
+    sourceAudioVolume: number;
+    onProgress?: (percent: number, message: string) => void;
+  }): Promise<Blob> {
+    const {
+      sources,
+      width,
+      height,
+      fps,
+      encodingConfig,
+      transitions,
+      backgroundAudio,
+      sourceAudioVolume,
+      onProgress,
+    } = params;
 
     // 创建输出
     const outputFormat = new Mp4OutputFormat({ fastStart: 'in-memory' });
@@ -405,17 +643,20 @@ export class ExportPipeline {
 
           if (activeTransition) {
             // === 转场期间：混合两源音频 ===
-            const progress = (currentTimeSec - activeTransition.start) /
-              (activeTransition.end - activeTransition.start);
+            const transitionStart = activeTransition.start;
+            const transitionEnd = activeTransition.end;
+            const progress = (currentTimeSec - transitionStart) / (transitionEnd - transitionStart);
             const leftIndex = activeTransition.index;
             const rightIndex = activeTransition.index + 1;
 
-            const leftBuffer = sourceAudioBuffers[leftIndex];
-            const rightBuffer = sourceAudioBuffers[rightIndex];
+            const leftBuffer = sourceAudioBuffers[leftIndex] ?? null;
+            const rightBuffer = sourceAudioBuffers[rightIndex] ?? null;
 
             // 计算各源的相对时间
-            const leftTimeSec = currentTimeSec - sourceOffsets[leftIndex] / 1000000;
-            const rightTimeSec = currentTimeSec - sourceOffsets[rightIndex] / 1000000;
+            const leftOffset = sourceOffsets[leftIndex];
+            const rightOffset = sourceOffsets[rightIndex];
+            const leftTimeSec = leftOffset !== undefined ? currentTimeSec - leftOffset / 1000000 : 0;
+            const rightTimeSec = rightOffset !== undefined ? currentTimeSec - rightOffset / 1000000 : 0;
 
             pendingAudioSample = ExportPipeline.mixBufferAudio(
               leftBuffer,
@@ -432,16 +673,19 @@ export class ExportPipeline {
             const buffer = sourceAudioBuffers[sourceIndex];
 
             if (buffer) {
-              const relativeTimeSec = currentTimeSec - sourceOffsets[sourceIndex] / 1000000;
-              pendingAudioSample = ExportPipeline.mixBufferAudio(
-                buffer,
-                null,
-                relativeTimeSec,
-                0,
-                chunkDurationSec,
-                sourceAudioVolume,
-                0
-              );
+              const sourceOffset = sourceOffsets[sourceIndex];
+              if (sourceOffset !== undefined) {
+                const relativeTimeSec = currentTimeSec - sourceOffset / 1000000;
+                pendingAudioSample = ExportPipeline.mixBufferAudio(
+                  buffer,
+                  null,
+                  relativeTimeSec,
+                  0,
+                  chunkDurationSec,
+                  sourceAudioVolume,
+                  0
+                );
+              }
             }
           }
 
@@ -555,8 +799,18 @@ export class ExportPipeline {
           // === 非转场帧：零渲染直传或 Canvas 绘制 ===
           const sourceIndex = ExportPipeline.findSourceIndex(sources, sourceOffsets, processedDurationUs);
           const source = sources[sourceIndex];
-          const relativeTimeUs = processedDurationUs - sourceOffsets[sourceIndex];
-          const sourceMatchesOutput = source.meta.width === width && source.meta.height === height;
+          const sourceOffset = sourceOffsets[sourceIndex];
+
+          if (!source || sourceOffset === undefined) {
+            throw new Error(`视频源 ${sourceIndex} 无效或偏移未定义`);
+          }
+
+          const relativeTimeUs = processedDurationUs - sourceOffset;
+          const sourceMeta = source.meta;
+          if (!sourceMeta) {
+            throw new Error(`视频源 ${sourceIndex} 元数据未定义`);
+          }
+          const sourceMatchesOutput = sourceMeta.width === width && sourceMeta.height === height;
 
           if (sourceMatchesOutput) {
             // 零渲染直传：VideoSample 直接编码，跳过 Canvas
@@ -621,7 +875,9 @@ export class ExportPipeline {
         frameCount,
         processedDurationUs
       }, '渲染循环出错');
+      // 清理所有资源（确保编码器、音频源、GPU 设备等全部释放）
       videoSource.close();
+      audioSource?.close();  // 音频编码器也需要清理
       transitionPipeline?.destroy();
       gpuDevice?.destroy();
       bgAudioInput?.dispose();
@@ -688,8 +944,15 @@ export class ExportPipeline {
     // 获取左右视频帧
     const leftSource = sources[index];
     const rightSource = sources[index + 1];
-    const leftTimeUs = currentTimeUs - sourceOffsets[index];
-    const rightTimeUs = currentTimeUs - sourceOffsets[index + 1];
+    const leftOffset = sourceOffsets[index];
+    const rightOffset = sourceOffsets[index + 1];
+
+    if (!leftSource || !rightSource || leftOffset === undefined || rightOffset === undefined) {
+      throw new Error(`转场帧索引 ${index} 或 ${index + 1} 无效`);
+    }
+
+    const leftTimeUs = currentTimeUs - leftOffset;
+    const rightTimeUs = currentTimeUs - rightOffset;
 
     const leftFrame = await leftSource.tick(Math.max(0, leftTimeUs));
     const rightFrame = await rightSource.tick(Math.max(0, rightTimeUs));
@@ -768,7 +1031,7 @@ export class ExportPipeline {
     rightFrame.close();
 
     // 配置 outputCanvas 的 WebGPU 上下文
-    const outputCtx = ExportPipeline.ensureWebGPUContext(device, outputCanvas, width, height);
+    const outputCtx = ExportPipeline.ensureWebGPUContext(device, outputCanvas);
     if (!outputCtx) {
       leftTexture.destroy();
       rightTexture.destroy();
@@ -882,7 +1145,8 @@ export class ExportPipeline {
         { width, height }
       );
       return texture;
-    } catch {
+    } catch (err) {
+      // GPU 纹理上传失败，销毁纹理并上报错误
       texture.destroy();
     }
 
@@ -917,9 +1181,7 @@ export class ExportPipeline {
 
   private static ensureWebGPUContext(
     device: GPUDevice,
-    canvas: OffscreenCanvas,
-    width: number,
-    height: number
+    canvas: OffscreenCanvas
   ): GPUCanvasContext | undefined {
     let ctx = ExportPipeline.webgpuContextCache.get(canvas) ?? undefined;
     if (ctx) return ctx;
@@ -928,6 +1190,7 @@ export class ExportPipeline {
     if (!rawCtx) return undefined;
     ctx = rawCtx as GPUCanvasContext;
 
+    if (!navigator.gpu) return undefined;
     const format = navigator.gpu.getPreferredCanvasFormat();
     ctx.configure({ device, format, alphaMode: 'premultiplied' });
     ExportPipeline.webgpuContextCache.set(canvas, ctx);
@@ -943,8 +1206,10 @@ export class ExportPipeline {
     currentTimeUs: number
   ): number {
     for (let i = 0; i < sources.length; i++) {
-      const sourceDuration = sources[i].meta?.duration ?? 0;
-      if (currentTimeUs >= sourceOffsets[i] && currentTimeUs < sourceOffsets[i] + sourceDuration) {
+      const sourceMeta = sources[i]!.meta!;
+      const sourceOffset = sourceOffsets[i];
+      const sourceDuration = sourceMeta?.duration ?? 0;
+      if (sourceOffset !== undefined && currentTimeUs >= sourceOffset && currentTimeUs < sourceOffset + sourceDuration) {
         return i;
       }
     }
@@ -1353,6 +1618,10 @@ export class ExportPipeline {
         const frames = sample.numberOfFrames;
         const format = sample.format;
         const numberOfChannels = formatInfo.numberOfChannels;
+        if (numberOfChannels === undefined) {
+          sample.close();
+          continue;
+        }
         const isPlanar = format.includes('planar');
         const bytesPerFrame = format.includes('32') ? 4 : format.includes('16') ? 2 : 1;
 
@@ -1382,7 +1651,12 @@ export class ExportPipeline {
               channelData[i] = value;
             }
 
-            dataChunks[ch].push(channelData);
+            const existingChunk = dataChunks[ch];
+            if (existingChunk) {
+              existingChunk.push(channelData);
+            } else {
+              dataChunks[ch] = [channelData];
+            }
           }
         } else {
           // interleaved 格式：所有声道交错存储，一次复制所有数据然后解构
@@ -1413,7 +1687,12 @@ export class ExportPipeline {
               channelData[i] = value;
             }
 
-            dataChunks[ch].push(channelData);
+            const existingChunk = dataChunks[ch];
+            if (existingChunk) {
+              existingChunk.push(channelData);
+            } else {
+              dataChunks[ch] = [channelData];
+            }
           }
         }
 
@@ -1426,24 +1705,30 @@ export class ExportPipeline {
       return null;
     }
 
+    const numberOfChannels = formatInfo.numberOfChannels;
+    const sampleRate = formatInfo.sampleRate;
+
     // 合并所有数据块为连续的 Float32Array
     const data: Float32Array[] = [];
-    for (let ch = 0; ch < formatInfo.numberOfChannels; ch++) {
+    for (let ch = 0; ch < numberOfChannels; ch++) {
+      const chunkArray = dataChunks[ch];
+      if (!chunkArray) continue;
+
       const combined = new Float32Array(totalFrames);
       let offset = 0;
-      for (const chunk of dataChunks[ch]) {
+      for (const chunk of chunkArray) {
         combined.set(chunk, offset);
         offset += chunk.length;
       }
       data.push(combined);
     }
 
-    const durationSec = totalFrames / formatInfo.sampleRate;
+    const durationSec = totalFrames / sampleRate;
 
     return {
       data,
-      sampleRate: formatInfo.sampleRate,
-      numberOfChannels: formatInfo.numberOfChannels,
+      sampleRate,
+      numberOfChannels,
       durationSec,
       totalFrames,
     };
@@ -1486,9 +1771,16 @@ export class ExportPipeline {
 
     for (let ch = 0; ch < numberOfChannels; ch++) {
       const channelData = new Float32Array(outputBuffer, ch * outputSize, frames);
-      // 复制数据
-      for (let i = 0; i < frames; i++) {
-        channelData[i] = data[ch][startFrame + i];
+      const sourceChannelData = data[ch];
+      if (sourceChannelData) {
+        // 复制数据
+        for (let i = 0; i < frames; i++) {
+          const frameIndex = startFrame! + i;
+          const value = sourceChannelData[frameIndex];
+          if (value !== undefined) {
+            channelData[i] = value;
+          }
+        }
       }
       outputData.push(channelData);
     }
@@ -1536,6 +1828,9 @@ export class ExportPipeline {
 
     // 填充数据
     for (let ch = 0; ch < outputNumberOfChannels; ch++) {
+      const outputChannelData = outputData[ch];
+      if (!outputChannelData) continue;
+
       for (let i = 0; i < outputFrames; i++) {
         let v1 = 0;
         let v2 = 0;
@@ -1544,7 +1839,10 @@ export class ExportPipeline {
         if (buffer1) {
           const frame1 = Math.floor(time1Sec * buffer1.sampleRate) + Math.floor(i * buffer1.sampleRate / outputSampleRate);
           if (frame1 >= 0 && frame1 < buffer1.totalFrames && ch < buffer1.numberOfChannels) {
-            v1 = buffer1.data[ch][frame1] * volume1;
+            const channelData1 = buffer1.data[ch];
+            if (channelData1) {
+              v1 = (channelData1 as Float32Array)[frame1]! * volume1;
+            }
           }
         }
 
@@ -1552,11 +1850,14 @@ export class ExportPipeline {
         if (buffer2) {
           const frame2 = Math.floor(time2Sec * buffer2.sampleRate) + Math.floor(i * buffer2.sampleRate / outputSampleRate);
           if (frame2 >= 0 && frame2 < buffer2.totalFrames && ch < buffer2.numberOfChannels) {
-            v2 = buffer2.data[ch][frame2] * volume2;
+            const channelData2 = buffer2.data[ch];
+            if (channelData2) {
+              v2 = (channelData2 as Float32Array)[frame2]! * volume2;
+            }
           }
         }
 
-        outputData[ch][i] = v1 + v2;
+        outputChannelData[i] = v1 + v2;
       }
     }
 

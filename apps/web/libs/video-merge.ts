@@ -79,6 +79,8 @@ export interface MergeOptions {
   alignment?: number;
   /** 背景音乐选项 */
   backgroundAudio?: MusicOptions;
+  /** 原生音频音量（0-1，默认 1。设置为 0 可禁用原生音频） */
+  sourceAudioVolume?: number;
   /** 封面图片（File 或 URL） */
   coverImage?: File | string;
   /** 封面显示时长（秒） */
@@ -368,6 +370,7 @@ export async function mergeVideosWithTransitions(
       transitions: transitionConfigs,
       codec: 'h264',
       bitrate: 5000000,
+      sourceAudioVolume: options.sourceAudioVolume ?? 1,
       backgroundAudio: backgroundAudio ? {
         source: backgroundAudio.source,
         volume: backgroundAudio.volume ?? 0.6,

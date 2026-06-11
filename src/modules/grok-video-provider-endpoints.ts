@@ -22,55 +22,22 @@ export function isGrokProvider(callMode: string): boolean {
 /**
  * 构建创建视频端点候选列表
  * Grok 创建端点：POST /v1/video/create
+ * 直接取 baseUrl 的 origin，拼接固定路径，不做复杂后缀剥离
  */
 export function buildGrokVideoCreateEndpointCandidates(baseUrl: string): string[] {
-  const base = baseUrl.replace(/\/+$/, "");
-  const lowerBase = base.toLowerCase();
-  const candidates = new Set<string>();
-
-  const createSuffixes = ["/v1/video/create"];
-
-  // 如果 URL 已经是完整端点，直接添加
-  if (lowerBase.includes("/video/create")) {
-    candidates.add(base);
-    return [...candidates];
+  try {
+    const url = new URL(baseUrl);
+    return [`${url.origin}/v1/video/create`];
+  } catch {
+    // URL 解析失败时回退到简单拼接
+    return [`${baseUrl.replace(/\/+$/, "")}/v1/video/create`];
   }
-
-  // 去除已知的后缀
-  const knownSuffixes = [
-    "/api/v1/chat/completions",
-    "/v1/chat/completions",
-    "/chat/completions",
-    "/api/v1/videos/generations",
-    "/v1/videos/generations",
-    "/videos/generations",
-    "/kling/v1/videos/omni-video",
-    "/kling/v1/videos/multi-image2video",
-    "/v1/video/create",
-    "/video/create",
-    "/api",
-  ];
-
-  let root = base;
-  for (const suffix of knownSuffixes) {
-    if (lowerBase.endsWith(suffix.toLowerCase())) {
-      root = base.slice(0, Math.max(0, base.length - suffix.length)).replace(/\/+$/, "");
-      break;
-    }
-  }
-
-  for (const suffix of createSuffixes) {
-    candidates.add(`${root}${suffix}`);
-  }
-
-  return [...candidates];
 }
 
 /**
  * 构建查询视频任务端点候选列表
  * Grok 查询端点：GET /v1/video/query?id={taskId}
- *
- * 注意：Grok 使用 Query 参数而非路径参数
+ * 直接取 baseUrl 的 origin，拼接固定路径，不做复杂后缀剥离
  */
 export function buildGrokVideoQueryEndpointCandidates(baseUrl: string, taskId: string): string[] {
   const safeTaskId = encodeURIComponent(taskId.trim());
@@ -78,51 +45,13 @@ export function buildGrokVideoQueryEndpointCandidates(baseUrl: string, taskId: s
     return [];
   }
 
-  const base = baseUrl.replace(/\/+$/, "");
-  const lowerBase = base.toLowerCase();
-  const candidates = new Set<string>();
-
-  // 如果 URL 已经包含查询端点，直接返回（保留已有 id 参数或追加）
-  if (lowerBase.includes("/video/query")) {
-    if (lowerBase.includes("id=")) {
-      candidates.add(base);
-    } else {
-      candidates.add(`${base}?id=${safeTaskId}`);
-    }
-    return [...candidates];
+  try {
+    const url = new URL(baseUrl);
+    return [`${url.origin}/v1/video/query?id=${safeTaskId}`];
+  } catch {
+    // URL 解析失败时回退到简单拼接
+    return [`${baseUrl.replace(/\/+$/, "")}/v1/video/query?id=${safeTaskId}`];
   }
-
-  // 去除已知的后缀
-  const knownSuffixes = [
-    "/api/v1/chat/completions",
-    "/v1/chat/completions",
-    "/chat/completions",
-    "/api/v1/videos/generations",
-    "/v1/videos/generations",
-    "/videos/generations",
-    "/kling/v1/videos/omni-video",
-    "/kling/v1/videos/multi-image2video",
-    "/v1/video/create",
-    "/video/create",
-    "/v1/video/query",
-    "/api",
-  ];
-
-  let root = base;
-  for (const suffix of knownSuffixes) {
-    if (lowerBase.endsWith(suffix.toLowerCase())) {
-      root = base.slice(0, Math.max(0, base.length - suffix.length)).replace(/\/+$/, "");
-      break;
-    }
-  }
-
-  // 添加查询端点（Query 参数格式）
-  const querySuffixes = [`/v1/video/query?id=${safeTaskId}`];
-  for (const suffix of querySuffixes) {
-    candidates.add(`${root}${suffix}`);
-  }
-
-  return [...candidates];
 }
 
 /**

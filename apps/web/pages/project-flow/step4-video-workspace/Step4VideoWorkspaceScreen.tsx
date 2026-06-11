@@ -321,6 +321,8 @@ export const Step4VideoWorkspaceScreen: React.FC = () => {
   const [beatSyncEnabled, setBeatSyncEnabled] = useState(false);
   const [beatSyncIntensity, setBeatSyncIntensity] = useState<"relaxed" | "standard" | "strict">("standard");
   const [beatDetectResult, setBeatDetectResult] = useState<BeatDetectResult | null>(null);
+  // 禁用原生音频（VEO 生成的奇怪旁白/背景音）
+  const [disableSourceAudio, setDisableSourceAudio] = useState(false);
   // 封面相关状态：初始为空，等待 API 数据加载后更新
   const [selectedCoverUrl, setSelectedCoverUrl] = useState<string>("");
   const [coverSelectorOpen, setCoverSelectorOpen] = useState(false);
@@ -1753,6 +1755,7 @@ export const Step4VideoWorkspaceScreen: React.FC = () => {
         fps: 30,  // FreeCut 标准帧率
         timing: 'ease-in-out',  // 流畅过渡（与 Step6 统一）
         alignment: 0.5,  // 居中于剪辑点（与 Step6 统一）
+        sourceAudioVolume: disableSourceAudio ? 0 : 1,  // 禁用原生音频选项
         backgroundAudio: musicOptions,
         beatTimestamps,  // 传入节拍时间戳，转场将对齐到节拍
         beatSyncIntensity,  // 卡点强度
@@ -2470,7 +2473,18 @@ export const Step4VideoWorkspaceScreen: React.FC = () => {
                     </span>
                     合成视频预览
                   </h3>
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-3">
+                    {/* 禁用原生音频开关 */}
+                    <label className="inline-flex items-center gap-1.5 text-xs text-gray-600 cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={disableSourceAudio}
+                        onChange={(e) => setDisableSourceAudio(e.target.checked)}
+                        className="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary"
+                      />
+                      <span className="material-icons-round text-sm text-gray-500">volume_off</span>
+                      禁用原声
+                    </label>
                     {hasMergedOutput && (
                       <button
                         type="button"
