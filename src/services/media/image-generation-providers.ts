@@ -37,6 +37,7 @@ import { normalizeProviderTransportImageUrls } from "./image-utils.js";
 import {
   getImageCallModeHandler,
   isSupportedImageCallMode,
+  openaiImageCaixiangUtils,
 } from "./image-callmodes/index.js";
 import type { ImageCallModeOptions } from "./image-callmodes/index.js";
 import {
@@ -567,6 +568,7 @@ async function handleWithCallMode(
     // 各 CallMode 的默认 count（与原始 switch-case 一致）
     const defaultCounts: Partial<Record<ProviderCallMode, number>> = {
       [ProviderCallMode.OPENAI_IMAGE]: 1,
+      [ProviderCallMode.OPENAI_IMAGE_CAIXIANG]: 1,
       [ProviderCallMode.GEMINI_IMAGE]: 1,
       [ProviderCallMode.GEMINI_IMAGE_INLINE]: 1,
       [ProviderCallMode.GROK_IMAGE]: 1,
@@ -579,6 +581,7 @@ async function handleWithCallMode(
     // OPENAI / GEMINI 始终 pad 到 1（不复制单张图），其他 pad 到 count
     const singleImageModes: Set<ProviderCallMode> = new Set([
       ProviderCallMode.OPENAI_IMAGE,
+      ProviderCallMode.OPENAI_IMAGE_CAIXIANG,
       ProviderCallMode.GEMINI_IMAGE,
       ProviderCallMode.GEMINI_IMAGE_INLINE,
     ]);
@@ -587,6 +590,58 @@ async function handleWithCallMode(
     if (urls.length > 0) {
       finalizeImageDebugSuccess(options?.debugOptions, debugRecord, provider, urls, request.endpoint, returnableBody);
       return { urls: padImageUrls(urls, padCount), endpoint: request.endpoint, requestBody: returnableBody };
+    }
+
+    // OPENAI_IMAGE_CAIXIANG 异步任务轮询
+    if (callMode === ProviderCallMode.OPENAI_IMAGE_CAIXIANG) {
+      const error = openaiImageCaixiangUtils.extractError(data);
+      if (error) {
+        finalizeImageDebugError(options?.debugOptions, debugRecord, provider, error.code, error.message, request.endpoint, returnableBody);
+        throw new AppError(502, error.code, error.message);
+      }
+
+      const taskId = openaiImageCaixiangUtils.extractTaskId(data);
+      if (taskId) {
+        // 构建查询端点
+        const queryEndpoint = (() => {
+          try {
+            const url = new URL(provider.baseUrl);
+            return `${url.origin}/v1/media/status?task_id=${encodeURIComponent(taskId)}`;
+          } catch {
+            return `${provider.baseUrl.replace(/\/+$/, "")}/v1/media/status?task_id=${encodeURIComponent(taskId)}`;
+          }
+        })();
+
+        const deadline = Date.now() + Math.max(20_000, Math.min(180_000, provider.timeoutMs * 2));
+        let attempt = 0;
+
+        while (Date.now() < deadline) {
+          if (attempt > 0) {
+            const waitMs = Math.min(1500 + attempt * 350, 4000);
+            await new Promise((resolve) => setTimeout(resolve, waitMs));
+          }
+          attempt += 1;
+
+          const statusData = await getJsonWithTimeout(queryEndpoint, request.headers, provider.timeoutMs);
+
+          // 检查错误
+          const statusError = openaiImageCaixiangUtils.extractError(statusData);
+          if (statusError) {
+            finalizeImageDebugError(options?.debugOptions, debugRecord, provider, statusError.code, statusError.message, queryEndpoint, returnableBody);
+            throw new AppError(502, statusError.code, statusError.message);
+          }
+
+          // 提取图片 URL
+          const statusUrls = handler.extractImageUrls(statusData);
+          if (statusUrls.length > 0) {
+            finalizeImageDebugSuccess(options?.debugOptions, debugRecord, provider, statusUrls, queryEndpoint, returnableBody);
+            return { urls: padImageUrls(statusUrls, padCount), endpoint: request.endpoint, requestBody: returnableBody };
+          }
+        }
+
+        finalizeImageDebugError(options?.debugOptions, debugRecord, provider, "IMAGE_POLL_TIMEOUT", `异步任务轮询超时; taskId=${taskId}`, request.endpoint, returnableBody);
+        throw new AppError(502, "IMAGE_POLL_TIMEOUT", `异步任务轮询超时; taskId=${taskId}`);
+      }
     }
 
     // 空结果 → 检查错误信息

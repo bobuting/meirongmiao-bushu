@@ -8,8 +8,14 @@ type: reference
 
 **重要：数据库连接信息在 `.env` 文件中，不是本地数据库。**
 
-## 表结构信息
-docs/buss/table/project-relation.md
+## 表结构参考文档
+
+| 文档 | 用途 |
+|------|------|
+| `docs/buss/table/database-schema-full.md` | **完整表结构**（80个表），包含所有列定义、类型、注释、外键关系 |
+| `docs/buss/table/project-relation.md` | **核心表关系**，业务流程说明、表关联图、查询示例 |
+
+**重要**：查询数据库前必须先参考这两个文档，确认表名和字段名确实存在，禁止臆想不存在的表或字段。
 ## 连接配置
 
 - **配置文件**: `.env`

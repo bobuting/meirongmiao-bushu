@@ -14,6 +14,7 @@
 import { ProviderCallMode } from "../../../contracts/types.js";
 import type { ImageCallModeHandler } from "./types.js";
 import { openaiImageHandler } from "./openai-image.js";
+import { openaiImageCaixiangHandler, openaiImageCaixiangUtils } from "./openai-image-caixiang.js";
 import { seedreamImageHandler } from "./seedream-image.js";
 import { geminiImageHandler, geminiImageInlineHandler } from "./gemini-image.js";
 import { grokImageHandler } from "./grok-image.js";
@@ -23,6 +24,7 @@ import { wanxImageHandler } from "./wanx-image.js";
 
 const registry = new Map<ProviderCallMode, ImageCallModeHandler>([
   [ProviderCallMode.OPENAI_IMAGE, openaiImageHandler],
+  [ProviderCallMode.OPENAI_IMAGE_CAIXIANG, openaiImageCaixiangHandler],
   [ProviderCallMode.SEEDREAM_IMAGE_ARK, seedreamImageHandler],
   [ProviderCallMode.GEMINI_IMAGE, geminiImageHandler],
   [ProviderCallMode.GEMINI_IMAGE_INLINE, geminiImageInlineHandler],
@@ -45,3 +47,6 @@ export function isSupportedImageCallMode(callMode: string): boolean {
 }
 
 export type { ImageCallModeHandler, ImageCallModeOptions, ImageCallModeRequest } from "./types.js";
+
+// 导出异步任务工具函数（供主流程使用）
+export { openaiImageCaixiangUtils } from "./openai-image-caixiang.js";

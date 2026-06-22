@@ -23,7 +23,16 @@ originSessionId: 7c9493e1-d7bc-481f-8858-7c42b5b1bde9
 
 ### How to apply
 
-**在编写任何 SQL 查询之前,必须执行:**
+**第一步：查阅文档确认表结构（必须）**
+
+| 需要什么信息 | 查阅文档 |
+|------------|---------|
+| 表是否存在、有哪些字段、字段类型 | `docs/buss/table/database-schema-full.md` |
+| 表之间关系、业务含义、查询示例 | `docs/buss/table/project-relation.md` |
+
+**第二步：运行时验证（文档没有时才用）**
+
+如果文档中没有你需要的信息，再使用 `information_schema` 查询：
 
 ```sql
 SELECT column_name, data_type

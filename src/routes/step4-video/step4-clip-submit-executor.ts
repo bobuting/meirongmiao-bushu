@@ -80,7 +80,7 @@ export async function executeStep4ClipSubmitJob(
       throw new AppError(400, "NO_CLIP_PROMPT", `分镜 ${input.sceneIndex + 1} 缺少视频提示词，请先生成分镜提示词`);
     }
 
-    // 2.5 重试时（clipGeneration > 0）调用提示词优化
+        // 2.5 重试时（clipGeneration > 0）调用提示词优化
     // 主流程失败必须报错阻断，禁止静默降级
     const clipGeneration = sceneRecord?.clipGeneration ?? 0;
     if (clipGeneration > 0) {
