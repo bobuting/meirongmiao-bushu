@@ -82,49 +82,49 @@ export async function executeStep4ClipSubmitJob(
 
         // 2.5 重试时（clipGeneration > 0）调用提示词优化
     // 主流程失败必须报错阻断，禁止静默降级
-    const clipGeneration = sceneRecord?.clipGeneration ?? 0;
-    if (clipGeneration > 0) {
-      // 更新 stage 为"优化中"，让前端能看到优化状态
-      await updateAsyncJobStage(repos, job.id, "优化中", now);
+    // const clipGeneration = sceneRecord?.clipGeneration ?? 0;
+    // if (clipGeneration > 0) {
+    //   // 更新 stage 为"优化中"，让前端能看到优化状态
+    //   await updateAsyncJobStage(repos, job.id, "优化中", now);
 
-      const previousError = sceneRecord?.errorMessage ?? null;
-      const refineResult = await refineStep4Prompt(ctx, {
-        originalPrompt: clipPrompt,
-        errorMessage: previousError,
-        projectId: input.projectId,
-        sceneIndex: input.sceneIndex,
-        retryCount: clipGeneration,
-      });
+    //   const previousError = sceneRecord?.errorMessage ?? null;
+    //   const refineResult = await refineStep4Prompt(ctx, {
+    //     originalPrompt: clipPrompt,
+    //     errorMessage: previousError,
+    //     projectId: input.projectId,
+    //     sceneIndex: input.sceneIndex,
+    //     retryCount: clipGeneration,
+    //   });
 
-      if (refineResult.needsRefinement && refineResult.refinedPrompt !== clipPrompt) {
-        const originalPrompt = clipPrompt;
-        clipPrompt = refineResult.refinedPrompt;
+    //   if (refineResult.needsRefinement && refineResult.refinedPrompt !== clipPrompt) {
+    //     const originalPrompt = clipPrompt;
+    //     clipPrompt = refineResult.refinedPrompt;
 
-        // 更新场景的提示词
-        await ctx.repos.step4VideoScenes.updateScene(input.projectId, input.sceneIndex, {
-          clipPrompt,
-        }, job.userId);
+    //     // 更新场景的提示词
+    //     await ctx.repos.step4VideoScenes.updateScene(input.projectId, input.sceneIndex, {
+    //       clipPrompt,
+    //     }, job.userId);
 
-        // 持久化优化记录
-        await ctx.repos.step4PromptRefinements.create({
-          projectId: input.projectId,
-          sceneIndex: input.sceneIndex,
-          generation: clipGeneration,
-          originalPrompt,
-          refinedPrompt: clipPrompt,
-          errorMessage: previousError,
-          analysis: refineResult.analysis,
-          changesSummary: refineResult.changesSummary,
-          routeKey: ProviderRouteKeys.STEP4_PROMPT_REFINER,
-        });
+    //     // 持久化优化记录
+    //     await ctx.repos.step4PromptRefinements.create({
+    //       projectId: input.projectId,
+    //       sceneIndex: input.sceneIndex,
+    //       generation: clipGeneration,
+    //       originalPrompt,
+    //       refinedPrompt: clipPrompt,
+    //       errorMessage: previousError,
+    //       analysis: refineResult.analysis,
+    //       changesSummary: refineResult.changesSummary,
+    //       routeKey: ProviderRouteKeys.STEP4_PROMPT_REFINER,
+    //     });
 
-        log.info({
-          sceneIndex: input.sceneIndex,
-          generation: clipGeneration,
-          analysis: refineResult.analysis.slice(0, 100),
-        }, "提示词优化完成");
-      }
-    }
+    //     log.info({
+    //       sceneIndex: input.sceneIndex,
+    //       generation: clipGeneration,
+    //       analysis: refineResult.analysis.slice(0, 100),
+    //     }, "提示词优化完成");
+    //   }
+    // }
 
     // 3. 查询分镜图（nrm_step3_frame_images，frame_index 从 1 开始）
     const rawFrameImageUrl = await ctx.repos.step3FrameImages.findSelectedImageUrlByFrameIndex(input.projectId, input.sceneIndex + 1) ?? "";

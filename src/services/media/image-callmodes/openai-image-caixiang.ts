@@ -14,30 +14,62 @@ import { normalizeProviderTransportImageUrls, parseSecretCandidates } from "./sh
 // 尺寸映射
 // ---------------------------------------------------------------------------
 
+/** 分辨率归一化 */
+type CaixiangResolution = "1k" | "2k" | "4k";
+
 const CAIXIANG_IMAGE_SIZES = [
-  "auto", "1024x1024", "1024x1536", "1536x1024", "960x1280", "1280x960",
+  "1024x1024", "1024x1536", "1536x1024", "960x1280", "1280x960",
   "1088x1920", "1920x1088", "2048x2048", "2048x3072", "3072x2048",
   "1920x2560", "2560x1920", "1440x2560", "2560x1440", "2880x2880",
   "2304x3456", "3456x2304", "2400x3200", "3200x2400", "2160x3840", "3840x2160"
 ] as const;
 
-/** 将业务 ratio 映射为才翔AI size 参数 */
-function mapCaixiangImageSize(ratio?: string): string {
-  if (!ratio) return "auto";
-  const normalized = ratio.replace(/\s/g, "");
+/**
+ * 每种比例在不同分辨率下的尺寸映射
+ * 未指定分辨率时默认使用 2k
+ */
+const RATIO_SIZE_MAP: Record<string, Record<CaixiangResolution, string>> = {
+  "1:1":    { "1k": "1024x1024", "2k": "2048x2048", "4k": "2880x2880" },
+  "9:16":   { "1k": "960x1280",  "2k": "1088x1920", "4k": "2160x3840" },
+  "16:9":   { "1k": "1280x960",  "2k": "1920x1088", "4k": "3840x2160" },
+  "3:4":    { "1k": "1024x1536", "2k": "1920x2560", "4k": "2304x3456" },
+  "4:3":    { "1k": "1536x1024", "2k": "2560x1920", "4k": "3456x2304" },
+};
 
-  if (normalized === "1:1" || normalized === "square") return "1024x1024";
-  if (normalized === "16:9" || normalized === "landscape") return "1920x1088";
-  if (normalized === "9:16" || normalized === "portrait") return "1088x1920";
-  if (normalized === "3:4") return "1024x1536";
-  if (normalized === "4:3") return "1536x1024";
+/** 默认比例（当未传入 ratio 时使用） */
+const DEFAULT_RATIO = "9:16";
 
-  // 直接匹配预设值
-  if (CAIXIANG_IMAGE_SIZES.includes(normalized as typeof CAIXIANG_IMAGE_SIZES[number])) {
-    return normalized;
+/**
+ * 将业务 ratio + resolution 映射为才翔AI size 参数
+ * @param ratio - 图片比例，如 "9:16"、"1:1" 等，默认 "9:16"
+ * @param resolution - 分辨率等级 "1k" / "2k" / "4k"，默认 "2k"
+ */
+function mapCaixiangImageSize(ratio?: string, resolution?: string): string {
+  const normalizedRatio = (ratio ?? DEFAULT_RATIO).replace(/\s/g, "");
+  const normalizedRes: CaixiangResolution =
+    resolution === "1k" || resolution === "2k" || resolution === "4k"
+      ? resolution
+      : "2k";
+
+  // 别名映射
+  let mappedRatio = normalizedRatio;
+  if (normalizedRatio === "square") mappedRatio = "1:1";
+  if (normalizedRatio === "landscape") mappedRatio = "16:9";
+  if (normalizedRatio === "portrait") mappedRatio = "9:16";
+
+  // 按比例 + 分辨率查表
+  const sizeMap = RATIO_SIZE_MAP[mappedRatio];
+  if (sizeMap) {
+    return sizeMap[normalizedRes];
   }
 
-  return "auto";
+  // 直接传入预设尺寸（如 "1088x1920"），不区分分辨率
+  if (CAIXIANG_IMAGE_SIZES.includes(normalizedRatio as typeof CAIXIANG_IMAGE_SIZES[number])) {
+    return normalizedRatio;
+  }
+
+  // fallback：默认比例 + 默认分辨率
+  return RATIO_SIZE_MAP[DEFAULT_RATIO]!["2k"];
 }
 
 // ---------------------------------------------------------------------------
@@ -56,7 +88,7 @@ function buildRequest(
     var endpoint = `${provider.baseUrl.replace(/\/+$/, "")}/v1/media/generate`;
   }
 
-  const size = mapCaixiangImageSize(options?.ratio);
+  const size = mapCaixiangImageSize(options?.ratio, options?.resolution);
   const n = Math.max(1, Math.min(4, Number(options?.count) || 1));
   const normalizedImages = normalizeProviderTransportImageUrls(options?.images);
 

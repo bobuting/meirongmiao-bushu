@@ -96,6 +96,12 @@ import {
   buildGrokVideoRequestBody,
 } from "../../modules/grok-video-provider-endpoints.js";
 import {
+  isGrokImagineProvider,
+  buildGrokImagineVideoCreateEndpointCandidates,
+  buildGrokImagineVideoQueryEndpointCandidates,
+  buildGrokImagineVideoRequestBody,
+} from "../../modules/grok-imagine-video-provider-endpoints.js";
+import {
   buildGrokCaixiangVideoCreateEndpointCandidates,
   buildGrokCaixiangVideoQueryEndpointCandidates,
   buildGrokCaixiangVideoRequestBody,
@@ -613,7 +619,8 @@ export async function requestVideoUrl(
   const useWanxDashScopeProtocol = callMode === ProviderCallMode.WANX_VIDEO_BAILIAN;
   const useHappyHorseProtocol = callMode === ProviderCallMode.HAPPYHORSE_VIDEO_BAILIAN;
   const useGrokProtocol = isGrokProvider(callMode);
-  log.debug({ model, callMode, useVeoFamily: useVeoProtocol || useVeoOpenaiProtocol, useDoubao: useDoubaoVolcProtocol, useKling: useKlingProtocol, useKlingOfficial: useKlingOfficialProtocol, useWanx: useWanxDashScopeProtocol, useHappyHorse: useHappyHorseProtocol, useGrok: useGrokProtocol }, '协议路由');
+  const useGrokImagineProtocol = isGrokImagineProvider(callMode);
+  log.debug({ model, callMode, useVeoFamily: useVeoProtocol || useVeoOpenaiProtocol, useDoubao: useDoubaoVolcProtocol, useKling: useKlingProtocol, useKlingOfficial: useKlingOfficialProtocol, useWanx: useWanxDashScopeProtocol, useHappyHorse: useHappyHorseProtocol, useGrok: useGrokProtocol || useGrokImagineProtocol }, '协议路由');
 
   // 认证头
   // 可灵官方协议：使用 JWT 认证（AccessKey + SecretKey 签名）
@@ -658,7 +665,7 @@ export async function requestVideoUrl(
     }, 'VEO 时长补充：脚本时长不足 8 秒，生成补充建议通过 prompt 延展内容填满固定时长');
   }
 
-  const includeApiKeyHeaders = !useDoubaoVolcProtocol && !(useVeoProtocol || useVeoOpenaiProtocol) && !useKlingProtocol && !useKlingOfficialProtocol && !useWanxDashScopeProtocol && !useHappyHorseProtocol && !useGrokProtocol;
+  const includeApiKeyHeaders = !useDoubaoVolcProtocol && !(useVeoProtocol || useVeoOpenaiProtocol) && !useKlingProtocol && !useKlingOfficialProtocol && !useWanxDashScopeProtocol && !useHappyHorseProtocol && !useGrokProtocol && !useGrokImagineProtocol;
   const _doubaoPrompt = buildDoubaoVideoPromptWithFlags({
     prompt,
     ratio: "9:16",
@@ -695,6 +702,9 @@ export async function requestVideoUrl(
       break;
     case ProviderCallMode.GROK_VIDEO_YUNWU:
       createEndpoints = buildGrokVideoCreateEndpointCandidates(provider.baseUrl);
+      break;
+    case ProviderCallMode.GROK_IMAGINE_VIDEO_YUNWU:
+      createEndpoints = buildGrokImagineVideoCreateEndpointCandidates(provider.baseUrl);
       break;
     case ProviderCallMode.GROK_VIDEO_CAIXIANG:
       createEndpoints = buildGrokCaixiangVideoCreateEndpointCandidates(provider.baseUrl);
@@ -748,6 +758,9 @@ export async function requestVideoUrl(
         break;
       case ProviderCallMode.GROK_VIDEO_YUNWU:
         existingTaskQueryCandidates = buildGrokVideoQueryEndpointCandidates(provider.baseUrl, existingTaskId);
+        break;
+      case ProviderCallMode.GROK_IMAGINE_VIDEO_YUNWU:
+        existingTaskQueryCandidates = buildGrokImagineVideoQueryEndpointCandidates(provider.baseUrl, existingTaskId);
         break;
       case ProviderCallMode.GROK_VIDEO_CAIXIANG:
         existingTaskQueryCandidates = buildGrokCaixiangVideoQueryEndpointCandidates(provider.baseUrl, existingTaskId);
@@ -1053,6 +1066,26 @@ ${prompt}`;
       });
       break;
     }
+    case ProviderCallMode.GROK_IMAGINE_VIDEO_YUNWU: {
+      headers["Content-Type"] = "application/json";
+      requestBody = buildGrokImagineVideoRequestBody({
+        model,
+        prompt: effectivePrompt,
+        imageUrl: effectiveImageUrl,
+        referenceImages: effectiveReferenceImages.length > 0 ? effectiveReferenceImages : undefined,
+        aspectRatio: "9:16",
+        resolution: resolution === "1080p" ? "720p" : "720p",
+        duration,
+      });
+      Object.assign(requestBodySummary, {
+        protocol: "grok-imagine",
+        aspectRatio: "9:16",
+        resolution: resolution === "1080p" ? "720p" : "720p",
+        duration,
+        imageCount: (effectiveImageUrl ? 1 : 0) + effectiveReferenceImages.length,
+      });
+      break;
+    }
     case ProviderCallMode.GROK_VIDEO_CAIXIANG: {
       headers["Content-Type"] = "application/json";
       requestBody = buildGrokCaixiangVideoRequestBody({
@@ -1263,6 +1296,9 @@ ${prompt}`;
         case ProviderCallMode.GROK_VIDEO_YUNWU:
           queryCandidates = buildGrokVideoQueryEndpointCandidates(provider.baseUrl, taskId);
           break;
+        case ProviderCallMode.GROK_IMAGINE_VIDEO_YUNWU:
+          queryCandidates = buildGrokImagineVideoQueryEndpointCandidates(provider.baseUrl, taskId);
+          break;
         default:
           queryCandidates = buildJimengVideoQueryEndpointCandidates(provider.baseUrl, taskId);
           break;
@@ -1444,6 +1480,7 @@ export async function createVideoTask(
   const useWanxDashScopeProtocol = callMode === ProviderCallMode.WANX_VIDEO_BAILIAN;
   const useHappyHorseProtocol = callMode === ProviderCallMode.HAPPYHORSE_VIDEO_BAILIAN;
   const useGrokProtocol = isGrokProvider(callMode);
+  const useGrokImagineProtocol = isGrokImagineProvider(callMode);
 
   // 认证头
   let auth: string;
@@ -1477,7 +1514,7 @@ export async function createVideoTask(
     }, 'VEO 时长补充：脚本时长不足 8 秒，生成补充建议通过 prompt 延展内容填满固定时长');
   }
 
-  const includeApiKeyHeaders = !useDoubaoVolcProtocol && !(useVeoProtocol || useVeoOpenaiProtocol) && !useKlingProtocol && !useKlingOfficialProtocol && !useWanxDashScopeProtocol && !useHappyHorseProtocol && !useGrokProtocol;
+  const includeApiKeyHeaders = !useDoubaoVolcProtocol && !(useVeoProtocol || useVeoOpenaiProtocol) && !useKlingProtocol && !useKlingOfficialProtocol && !useWanxDashScopeProtocol && !useHappyHorseProtocol && !useGrokProtocol && !useGrokImagineProtocol;
   const _doubaoPrompt = buildDoubaoVideoPromptWithFlags({
     prompt,
     ratio: "9:16",
@@ -1514,6 +1551,9 @@ export async function createVideoTask(
       break;
     case ProviderCallMode.GROK_VIDEO_YUNWU:
       createEndpoints = buildGrokVideoCreateEndpointCandidates(provider.baseUrl);
+      break;
+    case ProviderCallMode.GROK_IMAGINE_VIDEO_YUNWU:
+      createEndpoints = buildGrokImagineVideoCreateEndpointCandidates(provider.baseUrl);
       break;
     case ProviderCallMode.GROK_VIDEO_CAIXIANG:
       createEndpoints = buildGrokCaixiangVideoCreateEndpointCandidates(provider.baseUrl);
@@ -1815,6 +1855,26 @@ ${prompt}`;
       });
       break;
     }
+    case ProviderCallMode.GROK_IMAGINE_VIDEO_YUNWU: {
+      headers["Content-Type"] = "application/json";
+      requestBody = buildGrokImagineVideoRequestBody({
+        model,
+        prompt: effectivePrompt,
+        imageUrl: effectiveImageUrl,
+        referenceImages: effectiveReferenceImages.length > 0 ? effectiveReferenceImages : undefined,
+        aspectRatio: "9:16",
+        resolution: resolution === "1080p" ? "720p" : "720p",
+        duration,
+      });
+      Object.assign(requestBodySummary, {
+        protocol: "grok-imagine",
+        aspectRatio: "9:16",
+        resolution: resolution === "1080p" ? "720p" : "720p",
+        duration,
+        imageCount: (effectiveImageUrl ? 1 : 0) + effectiveReferenceImages.length,
+      });
+      break;
+    }
     case ProviderCallMode.GROK_VIDEO_CAIXIANG: {
       headers["Content-Type"] = "application/json";
       requestBody = buildGrokCaixiangVideoRequestBody({
@@ -2006,6 +2066,9 @@ ${prompt}`;
         case ProviderCallMode.GROK_VIDEO_YUNWU:
           queryEndpoints = buildGrokVideoQueryEndpointCandidates(provider.baseUrl, taskId);
           break;
+        case ProviderCallMode.GROK_IMAGINE_VIDEO_YUNWU:
+          queryEndpoints = buildGrokImagineVideoQueryEndpointCandidates(provider.baseUrl, taskId);
+          break;
         case ProviderCallMode.GROK_VIDEO_CAIXIANG:
           queryEndpoints = buildGrokCaixiangVideoQueryEndpointCandidates(provider.baseUrl, taskId);
           break;
@@ -2095,6 +2158,7 @@ export async function queryVideoTask(
   const useWanxDashScopeProtocol = callMode === ProviderCallMode.WANX_VIDEO_BAILIAN;
   const useHappyHorseProtocol = callMode === ProviderCallMode.HAPPYHORSE_VIDEO_BAILIAN;
   const useGrokProtocol = isGrokProvider(callMode);
+  const useGrokImagineProtocol = isGrokImagineProvider(callMode);
 
   // 认证头
   let auth: string;
@@ -2106,7 +2170,7 @@ export async function queryVideoTask(
   }
   const apiKey = auth.replace(/^Bearer\s+/i, "").trim();
 
-  const includeApiKeyHeaders = !useDoubaoVolcProtocol && !(useVeoProtocol || useVeoOpenaiProtocol) && !useKlingProtocol && !useKlingOfficialProtocol && !useWanxDashScopeProtocol && !useHappyHorseProtocol && !useGrokProtocol;
+  const includeApiKeyHeaders = !useDoubaoVolcProtocol && !(useVeoProtocol || useVeoOpenaiProtocol) && !useKlingProtocol && !useKlingOfficialProtocol && !useWanxDashScopeProtocol && !useHappyHorseProtocol && !useGrokProtocol && !useGrokImagineProtocol;
 
   // 构建查询端点（switch 替代三元嵌套）
   let queryEndpoints: string[];
@@ -2136,6 +2200,9 @@ export async function queryVideoTask(
       break;
     case ProviderCallMode.GROK_VIDEO_YUNWU:
       queryEndpoints = buildGrokVideoQueryEndpointCandidates(provider.baseUrl, taskId);
+      break;
+    case ProviderCallMode.GROK_IMAGINE_VIDEO_YUNWU:
+      queryEndpoints = buildGrokImagineVideoQueryEndpointCandidates(provider.baseUrl, taskId);
       break;
     case ProviderCallMode.GROK_VIDEO_CAIXIANG:
       queryEndpoints = buildGrokCaixiangVideoQueryEndpointCandidates(provider.baseUrl, taskId);

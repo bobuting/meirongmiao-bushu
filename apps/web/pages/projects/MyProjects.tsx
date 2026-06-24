@@ -254,15 +254,20 @@ const formatRelativeTime = (timestamp: number | string | null | undefined): stri
       store.clearProjectState(activeProjectId);
     }
     // 设置基础 projectData，workflow 由各 step 通过 TanStack Query 自动加载
+    // 注意：activeScriptId 不在此处设置，由 useProjectInfoQuery 从 getProject API 正确获取
+    // 之前错误地将 lastReverseScriptVersionId 赋给 activeScriptId，导致已确认脚本无法加载
     store.updateProjectDataForProject(project.id, {
       projectId: project.id,
       projectName: project.title,
       projectStatus: resumeStatus,
-      activeScriptId: project.lastReverseScriptVersionId ?? null,
       reverseScriptId: project.reverseScriptId ?? null,
       projectKind,
     });
     store.setActiveProject(project.id);
+
+    // 清除目标项目的查询缓存，强制 useProjectInfoQuery 重新请求
+    // 确保从 API 获取正确的 activeScriptId 等字段，而非使用错误的缓存值
+    clearProjectQueries(project.id);
 
     setResumingProjectId(null);
     if (importedStoryboard) {

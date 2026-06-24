@@ -17,6 +17,7 @@ import { happyHorseVideoExtractor } from "../../modules/happyhorse-video-extract
 import { happyHorseVideoEditExtractor } from "../../modules/happyhorse-video-edit-extractor.js";
 import { wanxiangVideoMixExtractor } from "../../modules/wanxiang-video-mix-extractor.js";
 import { grokVideoExtractor } from "../../modules/grok-video-extractor.js";
+import { grokImagineVideoExtractor } from "../../modules/grok-imagine-video-extractor.js";
 import { grokVideoCaixiangExtractor } from "../../modules/grok-video-caixiang-extractor.js";
 import { veoVideoCaixiangExtractor } from "../../modules/veo-video-caixiang-extractor.js";
 import {
@@ -59,6 +60,8 @@ const extractorRegistry = new Map<ProviderCallMode, VideoResponseExtractor>([
 
   // Grok 视频（云雾，扁平响应格式）
   ["grok-video-yunwu", grokVideoExtractor],
+  // Grok Imagine 视频（云雾，OpenAI 视频格式）
+  ["grok-imagine-video-yunwu", grokImagineVideoExtractor],
   // Grok 视频（才翔AI，嵌套 params 格式）
   ["grok-video-caixiang", grokVideoCaixiangExtractor],
   // VEO 视频（才翔AI，嵌套 params 格式）

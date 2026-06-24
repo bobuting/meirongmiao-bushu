@@ -1108,6 +1108,8 @@ export const ProviderCallMode = {
   HAPPYHORSE_VIDEO_EDIT_BAILIAN: "happyhorse-video-edit-bailian",
   /** Grok 视频生成-云雾（/v1/video/create，统一视频格式） */
   GROK_VIDEO_YUNWU: "grok-video-yunwu",
+  /** Grok Imagine 视频生成-云雾（/v1/videos/generations，OpenAI 视频格式） */
+  GROK_IMAGINE_VIDEO_YUNWU: "grok-imagine-video-yunwu",
   /** Grok 视频生成-才翔AI（/v1/media/generate，嵌套 params 格式） */
   GROK_VIDEO_CAIXIANG: "grok-video-caixiang",
   /** VEO 视频生成-才翔AI（/v1/media/generate，嵌套 params 格式） */
@@ -1150,7 +1152,7 @@ export type ProviderCallMode = typeof ProviderCallMode[keyof typeof ProviderCall
 export const PROVIDER_TYPE_CALL_MODES: Record<ProviderType, ProviderCallMode[]> = {
   text: [ProviderCallMode.OPENAI, ProviderCallMode.GEMINI, ProviderCallMode.DASHSCOPE, ProviderCallMode.DASHSCOPE_STREAM],
   image: [ProviderCallMode.OPENAI, ProviderCallMode.GEMINI, ProviderCallMode.OPENAI_IMAGE_TO_TEXT, ProviderCallMode.GEMINI_IMAGE, ProviderCallMode.GEMINI_IMAGE_INLINE, ProviderCallMode.NANO_BANANA_IMAGE, ProviderCallMode.SEEDREAM_IMAGE_ARK, ProviderCallMode.WANX_IMAGE_BAILIAN, ProviderCallMode.OPENAI_IMAGE, ProviderCallMode.OPENAI_IMAGE_CAIXIANG, ProviderCallMode.GROK_IMAGE, ProviderCallMode.GROK_IMAGE_EDIT, ProviderCallMode.OPENAI_IMAGE_EDIT, ProviderCallMode.ALICLOUD_MARKET_IMAGE],
-  video: [ProviderCallMode.KLING_VIDEO_YUNWU, ProviderCallMode.KLING_VIDEO_EDIT_YUNWU, ProviderCallMode.KLING_VIDEO_OFFICIAL, ProviderCallMode.VEO_VIDEO_YUNWU_TONGYI, ProviderCallMode.VEO_VIDEO_YUNWU_OPENAI, ProviderCallMode.DOUBAO_SEEDANCE_VIDEO_YUNWU, ProviderCallMode.WANX_VIDEO_BAILIAN, ProviderCallMode.WANXIANG_VIDEO_MIX_BAILIAN, ProviderCallMode.HAPPYHORSE_VIDEO_BAILIAN, ProviderCallMode.HAPPYHORSE_VIDEO_EDIT_BAILIAN, ProviderCallMode.GROK_VIDEO_YUNWU, ProviderCallMode.GROK_VIDEO_CAIXIANG, ProviderCallMode.VEO_VIDEO_CAIXIANG, ProviderCallMode.ANIMATE_ANYONE_DETECT_BAILIAN, ProviderCallMode.ANIMATE_ANYONE_TEMPLATE_BAILIAN, ProviderCallMode.ANIMATE_ANYONE_VIDEO_BAILIAN],
+  video: [ProviderCallMode.KLING_VIDEO_YUNWU, ProviderCallMode.KLING_VIDEO_EDIT_YUNWU, ProviderCallMode.KLING_VIDEO_OFFICIAL, ProviderCallMode.VEO_VIDEO_YUNWU_TONGYI, ProviderCallMode.VEO_VIDEO_YUNWU_OPENAI, ProviderCallMode.DOUBAO_SEEDANCE_VIDEO_YUNWU, ProviderCallMode.WANX_VIDEO_BAILIAN, ProviderCallMode.WANXIANG_VIDEO_MIX_BAILIAN, ProviderCallMode.HAPPYHORSE_VIDEO_BAILIAN, ProviderCallMode.HAPPYHORSE_VIDEO_EDIT_BAILIAN, ProviderCallMode.GROK_VIDEO_YUNWU, ProviderCallMode.GROK_IMAGINE_VIDEO_YUNWU, ProviderCallMode.GROK_VIDEO_CAIXIANG, ProviderCallMode.VEO_VIDEO_CAIXIANG, ProviderCallMode.ANIMATE_ANYONE_DETECT_BAILIAN, ProviderCallMode.ANIMATE_ANYONE_TEMPLATE_BAILIAN, ProviderCallMode.ANIMATE_ANYONE_VIDEO_BAILIAN],
 };
 
 /** CallMode → 可选模型标识（用于前端下拉选择，值即实际传给 API 的 model 字段） */
@@ -1209,6 +1211,8 @@ export const PROVIDER_TYPE_MODELS: Record<ProviderType, ModelEntry[]> = {
     { value: "wan2.6-t2v", label: "万相 2.6 文生视频" },
     { value: "happyhorse-1.0-r2v", label: "快乐马 1.0 参考生视频" },
     { value: "grok-video-3", label: "Grok Video 3" },
+    { value: "grok-imagine-video", label: "Grok Imagine Video" },
+    { value: "grok-imagine-video-1.5-preview", label: "Grok Imagine Video 1.5 Preview" },
     { value: "happyhorse-1.0-video-edit", label: "快乐马 1.0 视频编辑" },
     { value: "wan2.2-animate-mix", label: "万相 2.2 视频换人" },
     { value: "animate-anyone-detect-gen2", label: "AnimateAnyone 图片检测" },
