@@ -177,7 +177,7 @@ async function postMultipartWithTimeout(
     const response = await fetch(url, { method: "POST", headers, body: formData, signal: controller.signal });
     if (!response.ok) {
       const errorText = await response.text().catch(() => "");
-      throw new AppError(502, "IMAGE_PROVIDER_ERROR", `Grok Image Edit API 错误: ${response.status} ${errorText}`);
+      throw new AppError(502, "IMAGE_PROVIDER_ERROR", `Image Edit API 错误: ${response.status} ${errorText}`);
     }
     return await response.json();
   } finally {
@@ -241,7 +241,7 @@ export async function requestNanoBananaImageUrls(
   const mode = options?.mode ?? "text_to_image";
   const modelPath = normalizeNanoBananaModelPath(provider.model, mode);
   const statusEndpoint = `${provider.baseUrl.replace(/\/+$/, "")}/api/${modelPath}/requests/${encodeURIComponent(requestId)}`;
-  const deadline = Date.now() + Math.max(20_000, Math.min(180_000, provider.timeoutMs * 2));
+  const deadline = Date.now() + Math.max(180_000, provider.timeoutMs);
   let attempt = 0;
 
   while (Date.now() < deadline) {
@@ -483,6 +483,11 @@ async function requestLlmImageGenerationUrlsInner(
 
   // --- CallMode Handler 调度 ---
 
+  // OPENAI_IMAGE_EDIT 特殊处理：multipart/form-data
+  if (callMode === ProviderCallMode.OPENAI_IMAGE_EDIT) {
+    return await handleOpenaiImageEdit(provider, finalPrompt, options);
+  }
+
   // GROK_IMAGE_EDIT 特殊处理：multipart + 内联发送
   if (callMode === ProviderCallMode.GROK_IMAGE_EDIT) {
     return await handleGrokImageEdit(provider, finalPrompt, options);
@@ -612,7 +617,7 @@ async function handleWithCallMode(
           }
         })();
 
-        const deadline = Date.now() + Math.max(20_000, Math.min(180_000, provider.timeoutMs * 2));
+        const deadline = Date.now() + Math.max(180_000, provider.timeoutMs);
         let attempt = 0;
 
         while (Date.now() < deadline) {
@@ -726,7 +731,7 @@ async function handleNanoBanana(
       const mode = options?.mode ?? "text_to_image";
       const modelPath = normalizeNanoBananaModelPath(provider.model, mode);
       const statusEndpoint = `${provider.baseUrl.replace(/\/+$/, "")}/api/${modelPath}/requests/${encodeURIComponent(requestId)}`;
-      const deadline = Date.now() + Math.max(20_000, Math.min(180_000, provider.timeoutMs * 2));
+      const deadline = Date.now() + Math.max(180_000, provider.timeoutMs);
       let attempt = 0;
 
       while (Date.now() < deadline) {
@@ -837,6 +842,78 @@ async function handleGrokImageEdit(
     const errorMessage = error instanceof Error ? error.message : String(error);
     const log = getLogger("image-generation");
     log.error({ callMode: ProviderCallMode.GROK_IMAGE_EDIT, providerModel: provider.model, endpoint: request.endpoint, errorCode, errorMessage }, "[ImageGeneration] Grok Image Edit 失败");
+    finalizeImageDebugError(options?.debugOptions, debugRecord, provider, errorCode, errorMessage, request.endpoint, returnableBody);
+    throw error;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// OPENAI_IMAGE_EDIT 特殊调度（multipart/form-data）
+// ---------------------------------------------------------------------------
+
+async function handleOpenaiImageEdit(
+  provider: ResolvedRouteProvider,
+  prompt: string,
+  options?: {
+    mode?: "text_to_image" | "image_to_image";
+    images?: string[];
+    ratio?: string;
+    resolution?: string;
+    count?: number;
+    temperature?: number;
+    negativePrompt?: string;
+    debugOptions?: ImageGenerationDebugOptions;
+  },
+): Promise<{ urls: string[]; endpoint: string; requestBody: Record<string, unknown> }> {
+  const openaiEditHandler = getImageCallModeHandler(ProviderCallMode.OPENAI_IMAGE_EDIT);
+  const callModeOptions: ImageCallModeOptions = {
+    images: options?.images,
+    ratio: options?.ratio,
+    resolution: options?.resolution,
+    count: options?.count,
+  };
+
+  const request = await openaiEditHandler.buildRequest(provider, prompt, callModeOptions);
+  if (!request.formData) {
+    throw new AppError(500, "OPENAI_EDIT_NO_FORMDATA", "OpenAI Image Edit handler 返回了空的 formData");
+  }
+
+  const returnableBody: Record<string, unknown> = {
+    model: provider.model || "gpt-image-2",
+    prompt,
+    image_count: options?.images?.length ?? 1,
+    images: options?.images ?? [],
+    size: options?.ratio ?? "auto",
+    quality: options?.resolution ?? "auto",
+    n: options?.count ?? 1,
+  };
+
+  const debugRecord = createImageDebugRecord(
+    options?.debugOptions,
+    provider,
+    prompt,
+    request.endpoint,
+    request.headers,
+    returnableBody,
+    options?.images,
+  );
+
+  try {
+    const data = await postMultipartWithTimeout(request.endpoint, request.formData, request.headers, provider.timeoutMs);
+    const urls = openaiEditHandler.extractImageUrls(data);
+
+    if (urls.length > 0) {
+      finalizeImageDebugSuccess(options?.debugOptions, debugRecord, provider, urls, request.endpoint, returnableBody);
+      return { urls: padImageUrls(urls, 1), endpoint: request.endpoint, requestBody: returnableBody };
+    }
+
+    finalizeImageDebugError(options?.debugOptions, debugRecord, provider, "EMPTY_IMAGE_RESULT", `Empty result; endpoint=${request.endpoint}; response=${compactUnknownText(data, 1200)}`, request.endpoint, returnableBody);
+    throw new AppError(502, "IMAGE_PROVIDER_ERROR", `EMPTY_IMAGE_RESULT; endpoint=${request.endpoint}; response=${compactUnknownText(data, 1200)}`);
+  } catch (error) {
+    const errorCode = error instanceof AppError ? error.code : "IMAGE_PROVIDER_ERROR";
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    const log = getLogger("image-generation");
+    log.error({ callMode: ProviderCallMode.OPENAI_IMAGE_EDIT, providerModel: provider.model, endpoint: request.endpoint, errorCode, errorMessage }, "[ImageGeneration] OpenAI Image Edit 失败");
     finalizeImageDebugError(options?.debugOptions, debugRecord, provider, errorCode, errorMessage, request.endpoint, returnableBody);
     throw error;
   }

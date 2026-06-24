@@ -1138,6 +1138,8 @@ export const ProviderCallMode = {
   GROK_IMAGE: "grok-image",
   /** Grok 图片编辑协议-云雾（/v1/images/edits，multipart/form-data，支持参考图 + 分辨率/质量参数） */
   GROK_IMAGE_EDIT: "grok-image-edit",
+  /** OpenAI 图片编辑协议（/v1/images/edits，multipart/form-data，支持多图编辑，gpt-image-2 等模型） */
+  OPENAI_IMAGE_EDIT: "openai-image-edit",
   /** 阿里云市场万相营造商详长图（异步 submit+poll，AppCode 认证） */
   ALICLOUD_MARKET_IMAGE: "alicloud-market-image",
 } as const;
@@ -1147,7 +1149,7 @@ export type ProviderCallMode = typeof ProviderCallMode[keyof typeof ProviderCall
 /** ProviderType → 可用 CallMode 映射（创建 Provider 时按类型筛选协议） */
 export const PROVIDER_TYPE_CALL_MODES: Record<ProviderType, ProviderCallMode[]> = {
   text: [ProviderCallMode.OPENAI, ProviderCallMode.GEMINI, ProviderCallMode.DASHSCOPE, ProviderCallMode.DASHSCOPE_STREAM],
-  image: [ProviderCallMode.OPENAI, ProviderCallMode.GEMINI, ProviderCallMode.OPENAI_IMAGE_TO_TEXT, ProviderCallMode.GEMINI_IMAGE, ProviderCallMode.GEMINI_IMAGE_INLINE, ProviderCallMode.NANO_BANANA_IMAGE, ProviderCallMode.SEEDREAM_IMAGE_ARK, ProviderCallMode.WANX_IMAGE_BAILIAN, ProviderCallMode.OPENAI_IMAGE, ProviderCallMode.OPENAI_IMAGE_CAIXIANG, ProviderCallMode.GROK_IMAGE, ProviderCallMode.GROK_IMAGE_EDIT, ProviderCallMode.ALICLOUD_MARKET_IMAGE],
+  image: [ProviderCallMode.OPENAI, ProviderCallMode.GEMINI, ProviderCallMode.OPENAI_IMAGE_TO_TEXT, ProviderCallMode.GEMINI_IMAGE, ProviderCallMode.GEMINI_IMAGE_INLINE, ProviderCallMode.NANO_BANANA_IMAGE, ProviderCallMode.SEEDREAM_IMAGE_ARK, ProviderCallMode.WANX_IMAGE_BAILIAN, ProviderCallMode.OPENAI_IMAGE, ProviderCallMode.OPENAI_IMAGE_CAIXIANG, ProviderCallMode.GROK_IMAGE, ProviderCallMode.GROK_IMAGE_EDIT, ProviderCallMode.OPENAI_IMAGE_EDIT, ProviderCallMode.ALICLOUD_MARKET_IMAGE],
   video: [ProviderCallMode.KLING_VIDEO_YUNWU, ProviderCallMode.KLING_VIDEO_EDIT_YUNWU, ProviderCallMode.KLING_VIDEO_OFFICIAL, ProviderCallMode.VEO_VIDEO_YUNWU_TONGYI, ProviderCallMode.VEO_VIDEO_YUNWU_OPENAI, ProviderCallMode.DOUBAO_SEEDANCE_VIDEO_YUNWU, ProviderCallMode.WANX_VIDEO_BAILIAN, ProviderCallMode.WANXIANG_VIDEO_MIX_BAILIAN, ProviderCallMode.HAPPYHORSE_VIDEO_BAILIAN, ProviderCallMode.HAPPYHORSE_VIDEO_EDIT_BAILIAN, ProviderCallMode.GROK_VIDEO_YUNWU, ProviderCallMode.GROK_VIDEO_CAIXIANG, ProviderCallMode.VEO_VIDEO_CAIXIANG, ProviderCallMode.ANIMATE_ANYONE_DETECT_BAILIAN, ProviderCallMode.ANIMATE_ANYONE_TEMPLATE_BAILIAN, ProviderCallMode.ANIMATE_ANYONE_VIDEO_BAILIAN],
 };
 

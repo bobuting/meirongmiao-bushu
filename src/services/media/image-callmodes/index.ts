@@ -15,6 +15,7 @@ import { ProviderCallMode } from "../../../contracts/types.js";
 import type { ImageCallModeHandler } from "./types.js";
 import { openaiImageHandler } from "./openai-image.js";
 import { openaiImageCaixiangHandler, openaiImageCaixiangUtils } from "./openai-image-caixiang.js";
+import { openaiImageEditHandler } from "./openai-image-edit.js";
 import { seedreamImageHandler } from "./seedream-image.js";
 import { geminiImageHandler, geminiImageInlineHandler } from "./gemini-image.js";
 import { grokImageHandler } from "./grok-image.js";
@@ -30,6 +31,7 @@ const registry = new Map<ProviderCallMode, ImageCallModeHandler>([
   [ProviderCallMode.GEMINI_IMAGE_INLINE, geminiImageInlineHandler],
   [ProviderCallMode.GROK_IMAGE, grokImageHandler],
   [ProviderCallMode.GROK_IMAGE_EDIT, grokImageEditHandler],
+  [ProviderCallMode.OPENAI_IMAGE_EDIT, openaiImageEditHandler],
   [ProviderCallMode.NANO_BANANA_IMAGE, nanoBananaImageHandler],
   [ProviderCallMode.WANX_IMAGE_BAILIAN, wanxImageHandler],
 ]);
