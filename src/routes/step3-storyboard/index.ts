@@ -166,7 +166,8 @@ export function registerStep3StoryboardRoutes(
         candidates: allCandidates,
         status,
       };
-    }).filter((f) => f.imageUrl || (f.candidates && f.candidates.length > 0));
+    // 保留失败的帧，即使没有图片数据也要返回，前端用于显示错误状态和重试按钮
+    }).filter((f) => f.imageUrl || (f.candidates && f.candidates.length > 0) || f.status === "failed");
 
     return { frames };
   });

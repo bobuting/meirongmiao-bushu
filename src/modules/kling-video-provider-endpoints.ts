@@ -510,10 +510,11 @@ export function buildKlingVideoRequestBody(options: {
 // ---------------------------------------------------------------------------
 
 /**
- * 判断是否使用可灵 Omni-Video 协议
+ * 判断是否使用可灵 Omni-Video 协议（云雾或 DataEyes）
  */
 export function isKlingOmniVideoProvider(callMode: string): boolean {
-  return callMode === "kling-omni-video-yunwu";
+  return callMode === "kling-omni-video-yunwu"
+    || callMode === "kling-omni-video-dataeyes";
 }
 
 /** Omni-Video 请求参数 */

@@ -22,6 +22,8 @@ interface Step3CompactStoryboardCardProps {
   isConfirmingLock?: boolean;
   /** 脚本是否已锁定（锁定后才显示图片占位区域） */
   isLocked?: boolean;
+  /** 帧在 nrm_step3_frame_images 表中是否有记录 */
+  hasFrameDbRecord?: boolean;
   /** 帧预览错误信息（从全局任务队列失败帧提取） */
   previewErrorMessage?: string | null;
   /** 阶段0（专业提示词生成）是否正在进行 */
@@ -55,6 +57,7 @@ export const Step3CompactStoryboardCard: React.FC<Step3CompactStoryboardCardProp
   isBatchBusy = false,
   isConfirmingLock = false,
   isLocked = false,
+  hasFrameDbRecord = false,
   previewErrorMessage = null,
   isPromptGenerating = false,
   candidateImageUrls = [],
@@ -68,11 +71,12 @@ export const Step3CompactStoryboardCard: React.FC<Step3CompactStoryboardCardProp
 }) => {
   const compactPrompt = viewModel.mainVisualPrompt;
 
-  // 锁定后有图片内容（已生成或正在生成）时才显示右侧预览区
+  // 锁定后有图片内容（已生成/正在生成/有DB记录）时才显示右侧预览区
   const hasImageContent = previewViewModel.previewImageUrl
     || isPreviewGenerating
     || isPromptGenerating
-    || previewErrorMessage;
+    || previewErrorMessage
+    || hasFrameDbRecord;
   const showPreviewArea = isLocked && hasImageContent;
 
   return (

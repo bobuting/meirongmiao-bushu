@@ -100,6 +100,7 @@ import {
   buildGrokImagineVideoCreateEndpointCandidates,
   buildGrokImagineVideoQueryEndpointCandidates,
   buildGrokImagineVideoRequestBody,
+  buildGrokImagineVideoDataeyesRequestBody,
 } from "../../modules/grok-imagine-video-provider-endpoints.js";
 import {
   buildGrokCaixiangVideoCreateEndpointCandidates,
@@ -689,6 +690,7 @@ export async function requestVideoUrl(
       createEndpoints = buildKlingMultiImageVideoCreateEndpointCandidates(provider.baseUrl);
       break;
     case ProviderCallMode.KLING_OMNI_VIDEO_YUNWU:
+    case ProviderCallMode.KLING_OMNI_VIDEO_DATAEYES:
       createEndpoints = buildKlingVideoCreateEndpointCandidates(provider.baseUrl);
       break;
     case ProviderCallMode.KLING_VIDEO_OFFICIAL:
@@ -704,6 +706,7 @@ export async function requestVideoUrl(
       createEndpoints = buildGrokVideoCreateEndpointCandidates(provider.baseUrl);
       break;
     case ProviderCallMode.GROK_IMAGINE_VIDEO_YUNWU:
+    case ProviderCallMode.GROK_IMAGINE_VIDEO_DATAEYES:
       createEndpoints = buildGrokImagineVideoCreateEndpointCandidates(provider.baseUrl);
       break;
     case ProviderCallMode.GROK_VIDEO_CAIXIANG:
@@ -746,6 +749,7 @@ export async function requestVideoUrl(
         existingTaskQueryCandidates = buildKlingMultiImageVideoQueryEndpointCandidates(provider.baseUrl, existingTaskId);
         break;
       case ProviderCallMode.KLING_OMNI_VIDEO_YUNWU:
+      case ProviderCallMode.KLING_OMNI_VIDEO_DATAEYES:
         existingTaskQueryCandidates = buildKlingVideoQueryEndpointCandidates(provider.baseUrl, existingTaskId);
         break;
       case ProviderCallMode.KLING_VIDEO_OFFICIAL:
@@ -760,6 +764,7 @@ export async function requestVideoUrl(
         existingTaskQueryCandidates = buildGrokVideoQueryEndpointCandidates(provider.baseUrl, existingTaskId);
         break;
       case ProviderCallMode.GROK_IMAGINE_VIDEO_YUNWU:
+      case ProviderCallMode.GROK_IMAGINE_VIDEO_DATAEYES:
         existingTaskQueryCandidates = buildGrokImagineVideoQueryEndpointCandidates(provider.baseUrl, existingTaskId);
         break;
       case ProviderCallMode.GROK_VIDEO_CAIXIANG:
@@ -953,7 +958,8 @@ ${prompt}`;
       });
       break;
     }
-    case ProviderCallMode.KLING_OMNI_VIDEO_YUNWU: {
+    case ProviderCallMode.KLING_OMNI_VIDEO_YUNWU:
+    case ProviderCallMode.KLING_OMNI_VIDEO_DATAEYES: {
       headers["Content-Type"] = "application/json";
       // 主图作为首帧，参考图作为风格参考
       const omniImageList: Array<{ image_url: string; type?: string }> = [];
@@ -1079,6 +1085,26 @@ ${prompt}`;
       });
       Object.assign(requestBodySummary, {
         protocol: "grok-imagine",
+        aspectRatio: "9:16",
+        resolution: resolution === "1080p" ? "720p" : "720p",
+        duration,
+        imageCount: (effectiveImageUrl ? 1 : 0) + effectiveReferenceImages.length,
+      });
+      break;
+    }
+    case ProviderCallMode.GROK_IMAGINE_VIDEO_DATAEYES: {
+      headers["Content-Type"] = "application/json";
+      requestBody = buildGrokImagineVideoDataeyesRequestBody({
+        model,
+        prompt: effectivePrompt,
+        imageUrl: effectiveImageUrl,
+        referenceImages: effectiveReferenceImages.length > 0 ? effectiveReferenceImages : undefined,
+        aspectRatio: "9:16",
+        resolution: resolution === "1080p" ? "720p" : "720p",
+        duration,
+      });
+      Object.assign(requestBodySummary, {
+        protocol: "grok-imagine-dataeyes",
         aspectRatio: "9:16",
         resolution: resolution === "1080p" ? "720p" : "720p",
         duration,
@@ -1282,6 +1308,7 @@ ${prompt}`;
           queryCandidates = buildKlingMultiImageVideoQueryEndpointCandidates(provider.baseUrl, taskId);
           break;
         case ProviderCallMode.KLING_OMNI_VIDEO_YUNWU:
+        case ProviderCallMode.KLING_OMNI_VIDEO_DATAEYES:
           queryCandidates = buildKlingVideoQueryEndpointCandidates(provider.baseUrl, taskId);
           break;
         case ProviderCallMode.KLING_VIDEO_OFFICIAL:
@@ -1297,6 +1324,7 @@ ${prompt}`;
           queryCandidates = buildGrokVideoQueryEndpointCandidates(provider.baseUrl, taskId);
           break;
         case ProviderCallMode.GROK_IMAGINE_VIDEO_YUNWU:
+        case ProviderCallMode.GROK_IMAGINE_VIDEO_DATAEYES:
           queryCandidates = buildGrokImagineVideoQueryEndpointCandidates(provider.baseUrl, taskId);
           break;
         default:
@@ -1538,6 +1566,7 @@ export async function createVideoTask(
       createEndpoints = buildKlingMultiImageVideoCreateEndpointCandidates(provider.baseUrl);
       break;
     case ProviderCallMode.KLING_OMNI_VIDEO_YUNWU:
+    case ProviderCallMode.KLING_OMNI_VIDEO_DATAEYES:
       createEndpoints = buildKlingVideoCreateEndpointCandidates(provider.baseUrl);
       break;
     case ProviderCallMode.KLING_VIDEO_OFFICIAL:
@@ -1553,6 +1582,7 @@ export async function createVideoTask(
       createEndpoints = buildGrokVideoCreateEndpointCandidates(provider.baseUrl);
       break;
     case ProviderCallMode.GROK_IMAGINE_VIDEO_YUNWU:
+    case ProviderCallMode.GROK_IMAGINE_VIDEO_DATAEYES:
       createEndpoints = buildGrokImagineVideoCreateEndpointCandidates(provider.baseUrl);
       break;
     case ProviderCallMode.GROK_VIDEO_CAIXIANG:
@@ -1745,7 +1775,8 @@ ${prompt}`;
       });
       break;
     }
-    case ProviderCallMode.KLING_OMNI_VIDEO_YUNWU: {
+    case ProviderCallMode.KLING_OMNI_VIDEO_YUNWU:
+    case ProviderCallMode.KLING_OMNI_VIDEO_DATAEYES: {
       headers["Content-Type"] = "application/json";
       const omniImageList: Array<{ image_url: string; type?: string }> = [];
       if (effectiveImageUrl) {
@@ -1868,6 +1899,26 @@ ${prompt}`;
       });
       Object.assign(requestBodySummary, {
         protocol: "grok-imagine",
+        aspectRatio: "9:16",
+        resolution: resolution === "1080p" ? "720p" : "720p",
+        duration,
+        imageCount: (effectiveImageUrl ? 1 : 0) + effectiveReferenceImages.length,
+      });
+      break;
+    }
+    case ProviderCallMode.GROK_IMAGINE_VIDEO_DATAEYES: {
+      headers["Content-Type"] = "application/json";
+      requestBody = buildGrokImagineVideoDataeyesRequestBody({
+        model,
+        prompt: effectivePrompt,
+        imageUrl: effectiveImageUrl,
+        referenceImages: effectiveReferenceImages.length > 0 ? effectiveReferenceImages : undefined,
+        aspectRatio: "9:16",
+        resolution: resolution === "1080p" ? "720p" : "720p",
+        duration,
+      });
+      Object.assign(requestBodySummary, {
+        protocol: "grok-imagine-dataeyes",
         aspectRatio: "9:16",
         resolution: resolution === "1080p" ? "720p" : "720p",
         duration,
@@ -2052,6 +2103,7 @@ ${prompt}`;
           queryEndpoints = buildKlingMultiImageVideoQueryEndpointCandidates(provider.baseUrl, taskId);
           break;
         case ProviderCallMode.KLING_OMNI_VIDEO_YUNWU:
+        case ProviderCallMode.KLING_OMNI_VIDEO_DATAEYES:
           queryEndpoints = buildKlingVideoQueryEndpointCandidates(provider.baseUrl, taskId);
           break;
         case ProviderCallMode.KLING_VIDEO_OFFICIAL:
@@ -2067,6 +2119,7 @@ ${prompt}`;
           queryEndpoints = buildGrokVideoQueryEndpointCandidates(provider.baseUrl, taskId);
           break;
         case ProviderCallMode.GROK_IMAGINE_VIDEO_YUNWU:
+        case ProviderCallMode.GROK_IMAGINE_VIDEO_DATAEYES:
           queryEndpoints = buildGrokImagineVideoQueryEndpointCandidates(provider.baseUrl, taskId);
           break;
         case ProviderCallMode.GROK_VIDEO_CAIXIANG:
@@ -2188,6 +2241,7 @@ export async function queryVideoTask(
       queryEndpoints = buildKlingMultiImageVideoQueryEndpointCandidates(provider.baseUrl, taskId);
       break;
     case ProviderCallMode.KLING_OMNI_VIDEO_YUNWU:
+    case ProviderCallMode.KLING_OMNI_VIDEO_DATAEYES:
       queryEndpoints = buildKlingVideoQueryEndpointCandidates(provider.baseUrl, taskId);
       break;
     case ProviderCallMode.KLING_VIDEO_OFFICIAL:
@@ -2202,6 +2256,7 @@ export async function queryVideoTask(
       queryEndpoints = buildGrokVideoQueryEndpointCandidates(provider.baseUrl, taskId);
       break;
     case ProviderCallMode.GROK_IMAGINE_VIDEO_YUNWU:
+    case ProviderCallMode.GROK_IMAGINE_VIDEO_DATAEYES:
       queryEndpoints = buildGrokImagineVideoQueryEndpointCandidates(provider.baseUrl, taskId);
       break;
     case ProviderCallMode.GROK_VIDEO_CAIXIANG:
@@ -2608,7 +2663,7 @@ export async function createOmniVideoTask(
 
   const callMode = resolveVideoCallMode(provider);
   if (!isKlingOmniVideoProvider(callMode)) {
-    throw new AppError(400, "INVALID_CALL_MODE", `createOmniVideoTask 需要 callMode=kling-omni-video-yunwu，当前为 ${callMode}`);
+    throw new AppError(400, "INVALID_CALL_MODE", `createOmniVideoTask 需要 callMode=kling-omni-video-yunwu 或 kling-omni-video-dataeyes，当前为 ${callMode}`);
   }
 
   const authCandidates = buildAuthHeaderCandidates(provider.secret, provider.vendor, provider.baseUrl);
@@ -2719,7 +2774,7 @@ export async function queryOmniVideoTask(
 
   const callMode = resolveVideoCallMode(provider);
   if (!isKlingOmniVideoProvider(callMode)) {
-    return { status: "failed", error: { code: "INVALID_CALL_MODE", message: `需要 callMode=kling-omni-video-yunwu，当前为 ${callMode}` } };
+    return { status: "failed", error: { code: "INVALID_CALL_MODE", message: `需要 callMode=kling-omni-video-yunwu 或 kling-omni-video-dataeyes，当前为 ${callMode}` } };
   }
 
   const authCandidates = buildAuthHeaderCandidates(provider.secret, provider.vendor, provider.baseUrl);

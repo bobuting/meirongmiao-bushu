@@ -120,6 +120,8 @@ export const ReverseScriptEditor: React.FC = () => {
 
   // 分镜预览图 URL（从 nrm_step3_frame_images 加载）
   const [frameImageUrls, setFrameImageUrls] = useState<Record<number, string>>({});
+  // 从 DB 记录中提取的失败帧错误信息（刷新后 globalTaskQueue 可能已不包含旧任务）
+  const [frameDbErrorMessages, setFrameDbErrorMessages] = useState<Record<number, string>>({});
   // 候选图 URL（每帧的历史生成记录）
   const [frameCandidatesByIndex, setFrameCandidatesByIndex] = useState<Record<number, string[]>>({});
   // 单帧生成中状态（跟踪 startSingleFramePreviewJob 的帧）
@@ -244,6 +246,7 @@ export const ReverseScriptEditor: React.FC = () => {
       if (result.frames && result.frames.length > 0) {
         const selectedByFrame: Record<number, string> = {};
         const candidatesByFrame: Record<number, string[]> = {};
+        const dbFailedErrors: Record<number, string> = {};
         // 当前 segments 数量（用于过滤越界的 frameIndex）
         const currentSegmentsLength = segments.length;
         for (const frame of result.frames) {
@@ -255,10 +258,17 @@ export const ReverseScriptEditor: React.FC = () => {
           if (frame.candidates && frame.candidates.length > 0) {
             candidatesByFrame[frame.frameIndex] = frame.candidates;
           }
+          // 失败且无图的帧从 DB 状态提取错误信息，确保刷新后仍显示重试按钮
+          if (frame.status === "failed" && !selectedByFrame[frame.frameIndex]) {
+            dbFailedErrors[frame.frameIndex] = "生成失败，请重试";
+          }
         }
         setFrameImageUrls(selectedByFrame);
         frameImageUrlsRef.current = selectedByFrame;
         setFrameCandidatesByIndex(candidatesByFrame);
+        if (Object.keys(dbFailedErrors).length > 0) {
+          setFrameDbErrorMessages(dbFailedErrors);
+        }
         // 回填 sceneImageUrl 到 segments，使批量生图按钮正确判断已完成帧
         for (const [fi, url] of Object.entries(selectedByFrame)) {
           const idx = Number(fi) - 1; // frameIndex 1-based → array 0-based
@@ -856,8 +866,8 @@ export const ReverseScriptEditor: React.FC = () => {
                         ? singleFrameStartAtRef.current[index + 1] ?? null
                         : batchStartAtRef.current)
                       : null;
-                    // 该帧的错误信息（从全局任务队列中获取）
-                    const frameErrorMessage = frameErrorMessages[index + 1] ?? null;
+                    // 该帧的错误信息（全局任务队列优先，其次从 DB 记录提取）
+                    const frameErrorMessage = frameErrorMessages[index + 1] ?? frameDbErrorMessages[index + 1] ?? null;
                     return (
                       <ReverseStoryboardCard
                         key={index}

@@ -237,6 +237,8 @@ export const ScriptEditor: React.FC = () => {
   const [previewGenerationLoading, setPreviewGenerationLoading] = useState<Record<string | number, boolean>>({});
   // 从 API 获取的选中图片 URL（需要在 segments 恢复后合并）
   const [frameSelectedImageByUrl, setFrameSelectedImageByUrl] = useState<Record<number, string>>({});
+  // 记录哪些帧在 nrm_step3_frame_images 表中有记录（用于显示预览区域）
+  const [frameDbRecords, setFrameDbRecords] = useState<Set<number>>(new Set());
   const [sceneReinforceLoading] = useState<Record<string | number, boolean>>({});
   const [saveClueTitleHint, setSaveClueTitleHint] = useState<string | null>(null);
   const [imagePreview, setImagePreview] = useState<{ imageUrl: string; label: string } | null>(null);
@@ -973,9 +975,12 @@ export const ScriptEditor: React.FC = () => {
         const result = await backendApi.getStep3FrameImages(token, projectData.projectId!);
         frameImagesRestoredRef.current = true;
         if (result.frames && result.frames.length > 0) {
+          // 记录有 DB 记录的帧索引
+          const dbFrameIndices = new Set<number>();
           const restored: Record<number, string[]> = {};
           const selectedByFrame: Record<number, string> = {};
           for (const frame of result.frames) {
+            dbFrameIndices.add(frame.frameIndex);
             // 优先使用 candidates 数组，无 candidates 时用 imageUrl 构建单元素数组
             const urls = (frame.candidates && frame.candidates.length > 0)
               ? frame.candidates
@@ -988,6 +993,8 @@ export const ScriptEditor: React.FC = () => {
               selectedByFrame[frame.frameIndex] = frame.imageUrl.trim();
             }
           }
+          // 标记有 DB 记录的帧（用于显示预览区）
+          setFrameDbRecords(dbFrameIndices);
           if (Object.keys(restored).length > 0) {
             console.log("[Step3] Restoring frame images from DB:", restored);
             updatePreviewCandidatesByFrame((prev) => ({ ...prev, ...restored }));
@@ -995,6 +1002,17 @@ export const ScriptEditor: React.FC = () => {
           if (Object.keys(selectedByFrame).length > 0) {
             console.log("[Step3] Storing selected images for later merge:", selectedByFrame);
             setFrameSelectedImageByUrl(selectedByFrame);
+          }
+          // 从帧图片数据中提取失败帧错误信息（不依赖全局任务队列，后者 LIMIT 50 可能遗漏）
+          const failedFrameErrors: Record<number, string> = {};
+          for (const frame of result.frames) {
+            if (frame.status === "failed" && !frame.imageUrl) {
+              failedFrameErrors[frame.frameIndex] = "生成失败，请重试";
+            }
+          }
+          if (Object.keys(failedFrameErrors).length > 0) {
+            console.log("[Step3] Restoring frame errors from DB:", failedFrameErrors);
+            setFrameErrors(failedFrameErrors);
           }
         }
       } catch (e) {
@@ -1005,8 +1023,10 @@ export const ScriptEditor: React.FC = () => {
 
   // 锁定状态：通过项目状态或 confirmedScriptId 判断
   const isStep3CandidateLocked = sseConfirmedScriptId !== null;
-  // 统一锁定判断：项目状态锁定（FILMING 及之后）或脚本候选锁定
-  const isStep3HardLocked = step3Locked || isStep3CandidateLocked || isStep3LocalLocked;
+  // 脚本已确认：项目状态 >= SCRIPT_CONFIRMED（无需依赖 SSE）
+  const isScriptConfirmedByStatusForLock = isVideoStatusAtOrBeyond(projectData.projectStatus as VideoProjectStatus | undefined, "SCRIPT_CONFIRMED");
+  // 统一锁定判断：项目状态锁定（FILMING 及之后）或脚本候选锁定 或脚本已确认
+  const isStep3HardLocked = step3Locked || isStep3CandidateLocked || isStep3LocalLocked || isScriptConfirmedByStatusForLock;
   // 锁定状态变化时：重置回灌标记（后端会自动取消批量任务）
   useEffect(() => {
     lockedRewriteDoneRef.current = false;
@@ -1033,9 +1053,8 @@ export const ScriptEditor: React.FC = () => {
     [workflow.videoStoryboardCueScriptSource, setStoryboardCueScriptSource],
   );
 
-  // 【情况 A】已确认脚本：项目状态 >= SCRIPT_CONFIRMED 时，通过 activeScriptId 从远端加载脚本详情
-  // ScriptEditor 仅用于视频项目，projectStatus 应为 VideoProjectStatus
-  const isScriptConfirmedByStatus = isVideoStatusAtOrBeyond(projectData.projectStatus as VideoProjectStatus | undefined, "SCRIPT_CONFIRMED");
+  // 【情况 A】已确认脚本：复用上方提前计算的锁状态判断
+  const isScriptConfirmedByStatus = isScriptConfirmedByStatusForLock;
 
   useEffect(() => {
     if (!token || !projectData.projectId) return;
@@ -2473,6 +2492,7 @@ export const ScriptEditor: React.FC = () => {
                         isConfirmingLock={step3BatchConfirming}
                         isPromptGenerating={isPromptGenerating}
                         isLocked={isStep3HardLocked}
+                        hasFrameDbRecord={frameDbRecords.has(index + 1)}
                         onMainPromptChange={(value) => handleTextChange(index, "visualCue", value)}
                         onGeneratePreviewImage={() => void handleGeneratePreviewImage(index + 1)}
                         onMove={(direction) => moveSegment(index, direction)}

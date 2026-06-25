@@ -1,19 +1,34 @@
 /**
- * Grok Imagine 视频生成 API 端点（云雾）
- * 文档：https://yunwu.apifox.cn/api-472718623
- * 创建端点：POST /v1/videos/generations
- * 查询端点：GET /v1/videos/{request_id}
+ * Grok Imagine 视频生成 API 端点
  *
- * 请求体格式（OpenAI 视频格式）：
- * {
- *   "model": "grok-imagine-video",
- *   "prompt": "...",
- *   "resolution": "720p",
- *   "aspect_ratio": "16:9",
- *   "duration": 4,
- *   "image": { "url": "https://..." },
- *   "reference_images": [{ "url": "https://..." }]
- * }
+ * 云雾（grok-imagine-video-yunwu）：
+ *   文档：https://yunwu.apifox.cn/api-472718623
+ *   创建端点：POST /v1/videos/generations
+ *   查询端点：GET /v1/videos/{request_id}
+ *   请求体格式（OpenAI 视频格式）：
+ *   {
+ *     "model": "grok-imagine-video",
+ *     "prompt": "...",
+ *     "resolution": "720p",
+ *     "aspect_ratio": "16:9",
+ *     "duration": 4,
+ *     "image": { "url": "https://..." },
+ *     "reference_images": [{ "url": "https://..." }]
+ *   }
+ *
+ * DataEyes（grok-imagine-video-dataeyes）：
+ *   文档：docs/dataeyes/grok-参考生视频.md
+ *   创建端点：POST /grok/v1/videos/generations
+ *   查询端点：GET /grok/v1/videos/{request_id}
+ *   请求体格式（参考图字符串数组）：
+ *   {
+ *     "model": "grok-imagine-video",
+ *     "prompt": "...",
+ *     "resolution": "720p",
+ *     "aspect_ratio": "16:9",
+ *     "duration": 4,
+ *     "reference_images": ["https://...", "https://..."]
+ *   }
  */
 
 import { ProviderCallMode } from "../contracts/types.js";
@@ -25,10 +40,11 @@ export const GROK_IMAGINE_MODELS = {
 } as const;
 
 /**
- * 判断是否使用 Grok Imagine 协议
+ * 判断是否使用 Grok Imagine 协议（云雾或 DataEyes）
  */
 export function isGrokImagineProvider(callMode: string): boolean {
-  return callMode === ProviderCallMode.GROK_IMAGINE_VIDEO_YUNWU;
+  return callMode === ProviderCallMode.GROK_IMAGINE_VIDEO_YUNWU
+    || callMode === ProviderCallMode.GROK_IMAGINE_VIDEO_DATAEYES;
 }
 
 /**
@@ -167,6 +183,71 @@ export function buildGrokImagineVideoRequestBody(options: {
     body.image = { url: allImages[0] };
   } else if (allImages.length > 1) {
     body.reference_images = allImages.map((url) => ({ url }));
+  }
+
+  return JSON.stringify(body);
+}
+
+/**
+ * 构建 Grok Imagine 视频请求体（DataEyes 格式）
+ *
+ * 文档：docs/dataeyes/grok-参考生视频.md
+ *
+ * 与云雾格式的区别：
+ * - reference_images 为字符串数组（非对象数组）
+ * - 不使用 image 字段，所有图片统一放在 reference_images
+ *
+ * 请求体格式：
+ * {
+ *   "model": "grok-imagine-video",
+ *   "prompt": "...",
+ *   "resolution": "720p",
+ *   "aspect_ratio": "16:9",
+ *   "duration": 4,
+ *   "reference_images": ["https://...", "https://..."]
+ * }
+ */
+export function buildGrokImagineVideoDataeyesRequestBody(options: {
+  model: string;
+  prompt: string;
+  imageUrl?: string | null;
+  referenceImages?: string[];
+  /** 宽高比：1:1, 16:9, 9:16 */
+  aspectRatio?: string;
+  /** 分辨率：480p, 720p */
+  resolution?: string;
+  /** 视频时长：1-10（秒） */
+  duration?: number;
+}): string {
+  const {
+    model,
+    prompt,
+    imageUrl,
+    referenceImages,
+    aspectRatio = "9:16",
+    resolution = "720p",
+    duration = 4,
+  } = options;
+
+  const body: Record<string, unknown> = {
+    model: model || "grok-imagine-video",
+    prompt,
+    resolution,
+    aspect_ratio: aspectRatio,
+    duration,
+  };
+
+  // 合并所有图片 URL 到 reference_images（字符串数组）
+  const allImages: string[] = [];
+  if (imageUrl) {
+    allImages.push(imageUrl);
+  }
+  if (referenceImages && referenceImages.length > 0) {
+    allImages.push(...referenceImages);
+  }
+
+  if (allImages.length > 0) {
+    body.reference_images = allImages;
   }
 
   return JSON.stringify(body);

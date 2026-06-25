@@ -219,7 +219,7 @@ getOutfitPlans(
   getStep3FrameImages(
     token: string,
     projectId: string,
-  ): Promise<{ frames: Array<{ frameIndex: number; imageUrl: string; prompt?: string; candidates?: string[] }> }>;
+  ): Promise<{ frames: Array<{ frameIndex: number; imageUrl: string; prompt?: string; candidates?: string[]; status: "pending" | "running" | "succeeded" | "failed" }> }>;
 
   /** 选择 Step3 分镜图片（更新选中状态） */
   selectStep3FrameImage(

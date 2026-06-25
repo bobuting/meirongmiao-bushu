@@ -48,6 +48,7 @@ const CALL_MODE_LABELS: Record<string, string> = {
   "kling-video-yunwu": "可灵视频(云雾)",
   "kling-video-edit-yunwu": "可灵视频编辑(云雾)",
   "kling-omni-video-yunwu": "可灵Omni-Video(云雾)",
+  "kling-omni-video-dataeyes": "可灵Omni-Video(DataEyes)",
   "kling-video-official": "可灵视频(官方)",
   "veo-video-yunwu-tongyi": "VEO 视频(云雾通义)",
   "veo-video-yunwu-openai": "VEO 视频(云雾OpenAI)",

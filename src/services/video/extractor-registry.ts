@@ -39,6 +39,8 @@ const extractorRegistry = new Map<ProviderCallMode, VideoResponseExtractor>([
   ["kling-video-edit-yunwu", klingVideoExtractor],
   // 可灵 Omni-Video（云雾，单步提交，响应格式与 kling-video-yunwu 一致）
   ["kling-omni-video-yunwu", klingVideoExtractor],
+  // 可灵 Omni-Video（DataEyes，响应格式与云雾一致）
+  ["kling-omni-video-dataeyes", klingVideoExtractor],
 
   // VEO tongyi（统一格式）
   ["veo-video-yunwu-tongyi", veoVideoExtractor],
@@ -62,6 +64,8 @@ const extractorRegistry = new Map<ProviderCallMode, VideoResponseExtractor>([
   ["grok-video-yunwu", grokVideoExtractor],
   // Grok Imagine 视频（云雾，OpenAI 视频格式）
   ["grok-imagine-video-yunwu", grokImagineVideoExtractor],
+  // Grok Imagine 视频（DataEyes，响应格式与云雾一致）
+  ["grok-imagine-video-dataeyes", grokImagineVideoExtractor],
   // Grok 视频（才翔AI，嵌套 params 格式）
   ["grok-video-caixiang", grokVideoCaixiangExtractor],
   // VEO 视频（才翔AI，嵌套 params 格式）

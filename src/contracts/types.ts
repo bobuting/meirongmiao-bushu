@@ -1090,6 +1090,8 @@ export const ProviderCallMode = {
   KLING_VIDEO_EDIT_YUNWU: "kling-video-edit-yunwu",
   /** 可灵 Kling Omni-Video-云雾（单步视频编辑，video_list + image_list） */
   KLING_OMNI_VIDEO_YUNWU: "kling-omni-video-yunwu",
+  /** 可灵 Kling Omni-Video-DataEyes（/kling/v1/videos/omni-video，格式与云雾一致） */
+  KLING_OMNI_VIDEO_DATAEYES: "kling-omni-video-dataeyes",
   /** 可灵 Kling 视频生成-官方直连（/v1/videos，OpenAI 兼容格式） */
   KLING_VIDEO_OFFICIAL: "kling-video-official",
   /** VEO Google 视频生成-云雾通义（/v1/video/create，JSON 格式） */
@@ -1110,6 +1112,8 @@ export const ProviderCallMode = {
   GROK_VIDEO_YUNWU: "grok-video-yunwu",
   /** Grok Imagine 视频生成-云雾（/v1/videos/generations，OpenAI 视频格式） */
   GROK_IMAGINE_VIDEO_YUNWU: "grok-imagine-video-yunwu",
+  /** Grok Imagine 视频生成-DataEyes（/grok/v1/videos/generations，参考图字符串数组格式） */
+  GROK_IMAGINE_VIDEO_DATAEYES: "grok-imagine-video-dataeyes",
   /** Grok 视频生成-才翔AI（/v1/media/generate，嵌套 params 格式） */
   GROK_VIDEO_CAIXIANG: "grok-video-caixiang",
   /** VEO 视频生成-才翔AI（/v1/media/generate，嵌套 params 格式） */
@@ -1152,7 +1156,7 @@ export type ProviderCallMode = typeof ProviderCallMode[keyof typeof ProviderCall
 export const PROVIDER_TYPE_CALL_MODES: Record<ProviderType, ProviderCallMode[]> = {
   text: [ProviderCallMode.OPENAI, ProviderCallMode.GEMINI, ProviderCallMode.DASHSCOPE, ProviderCallMode.DASHSCOPE_STREAM],
   image: [ProviderCallMode.OPENAI, ProviderCallMode.GEMINI, ProviderCallMode.OPENAI_IMAGE_TO_TEXT, ProviderCallMode.GEMINI_IMAGE, ProviderCallMode.GEMINI_IMAGE_INLINE, ProviderCallMode.NANO_BANANA_IMAGE, ProviderCallMode.SEEDREAM_IMAGE_ARK, ProviderCallMode.WANX_IMAGE_BAILIAN, ProviderCallMode.OPENAI_IMAGE, ProviderCallMode.OPENAI_IMAGE_CAIXIANG, ProviderCallMode.GROK_IMAGE, ProviderCallMode.GROK_IMAGE_EDIT, ProviderCallMode.OPENAI_IMAGE_EDIT, ProviderCallMode.ALICLOUD_MARKET_IMAGE],
-  video: [ProviderCallMode.KLING_VIDEO_YUNWU, ProviderCallMode.KLING_VIDEO_EDIT_YUNWU, ProviderCallMode.KLING_VIDEO_OFFICIAL, ProviderCallMode.VEO_VIDEO_YUNWU_TONGYI, ProviderCallMode.VEO_VIDEO_YUNWU_OPENAI, ProviderCallMode.DOUBAO_SEEDANCE_VIDEO_YUNWU, ProviderCallMode.WANX_VIDEO_BAILIAN, ProviderCallMode.WANXIANG_VIDEO_MIX_BAILIAN, ProviderCallMode.HAPPYHORSE_VIDEO_BAILIAN, ProviderCallMode.HAPPYHORSE_VIDEO_EDIT_BAILIAN, ProviderCallMode.GROK_VIDEO_YUNWU, ProviderCallMode.GROK_IMAGINE_VIDEO_YUNWU, ProviderCallMode.GROK_VIDEO_CAIXIANG, ProviderCallMode.VEO_VIDEO_CAIXIANG, ProviderCallMode.ANIMATE_ANYONE_DETECT_BAILIAN, ProviderCallMode.ANIMATE_ANYONE_TEMPLATE_BAILIAN, ProviderCallMode.ANIMATE_ANYONE_VIDEO_BAILIAN],
+  video: [ProviderCallMode.KLING_VIDEO_YUNWU, ProviderCallMode.KLING_VIDEO_EDIT_YUNWU, ProviderCallMode.KLING_VIDEO_OFFICIAL, ProviderCallMode.KLING_OMNI_VIDEO_YUNWU, ProviderCallMode.KLING_OMNI_VIDEO_DATAEYES, ProviderCallMode.VEO_VIDEO_YUNWU_TONGYI, ProviderCallMode.VEO_VIDEO_YUNWU_OPENAI, ProviderCallMode.DOUBAO_SEEDANCE_VIDEO_YUNWU, ProviderCallMode.WANX_VIDEO_BAILIAN, ProviderCallMode.WANXIANG_VIDEO_MIX_BAILIAN, ProviderCallMode.HAPPYHORSE_VIDEO_BAILIAN, ProviderCallMode.HAPPYHORSE_VIDEO_EDIT_BAILIAN, ProviderCallMode.GROK_VIDEO_YUNWU, ProviderCallMode.GROK_IMAGINE_VIDEO_YUNWU, ProviderCallMode.GROK_IMAGINE_VIDEO_DATAEYES, ProviderCallMode.GROK_VIDEO_CAIXIANG, ProviderCallMode.VEO_VIDEO_CAIXIANG, ProviderCallMode.ANIMATE_ANYONE_DETECT_BAILIAN, ProviderCallMode.ANIMATE_ANYONE_TEMPLATE_BAILIAN, ProviderCallMode.ANIMATE_ANYONE_VIDEO_BAILIAN],
 };
 
 /** CallMode → 可选模型标识（用于前端下拉选择，值即实际传给 API 的 model 字段） */
