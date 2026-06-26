@@ -43,10 +43,12 @@ export function parseStep4VideoJob(record: AsyncJobRecord): VideoJob {
 export function serializeStep4VideoJobInput(input: {
   targetSceneIndex?: number;
   source?: "auto" | "manual";
+  totalClipCount?: number;
 }): string {
   const obj: Step4VideoJobInput = {};
   if (typeof input.targetSceneIndex === "number") obj.targetSceneIndex = input.targetSceneIndex;
   if (input.source) obj.source = input.source;
+  if (typeof input.totalClipCount === "number") obj.totalClipCount = input.totalClipCount;
   return JSON.stringify(obj);
 }
 

@@ -558,23 +558,29 @@ function wrapStep3StrategyOrchestratorExecutor(ctx: AppContext): ExecutorFn {
 
 function wrapStep4VideoExecutor(ctx: AppContext): ExecutorFn {
   return async (params: { pool: Pool; repos: import("../repositories/pg/index.js").PgRepositoryCollection; jobId: string; ctx: AppContext; dispatcher: QueueDispatcher }) => {
-    const { getAsyncJob, findChildrenByParentId } = await import("../service/async-job-service.js");
+    const { getAsyncJob, findChildrenByParentId, finalizeAsyncJob } = await import("../service/async-job-service.js");
     const { createStep4ClipSubmitJob } = await import("../routes/step4-video/advance-video-job.js");
 
     const job = await getAsyncJob(params.repos, params.jobId, () => ctx.clock.now());
     if (!job || job.status !== "running") return;
 
-    // 解析 input：只读标识字段
+    // 解析 input：只读标识字段 + totalClipCount（修复竞态：input 在 INSERT 时原子写入，result 可能尚未写入）
     const input = job.input ? JSON.parse(job.input) as {
       targetSceneIndex?: number;
       source?: string;
+      totalClipCount?: number;
     } : {};
 
-    // 解析 result：获取 totalClipCount（由 videoJobService.create 写入）
+    // totalClipCount 优先从 input 读取（INSERT 时原子写入），fallback 到 result（兼容旧 job）
     const result = (job.result as { totalClipCount?: number }) ?? {};
-    const totalClipCount = result.totalClipCount ?? 0;
+    const totalClipCount = input.totalClipCount ?? result.totalClipCount ?? 0;
     if (totalClipCount <= 0) {
-      logger.warn({ jobId: params.jobId }, "Step4Video totalClipCount 为 0，跳过");
+      // 防御性处理：totalClipCount 为 0 时直接标记失败，禁止静默跳过导致 job 永久卡死
+      logger.error({ jobId: params.jobId }, "Step4Video totalClipCount 为 0，标记失败");
+      await finalizeAsyncJob(params.repos, params.jobId, "failed", null, {
+        code: "INVALID_TOTAL_CLIP_COUNT",
+        message: "totalClipCount 为 0，无法创建子任务",
+      }, ctx.clock.now(), params.dispatcher);
       return;
     }
 

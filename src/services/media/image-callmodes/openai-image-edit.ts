@@ -9,7 +9,12 @@
 import { AppError } from "../../../core/errors.js";
 import type { ResolvedRouteProvider } from "../../llm/provider-resolver.js";
 import type { ImageCallModeHandler, ImageCallModeOptions, ImageCallModeRequest } from "./types.js";
-import { normalizeProviderTransportImageUrls, parseSecretCandidates } from "./shared.js";
+import {
+  normalizeProviderTransportImageUrls,
+  parseSecretCandidates,
+  resolveOpenaiImageSize,
+  resolveOpenaiImageQuality,
+} from "./shared.js";
 
 // ---------------------------------------------------------------------------
 // 下载辅助
@@ -22,35 +27,6 @@ async function downloadImageToBuffer(url: string): Promise<Buffer> {
   }
   const arrayBuffer = await response.arrayBuffer();
   return Buffer.from(arrayBuffer);
-}
-
-// ---------------------------------------------------------------------------
-// 尺寸映射
-// ---------------------------------------------------------------------------
-
-const OPENAI_EDIT_SIZES = [
-  "1024x1024", "1536x1024", "1024x1536",
-  "2048x2048", "2048x1152", "3840x2160", "2160x3840",
-] as const;
-
-/** 将业务 ratio 映射为 OpenAI 图片编辑 size 参数 */
-function mapOpenaiEditSize(ratio?: string): string {
-  if (!ratio) return "auto";
-  const normalized = ratio.replace(/\s/g, "");
-
-  if (normalized === "1:1" || normalized === "square") return "2048x2048";
-  if (normalized === "16:9" || normalized === "landscape") return "1536x1024";
-  if (normalized === "9:16" || normalized === "portrait") return "2160x3840";
-  if (normalized === "2k" || normalized === "2K") return "2048x2048";
-  if (normalized === "2k横版" || normalized === "2K横版") return "2048x1152";
-  if (normalized === "4k横版" || normalized === "4K横版") return "3840x2160";
-  if (normalized === "4k竖版" || normalized === "4K竖版") return "2160x3840";
-
-  if (OPENAI_EDIT_SIZES.includes(normalized as typeof OPENAI_EDIT_SIZES[number])) {
-    return normalized;
-  }
-
-  return "auto";
 }
 
 // ---------------------------------------------------------------------------
@@ -105,13 +81,16 @@ async function buildRequest(
     formData.append("n", String(n));
   }
 
-  const size = mapOpenaiEditSize(options?.ratio);
+  // resolution + ratio 联合决定输出尺寸（与 openai-image 共用同一套映射）
+  const size = resolveOpenaiImageSize(options?.resolution, options?.ratio);
   if (size !== "auto") {
     formData.append("size", size);
   }
 
-  if (options?.resolution) {
-    formData.append("quality", options.resolution);
+  // quality：根据分辨率等级映射（gpt-image-2 合法值: low / medium / high / auto）
+  const quality = resolveOpenaiImageQuality(options?.resolution);
+  if (quality) {
+    formData.append("quality", quality);
   }
 
   const headers: Record<string, string> = {

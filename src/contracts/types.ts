@@ -171,6 +171,8 @@ export type VideoJobStatus =
 export interface Step4VideoJobInput {
   targetSceneIndex?: number;
   source?: "auto" | "manual";
+  /** 分镜总数，创建时确定且运行期不变；写入 input（而非 result）避免竞态窗口下执行器读到 0 */
+  totalClipCount?: number;
 }
 
 /** Step4 视频任务结果（存储在 nrm_async_jobs.result JSONB） */

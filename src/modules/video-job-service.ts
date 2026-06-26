@@ -142,6 +142,7 @@ export class VideoJobService implements IVideoJobService {
     const inputJson = serializeStep4VideoJobInput({
       targetSceneIndex: input?.targetSceneIndex,
       source,
+      totalClipCount, // 写入 input 避免竞态：执行器可能在 result 写入前被调度
     });
     const initialResult: Record<string, unknown> = {
       totalClipCount,
