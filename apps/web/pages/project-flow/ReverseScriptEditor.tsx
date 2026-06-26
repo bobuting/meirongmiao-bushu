@@ -23,7 +23,7 @@ import {
 import { Step3GlobalControlBar } from "./step3-workspace/step3GlobalControlBar";
 import { FLOW_SAFE_BOTTOM_PADDING } from "./safeBottomPadding";
 import type { ScriptSegment } from "./script-editor/types";
-import { isStatusBeyond, type VideoProjectStatus } from "../../../../src/contracts/types";
+import { isStatusBeyond, isVideoStatusAtOrBeyond, type VideoProjectStatus } from "../../../../src/contracts/types";
 import { buildStep3BatchGenerationControlsModel } from "./step3-workspace/step3BatchGenerationControls";
 import {
   createIdleStep3BatchGenerationState,
@@ -94,9 +94,9 @@ export const ReverseScriptEditor: React.FC = () => {
     );
   }, [projectData.projectStatus]);
 
-  // 脚本已确认：状态 >= SCRIPT_CONFIRMED，允许进入下一步
+  // 脚本已确认：状态 >= SCRIPT_CONFIRMED（使用 AtOrBeyond 而非 Beyond，因为 SCRIPT_CONFIRMED 本身即表示已确认）
   const isScriptConfirmed = useMemo(() => {
-    return isStatusBeyond(
+    return isVideoStatusAtOrBeyond(
       projectData.projectStatus as VideoProjectStatus | undefined,
       "SCRIPT_CONFIRMED"
     );

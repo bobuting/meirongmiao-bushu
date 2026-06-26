@@ -577,11 +577,12 @@ async function handleWithCallMode(
       [ProviderCallMode.GEMINI_IMAGE]: 1,
       [ProviderCallMode.GEMINI_IMAGE_INLINE]: 1,
       [ProviderCallMode.GROK_IMAGE]: 1,
-      [ProviderCallMode.SEEDREAM_IMAGE_ARK]: 4,
-      [ProviderCallMode.WANX_IMAGE_BAILIAN]: 4,
+      [ProviderCallMode.SEEDREAM_IMAGE_ARK]: 1,
+      [ProviderCallMode.SEEDREAM_IMAGE_ARK_YUNWU]: 1,
+      [ProviderCallMode.WANX_IMAGE_BAILIAN]: 1,
     };
     const defaultCount = defaultCounts[callMode] ?? 1;
-    const count = Math.max(1, Math.min(4, Number(options?.count) || defaultCount));
+    const count = Math.max(1, Math.min(1, Number(options?.count) || defaultCount));
 
     // OPENAI / GEMINI 始终 pad 到 1（不复制单张图），其他 pad 到 count
     const singleImageModes: Set<ProviderCallMode> = new Set([

@@ -42,6 +42,7 @@ const CALL_MODE_LABELS: Record<string, string> = {
   "gemini-to-image-inline": "Gemini 图片生成(inline)",
   "nano-banana-image": "Nano Banana 图片",
   "seedream-image-ark": "Seedream 图片(方舟)",
+  "seedream-image-ark-yunwu": "Seedream 图片(云雾)",
   "wanx-image-bailian": "万相图片(百炼)",
   "openai-image": "OpenAI 图片生成",
   // video

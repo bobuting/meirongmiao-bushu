@@ -17,6 +17,7 @@ import { openaiImageHandler } from "./openai-image.js";
 import { openaiImageCaixiangHandler, openaiImageCaixiangUtils } from "./openai-image-caixiang.js";
 import { openaiImageEditHandler } from "./openai-image-edit.js";
 import { seedreamImageHandler } from "./seedream-image.js";
+import { seedreamImageArkYunwuHandler } from "./seedream-image-ark-yunwu.js";
 import { geminiImageHandler, geminiImageInlineHandler } from "./gemini-image.js";
 import { grokImageHandler } from "./grok-image.js";
 import { grokImageEditHandler } from "./grok-image-edit.js";
@@ -27,6 +28,7 @@ const registry = new Map<ProviderCallMode, ImageCallModeHandler>([
   [ProviderCallMode.OPENAI_IMAGE, openaiImageHandler],
   [ProviderCallMode.OPENAI_IMAGE_CAIXIANG, openaiImageCaixiangHandler],
   [ProviderCallMode.SEEDREAM_IMAGE_ARK, seedreamImageHandler],
+  [ProviderCallMode.SEEDREAM_IMAGE_ARK_YUNWU, seedreamImageArkYunwuHandler],
   [ProviderCallMode.GEMINI_IMAGE, geminiImageHandler],
   [ProviderCallMode.GEMINI_IMAGE_INLINE, geminiImageInlineHandler],
   [ProviderCallMode.GROK_IMAGE, grokImageHandler],
