@@ -7,6 +7,7 @@
  */
 
 import { AppError } from "../../../core/errors.js";
+import { getLogger } from "../../../core/logger/index.js";
 import type { ResolvedRouteProvider } from "../../llm/provider-resolver.js";
 import type { ImageCallModeHandler, ImageCallModeOptions, ImageCallModeRequest } from "./types.js";
 import {
@@ -83,6 +84,8 @@ async function buildRequest(
 
   // resolution + ratio 联合决定输出尺寸（与 openai-image 共用同一套映射）
   const size = resolveOpenaiImageSize(options?.resolution, options?.ratio);
+  const log = getLogger("openai-image-edit");
+  log.info({ ratio: options?.ratio, resolution: options?.resolution, size }, "OpenAI Image Edit 尺寸映射");
   if (size !== "auto") {
     formData.append("size", size);
   }

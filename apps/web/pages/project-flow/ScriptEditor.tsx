@@ -237,6 +237,8 @@ export const ScriptEditor: React.FC = () => {
   const [previewGenerationLoading, setPreviewGenerationLoading] = useState<Record<string | number, boolean>>({});
   // 从 API 获取的选中图片 URL（需要在 segments 恢复后合并）
   const [frameSelectedImageByUrl, setFrameSelectedImageByUrl] = useState<Record<number, string>>({});
+  const frameSelectedImageByUrlRef = useRef(frameSelectedImageByUrl);
+  frameSelectedImageByUrlRef.current = frameSelectedImageByUrl;
   // 记录哪些帧在 nrm_step3_frame_images 表中有记录（用于显示预览区域）
   const [frameDbRecords, setFrameDbRecords] = useState<Set<number>>(new Set());
   const [sceneReinforceLoading] = useState<Record<string | number, boolean>>({});
@@ -427,7 +429,11 @@ export const ScriptEditor: React.FC = () => {
         );
         segmentsRef.current = nextSegments;
         setSegments(nextSegments);
-        selectedImagePatch[frameIndex] = primaryUrl;
+        // 只在该帧尚无选中图片时才自动设为 job 第一张候选图
+        // 避免覆盖用户手动选择或从 DB 恢复的 selected_image_url
+        if (!frameSelectedImageByUrlRef.current[frameIndex]) {
+          selectedImagePatch[frameIndex] = primaryUrl;
+        }
         const existing = previewCandidatesByFrameRef.current[frameIndex] ?? [];
         const merged = [...existing];
         for (const url of result.candidates!) {
