@@ -28,12 +28,12 @@ export const OPENAI_RESOLUTION_SIZE_MAP: Record<string, Record<string, string>> 
   "1k": {
     "1:1":  "1024x1024",
     "16:9": "1536x1024",
-    "9:16": "1024x1536",
+    "9:16": "2160x3840",   // gpt-image-2 只有 4k 真 9:16，统一升档（由 resolveOpenaiImageSize 早返处理）
   },
   "2k": {
     "1:1":  "2048x2048",
     "16:9": "2048x1152",
-    "9:16": "1024x1536",   // gpt-image-2 无 2k 竖版（1152x2048），取最接近的 1024x1536
+    "9:16": "2160x3840",   // gpt-image-2 无 2k 竖版（1152x2048），统一升档到 4k 真 9:16
   },
   "4k": {
     "1:1":  "2048x2048",   // gpt-image-2 无 4k 方形（4096x4096），fallback 到 2048x2048
@@ -69,6 +69,9 @@ export function resolveOpenaiImageSize(resolution?: string, ratio?: string): str
 
   // 别名标准化
   const normalizedRatio = RATIO_ALIASES[rat] ?? rat;
+
+  // 9:16 统一走 4k（gpt-image-2 只有 2160x3840 是真 9:16，1k/2k 档均为近似值）
+  if (normalizedRatio === "9:16") return "2160x3840";
 
   // 二维查表
   const sizeMap = OPENAI_RESOLUTION_SIZE_MAP[res];

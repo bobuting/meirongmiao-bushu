@@ -49,6 +49,10 @@ export interface Step4ClipSubmitJobResult {
   routeKey?: string;
   /** 配对标识（Submit + Query 共享，用于调试气泡配对展示） */
   pairId?: string;
+  /** 冻结积分 ID，供 Query 成功时扣减或失败时解冻 */
+  freezeId?: string | null;
+  /** 冻结积分金额，供 Query 使用 */
+  creditCost?: number;
 }
 
 /** Step4 视频片段查询任务输入 */
@@ -58,6 +62,10 @@ export interface Step4ClipQueryJobInput {
   sceneIndex: number;
   projectId: string;
   videoTaskId: string;
+  /** 冻结积分 ID，从 Submit 传入，成功时扣减、失败时解冻 */
+  freezeId?: string | null;
+  /** 冻结积分金额，从 Submit 传入 */
+  creditCost?: number;
 }
 
 /** Step4 视频片段查询任务结果 */
@@ -144,6 +152,10 @@ export async function createStep4ClipQueryJob(
     sceneIndex: number;
     parentJobId: string;
     videoTaskId: string;
+    /** 冻结积分 ID，从 Submit 传入 */
+    freezeId?: string | null;
+    /** 冻结积分金额 */
+    creditCost?: number;
     concurrencyService?: import("../../modules/global-task-concurrency-service.js").GlobalTaskConcurrencyService;
   },
 ): Promise<{ jobId: string }> {
@@ -156,6 +168,8 @@ export async function createStep4ClipQueryJob(
     sceneIndex: params.sceneIndex,
     projectId: params.projectId,
     videoTaskId: params.videoTaskId,
+    freezeId: params.freezeId,
+    creditCost: params.creditCost,
   };
 
   const result = await createAsyncJob(repos, {

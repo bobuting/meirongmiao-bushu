@@ -20,6 +20,7 @@ import {
   finalizeAsyncJob,
   updateAsyncJobStage,
   checkAndFinalizeParent,
+  getAsyncJob,
 } from "../../service/async-job-service.js";
 import { persistVideoSourceToStorage } from "../../services/media/storage-persist.js";
 import {
@@ -65,6 +66,15 @@ export async function executeStep4ClipSubmitJob(
   const pairId = `pair-${job.id}`;
 
   try {
+    // ========== 重执行防护：防止服务器重启等场景下重复提交 ==========
+    // 如果 Query 子任务已存在，说明 Submit 已经执行过，直接跳过
+    const existingQueryJobId = buildStep4ClipQueryJobId(input.videoJobId, input.sceneIndex);
+    const existingQueryJob = await getAsyncJob(repos, existingQueryJobId, () => now);
+    if (existingQueryJob) {
+      log.info({ jobId: job.id, existingQueryJobId, status: existingQueryJob.status }, "Submit 重执行防护：Query 子任务已存在，跳过");
+      return;
+    }
+
     // ========== 从数据库查询所有业务数据 ==========
 
     // 1. 获取项目信息（角色年龄，用于选择 RouteKey）
@@ -196,18 +206,10 @@ export async function executeStep4ClipSubmitJob(
       duration: clipDurationSeconds,
     });
 
-    // 视频任务提交成功，扣减冻结积分
-    if (freezeId) {
-      try {
-        await ctx.creditService.deductFrozen(job.userId, freezeId, creditCost);
-      } catch {
-        log.warn({ jobId: job.id, freezeId }, "冻结积分扣减失败（视频已生成）");
-      }
-    }
-
     // 处理结果：同步返回 vs 异步返回
     if (createResult.videoUrl) {
-      // 同步返回（罕见）：直接更新场景，不需要 Query
+      // 同步返回（罕见）：视频已拿到，先完成持久化再扣减积分
+      // （如果持久化失败，catch 块的 unfreeze 会退还冻结积分）
       log.info({ jobId: job.id, sceneIndex: input.sceneIndex }, "视频生成同步返回");
 
       const ossUrl = await persistVideoSourceToStorage(ctx, createResult.videoUrl, "media/step4-clip");
@@ -225,6 +227,15 @@ export async function executeStep4ClipSubmitJob(
       }, job.userId);
 
       await advanceProjectStatusIfAllScenesHaveVideo(ctx, input.projectId);
+
+      // 所有持久化成功 → 扣减冻结积分
+      if (freezeId) {
+        try {
+          await ctx.creditService.deductFrozen(job.userId, freezeId, creditCost);
+        } catch {
+          log.warn({ jobId: job.id, freezeId }, "冻结积分扣减失败（视频已生成并保存）");
+        }
+      }
 
       const auditInfo = createResult.auditInfo;
       finalizeLlmDebugRecordSuccess(ctx, {
@@ -281,6 +292,9 @@ export async function executeStep4ClipSubmitJob(
       },
       routeKey,
       pairId,
+      // 传递给 Query：成功时扣减，失败时解冻
+      freezeId,
+      creditCost,
     };
     await updateAsyncJobStage(repos, job.id, "生成中", now, submitResult as unknown as Record<string, unknown>);
 
@@ -291,6 +305,9 @@ export async function executeStep4ClipSubmitJob(
       sceneIndex: input.sceneIndex,
       parentJobId: job.id,
       videoTaskId: createResult.taskId,
+      // 传递冻结积分信息，由 Query 决定扣减或解冻
+      freezeId,
+      creditCost,
     });
 
     await ctx.queueDispatcher.tryPromote();

@@ -167,6 +167,16 @@ export async function executeStep4ClipQueryJob(
       // 所有分镜视频就绪时推进项目状态
       await advanceProjectStatusIfAllScenesHaveVideo(ctx, input.projectId);
 
+      // 所有持久化成功 → 扣减 Submit 阶段冻结的积分
+      if (input.freezeId) {
+        try {
+          await ctx.creditService.deductFrozen(job.userId, input.freezeId, input.creditCost ?? 0);
+          log.info({ jobId: job.id, freezeId: input.freezeId, creditCost: input.creditCost }, "冻结积分扣减成功");
+        } catch (e) {
+          log.error({ freezeId: input.freezeId, err: e }, "冻结积分扣减失败（视频已生成并保存）");
+        }
+      }
+
       // Finalize Query 自己的调试气泡
       if (queryDebugRecord) {
         finalizeLlmDebugRecordSuccess(ctx, {
@@ -192,6 +202,17 @@ export async function executeStep4ClipQueryJob(
 
     if (queryResult.status === "failed") {
       log.warn({ jobId: job.id, sceneIndex: input.sceneIndex, error: queryResult.error }, "视频生成失败");
+
+      // 视频生成失败：解冻 Submit 阶段冻结的积分（退还给用户）
+      if (input.freezeId) {
+        try {
+          await ctx.creditService.unfreeze(job.userId, input.freezeId);
+          log.info({ jobId: job.id, freezeId: input.freezeId }, "积分解冻成功（视频生成失败）");
+        } catch (e) {
+          log.error({ freezeId: input.freezeId, err: e }, "积分解冻失败，需人工排查");
+        }
+      }
+
       throw new AppError(502, "STEP4_CLIP_QUERY_FAILED", queryResult.error?.message ?? "视频生成任务失败");
     }
 
@@ -201,6 +222,16 @@ export async function executeStep4ClipQueryJob(
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : String(error);
     log.error({ jobId: job.id, sceneIndex: input.sceneIndex, error: errorMessage }, "Step4 Clip Query 失败");
+
+    // 异常路径：解冻 Submit 阶段冻结的积分（退还给用户）
+    if (input.freezeId) {
+      try {
+        await ctx.creditService.unfreeze(job.userId, input.freezeId);
+        log.info({ jobId: job.id, freezeId: input.freezeId }, "积分解冻成功（异常路径）");
+      } catch (e) {
+        log.error({ freezeId: input.freezeId, err: e }, "积分解冻失败（异常路径），需人工排查");
+      }
+    }
 
     // Finalize Query 自己的调试气泡（失败）
     if (queryDebugRecord) {

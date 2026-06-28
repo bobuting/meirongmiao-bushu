@@ -101,6 +101,7 @@ import {
   buildGrokImagineVideoQueryEndpointCandidates,
   buildGrokImagineVideoRequestBody,
   buildGrokImagineVideoDataeyesRequestBody,
+  buildGrokImagineVideoCaixiangRequestBody,
 } from "../../modules/grok-imagine-video-provider-endpoints.js";
 import {
   buildGrokCaixiangVideoCreateEndpointCandidates,
@@ -710,6 +711,7 @@ export async function requestVideoUrl(
       createEndpoints = buildGrokImagineVideoCreateEndpointCandidates(provider.baseUrl);
       break;
     case ProviderCallMode.GROK_VIDEO_CAIXIANG:
+    case ProviderCallMode.GROK_IMAGINE_VIDEO_CAIXIANG:
       createEndpoints = buildGrokCaixiangVideoCreateEndpointCandidates(provider.baseUrl);
       break;
     case ProviderCallMode.VEO_VIDEO_CAIXIANG:
@@ -768,6 +770,7 @@ export async function requestVideoUrl(
         existingTaskQueryCandidates = buildGrokImagineVideoQueryEndpointCandidates(provider.baseUrl, existingTaskId);
         break;
       case ProviderCallMode.GROK_VIDEO_CAIXIANG:
+      case ProviderCallMode.GROK_IMAGINE_VIDEO_CAIXIANG:
         existingTaskQueryCandidates = buildGrokCaixiangVideoQueryEndpointCandidates(provider.baseUrl, existingTaskId);
         break;
       case ProviderCallMode.VEO_VIDEO_CAIXIANG:
@@ -1112,6 +1115,27 @@ ${prompt}`;
       });
       break;
     }
+    case ProviderCallMode.GROK_IMAGINE_VIDEO_CAIXIANG: {
+      headers["Content-Type"] = "application/json";
+      requestBody = buildGrokImagineVideoCaixiangRequestBody({
+        model,
+        prompt: effectivePrompt,
+        imageUrl: effectiveImageUrl,
+        referenceImages: effectiveReferenceImages.length > 0 ? effectiveReferenceImages : undefined,
+        // 才翔AI Imagine 支持 16:9/9:16/1:1/3:2/2:3，默认用 9:16（竖屏）
+        aspectRatio: "9:16",
+        resolution: resolution === "1080p" ? "720p" : "720p",
+        duration: String(duration),
+      });
+      Object.assign(requestBodySummary, {
+        protocol: "grok-imagine-caixiang",
+        aspectRatio: "9:16",
+        resolution: resolution === "1080p" ? "720p" : "720p",
+        duration,
+        imageCount: (effectiveImageUrl ? 1 : 0) + effectiveReferenceImages.length,
+      });
+      break;
+    }
     case ProviderCallMode.GROK_VIDEO_CAIXIANG: {
       headers["Content-Type"] = "application/json";
       requestBody = buildGrokCaixiangVideoRequestBody({
@@ -1326,6 +1350,9 @@ ${prompt}`;
         case ProviderCallMode.GROK_IMAGINE_VIDEO_YUNWU:
         case ProviderCallMode.GROK_IMAGINE_VIDEO_DATAEYES:
           queryCandidates = buildGrokImagineVideoQueryEndpointCandidates(provider.baseUrl, taskId);
+          break;
+        case ProviderCallMode.GROK_IMAGINE_VIDEO_CAIXIANG:
+          queryCandidates = buildGrokCaixiangVideoQueryEndpointCandidates(provider.baseUrl, taskId);
           break;
         default:
           queryCandidates = buildJimengVideoQueryEndpointCandidates(provider.baseUrl, taskId);
@@ -1586,6 +1613,7 @@ export async function createVideoTask(
       createEndpoints = buildGrokImagineVideoCreateEndpointCandidates(provider.baseUrl);
       break;
     case ProviderCallMode.GROK_VIDEO_CAIXIANG:
+    case ProviderCallMode.GROK_IMAGINE_VIDEO_CAIXIANG:
       createEndpoints = buildGrokCaixiangVideoCreateEndpointCandidates(provider.baseUrl);
       break;
     case ProviderCallMode.VEO_VIDEO_CAIXIANG:
@@ -1926,6 +1954,27 @@ ${prompt}`;
       });
       break;
     }
+    case ProviderCallMode.GROK_IMAGINE_VIDEO_CAIXIANG: {
+      headers["Content-Type"] = "application/json";
+      requestBody = buildGrokImagineVideoCaixiangRequestBody({
+        model,
+        prompt: effectivePrompt,
+        imageUrl: effectiveImageUrl,
+        referenceImages: effectiveReferenceImages.length > 0 ? effectiveReferenceImages : undefined,
+        // 才翔AI Imagine 支持 16:9/9:16/1:1/3:2/2:3，默认用 9:16（竖屏）
+        aspectRatio: "9:16",
+        resolution: resolution === "1080p" ? "720p" : "720p",
+        duration: String(duration),
+      });
+      Object.assign(requestBodySummary, {
+        protocol: "grok-imagine-caixiang",
+        aspectRatio: "9:16",
+        resolution: resolution === "1080p" ? "720p" : "720p",
+        duration,
+        imageCount: (effectiveImageUrl ? 1 : 0) + effectiveReferenceImages.length,
+      });
+      break;
+    }
     case ProviderCallMode.GROK_VIDEO_CAIXIANG: {
       headers["Content-Type"] = "application/json";
       requestBody = buildGrokCaixiangVideoRequestBody({
@@ -2123,6 +2172,7 @@ ${prompt}`;
           queryEndpoints = buildGrokImagineVideoQueryEndpointCandidates(provider.baseUrl, taskId);
           break;
         case ProviderCallMode.GROK_VIDEO_CAIXIANG:
+        case ProviderCallMode.GROK_IMAGINE_VIDEO_CAIXIANG:
           queryEndpoints = buildGrokCaixiangVideoQueryEndpointCandidates(provider.baseUrl, taskId);
           break;
         case ProviderCallMode.VEO_VIDEO_CAIXIANG:
@@ -2260,6 +2310,7 @@ export async function queryVideoTask(
       queryEndpoints = buildGrokImagineVideoQueryEndpointCandidates(provider.baseUrl, taskId);
       break;
     case ProviderCallMode.GROK_VIDEO_CAIXIANG:
+    case ProviderCallMode.GROK_IMAGINE_VIDEO_CAIXIANG:
       queryEndpoints = buildGrokCaixiangVideoQueryEndpointCandidates(provider.baseUrl, taskId);
       break;
     case ProviderCallMode.VEO_VIDEO_CAIXIANG:

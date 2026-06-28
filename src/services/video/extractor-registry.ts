@@ -66,6 +66,8 @@ const extractorRegistry = new Map<ProviderCallMode, VideoResponseExtractor>([
   ["grok-imagine-video-yunwu", grokImagineVideoExtractor],
   // Grok Imagine 视频（DataEyes，响应格式与云雾一致）
   ["grok-imagine-video-dataeyes", grokImagineVideoExtractor],
+  // Grok Imagine 视频（才翔AI，嵌套 params 格式，grok-imagine-video-1.5-preview）
+  ["grok-imagine-video-caixiang", grokVideoCaixiangExtractor],
   // Grok 视频（才翔AI，嵌套 params 格式）
   ["grok-video-caixiang", grokVideoCaixiangExtractor],
   // VEO 视频（才翔AI，嵌套 params 格式）

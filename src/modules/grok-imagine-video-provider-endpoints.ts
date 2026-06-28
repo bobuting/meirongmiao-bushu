@@ -40,11 +40,12 @@ export const GROK_IMAGINE_MODELS = {
 } as const;
 
 /**
- * 判断是否使用 Grok Imagine 协议（云雾或 DataEyes）
+ * 判断是否使用 Grok Imagine 协议（云雾、DataEyes 或才翔AI）
  */
 export function isGrokImagineProvider(callMode: string): boolean {
   return callMode === ProviderCallMode.GROK_IMAGINE_VIDEO_YUNWU
-    || callMode === ProviderCallMode.GROK_IMAGINE_VIDEO_DATAEYES;
+    || callMode === ProviderCallMode.GROK_IMAGINE_VIDEO_DATAEYES
+    || callMode === ProviderCallMode.GROK_IMAGINE_VIDEO_CAIXIANG;
 }
 
 /**
@@ -249,6 +250,76 @@ export function buildGrokImagineVideoDataeyesRequestBody(options: {
   if (allImages.length > 0) {
     body.reference_images = allImages;
   }
+
+  return JSON.stringify(body);
+}
+
+/**
+ * 构建 Grok Imagine 视频请求体（才翔AI 格式）
+ *
+ * 文档：docs/caixiang/grok-video-3.5.md
+ *
+ * 与 grok-video-caixiang 协议的区别：
+ * - 使用嵌套 params 结构
+ * - model 为 grok-imagine-video-1.5-preview
+ * - 参数使用 resolution（而非 size），支持 720p/480p
+ * - 比例支持 16:9/9:16/1:1/3:2/2:3
+ * - 时长支持 1-15 秒
+ *
+ * 请求体格式：
+ * {
+ *   "model": "grok-imagine-video-1.5-preview",
+ *   "prompt": "...",
+ *   "params": {
+ *     "aspect_ratio": "16:9",
+ *     "duration": "6",
+ *     "images": ["https://..."],
+ *     "resolution": "720p"
+ *   }
+ * }
+ */
+export function buildGrokImagineVideoCaixiangRequestBody(options: {
+  model: string;
+  prompt: string;
+  imageUrl?: string | null;
+  referenceImages?: string[];
+  /** 宽高比：16:9, 9:16, 1:1, 3:2, 2:3 */
+  aspectRatio?: string;
+  /** 分辨率：720p, 480p */
+  resolution?: string;
+  /** 视频时长：1-15（秒） */
+  duration?: string;
+}): string {
+  const {
+    model,
+    prompt,
+    imageUrl,
+    referenceImages,
+    // 才翔AI Imagine 支持 16:9/9:16/1:1/3:2/2:3，默认用 9:16（竖屏）
+    aspectRatio = "9:16",
+    resolution = "720p",
+    duration = "6",
+  } = options;
+
+  // 合并所有图片 URL
+  const images: string[] = [];
+  if (imageUrl) {
+    images.push(imageUrl);
+  }
+  if (referenceImages && referenceImages.length > 0) {
+    images.push(...referenceImages);
+  }
+
+  const body: Record<string, unknown> = {
+    model: model || "grok-imagine-video-1.5-preview",
+    prompt,
+    params: {
+      aspect_ratio: aspectRatio,
+      resolution,
+      duration,
+      images,
+    },
+  };
 
   return JSON.stringify(body);
 }
